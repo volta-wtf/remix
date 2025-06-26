@@ -7,6 +7,10 @@ export * from "./date.js"
 // Exportar utilidades de gráficos
 export * from "./charts.js"
 
+// Exportar sistema de iconos
+export * from "./picto.js"
+export * from "./icon.js"
+
 // Categorías adicionales disponibles (descomenta cuando las necesites):
 // export * from "./animations.js"    // Framer Motion, CSS transitions, etc.
 // export * from "./forms.js"         // Validación, formateo de inputs, etc.
