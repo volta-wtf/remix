@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styles } from './panel-styles.js';
+import { VariableAnalysisPanel, VariableTypeIndicator } from './VariablePreview.jsx';
+import { detectVariableType } from '../utils/variable-type-detector.js';
 
 export function DebugPanel({
   cssVars,
@@ -7,9 +9,59 @@ export function DebugPanel({
   originalVars,
   debugInfo
 }) {
+  const [selectedVariable, setSelectedVariable] = useState(null);
+  const [showAnalysisFor, setShowAnalysisFor] = useState(null);
 
   return (
     <div style={{ padding: '16px' }}>
+      {/* Análisis de Variables Section */}
+      <div style={styles.debugSection}>
+        <h3 style={styles.debugSectionTitle}>
+          🧪 Análisis de Variables
+        </h3>
+        <div style={styles.debugContent}>
+          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '12px' }}>
+            Selecciona una variable para ver su análisis detallado:
+          </p>
+          <select
+            style={{
+              width: '100%',
+              padding: '8px',
+              border: '1px solid #d1d5db',
+              borderRadius: '4px',
+              fontSize: '12px',
+              backgroundColor: 'white',
+              marginBottom: '12px'
+            }}
+            value={selectedVariable || ''}
+            onChange={(e) => {
+              const varName = e.target.value;
+              setSelectedVariable(varName);
+              setShowAnalysisFor(varName);
+            }}
+          >
+            <option value="">-- Seleccionar variable --</option>
+            {Object.entries(cssVars)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([varName, value]) => (
+                <option key={varName} value={varName}>
+                  {varName} ({value.length > 30 ? value.substring(0, 30) + '...' : value})
+                </option>
+              ))}
+          </select>
+
+          {selectedVariable && (
+            <div style={{ position: 'relative' }}>
+              <VariableAnalysisPanel
+                varName={selectedVariable}
+                value={cssVars[selectedVariable]}
+                isVisible={showAnalysisFor === selectedVariable}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Debug Info Section */}
       <div style={styles.debugSection}>
         <h3 style={styles.debugSectionTitle}>
@@ -75,13 +127,23 @@ export function DebugPanel({
           .map(([varName, value]) => (
             <div key={varName} style={styles.debugVariable}>
               <div style={styles.debugVariableName}>
-                {varName}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <VariableTypeIndicator
+                    varName={varName}
+                    value={value}
+                    showLabel={false}
+                  />
+                  <span>{varName}</span>
+                </div>
               </div>
               <div style={styles.debugVariableValue}>
                 Valor: {value}
               </div>
               <div style={styles.debugVariableInfo}>
-                Tipo: {value.startsWith('var(') ? 'Referencia a variable' :
+                Tipo detectado: <strong>{detectVariableType(varName, value)}</strong>
+              </div>
+              <div style={styles.debugVariableInfo}>
+                Tipo CSS: {value.startsWith('var(') ? 'Referencia a variable' :
                        value.startsWith('#') ? 'Color hexadecimal' :
                        value.includes('px') ? 'Medida en píxeles' :
                        value.includes('rem') ? 'Medida relativa' :
@@ -144,13 +206,23 @@ export function DebugPanel({
             .map(([varName, value]) => (
               <div key={varName} style={styles.debugVariable}>
                 <div style={styles.debugVariableName}>
-                  {varName}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <VariableTypeIndicator
+                      varName={varName}
+                      value={value}
+                      showLabel={false}
+                    />
+                    <span>{varName}</span>
+                  </div>
                 </div>
                 <div style={styles.debugVariableValue}>
                   Valor: {value}
                 </div>
                 <div style={styles.debugVariableInfo}>
-                  Tipo: {value.startsWith('var(') ? 'Referencia a variable' :
+                  Tipo detectado: <strong>{detectVariableType(varName, value)}</strong>
+                </div>
+                <div style={styles.debugVariableInfo}>
+                  Tipo CSS: {value.startsWith('var(') ? 'Referencia a variable' :
                          value.startsWith('#') ? 'Color hexadecimal' :
                          value.includes('px') ? 'Medida en píxeles' :
                          value.includes('rem') ? 'Medida relativa' :

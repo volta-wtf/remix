@@ -18,5 +18,10 @@
   "packageManager": "pnpm@10.4.1",
   "engines": {
     "node": ">=20"
+  },
+  "pnpm": {
+    "overrides": {
+      "react-is": "^19.0.0-rc-69d4b800-20241021"
+    }
   }
 }

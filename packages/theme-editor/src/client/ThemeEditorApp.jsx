@@ -255,19 +255,42 @@ export function ThemeEditorApp({ onClose }) {
   };
 
   // Funciones de guardado
+  const getCurrentTheme = () => {
+    const htmlElement = document.documentElement;
+    const hasLightClass = htmlElement.classList.contains('light');
+    const hasDarkClass = htmlElement.classList.contains('dark');
+
+    if (hasLightClass) {
+      return 'light';
+    } else if (hasDarkClass) {
+      return 'dark';
+    } else {
+      // Si no hay clase específica, usar preferencia del sistema
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return prefersDark ? 'dark' : 'light';
+    }
+  };
+
   const saveVariables = async () => {
     setSavingVariables(true);
     try {
+      const activeTheme = getCurrentTheme();
+      console.log('🎨 Guardando variables en tema:', activeTheme);
+
       const response = await fetch('http://localhost:4444/save-css', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ variables: modifiedVariables }),
+        body: JSON.stringify({
+          variables: modifiedVariables,
+          activeTheme: activeTheme
+        }),
       });
 
       if (response.ok) {
+        const result = await response.json();
         setOriginalVars(prev => ({ ...prev, ...modifiedVariables }));
         setModifiedVariables({});
-        showNotification('✅ Variables guardadas', '#10b981');
+        showNotification(`✅ Variables guardadas en ${result.targetSelector}`, '#10b981');
       } else {
         throw new Error(`Error ${response.status}`);
       }
@@ -281,16 +304,23 @@ export function ThemeEditorApp({ onClose }) {
   const saveColors = async () => {
     setSavingColors(true);
     try {
+      const activeTheme = getCurrentTheme();
+      console.log('🎨 Guardando colores en tema:', activeTheme);
+
       const response = await fetch('http://localhost:4444/save-css', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ variables: modifiedColors }),
+        body: JSON.stringify({
+          variables: modifiedColors,
+          activeTheme: activeTheme
+        }),
       });
 
       if (response.ok) {
+        const result = await response.json();
         setOriginalVars(prev => ({ ...prev, ...modifiedColors }));
         setModifiedColors({});
-        showNotification('✅ Colores guardados', '#10b981');
+        showNotification(`✅ Colores guardados en ${result.targetSelector}`, '#10b981');
       } else {
         throw new Error(`Error ${response.status}`);
       }

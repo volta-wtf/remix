@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export function useVariableDetection() {
   const [cssVars, setCssVars] = useState({});
@@ -6,8 +6,10 @@ export function useVariableDetection() {
   const [varSources, setVarSources] = useState({});
   const [debugInfo, setDebugInfo] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [themeChangeCounter, setThemeChangeCounter] = useState(0);
 
-  useEffect(() => {
+  // Función para detectar variables CSS
+  const detectVariables = useCallback(() => {
     console.log('🔍 Detectando variables CSS...');
     const debugLog = [];
 
@@ -162,26 +164,150 @@ export function useVariableDetection() {
       }
     });
 
-    console.log('📊 Total variables encontradas:', Object.keys(vars).length);
-    debugLog.push(`Total final: ${Object.keys(vars).length} variables`);
+    // Actualizar los valores computed style para reflejar el tema actual
+    const finalVars = {};
+    Object.keys(vars).forEach(varName => {
+      const computedValue = computedStyle.getPropertyValue(varName).trim();
+      finalVars[varName] = computedValue || vars[varName];
+    });
 
-    setCssVars(vars);
-    setOriginalVars({...vars}); // Guardar valores originales
+    console.log('📊 Total variables encontradas:', Object.keys(finalVars).length);
+    debugLog.push(`Total final: ${Object.keys(finalVars).length} variables`);
+
+    setCssVars(finalVars);
     setDebugInfo(debugLog);
     setVarSources(varSources);
     setLoading(false);
+
+    return finalVars;
+  }, [themeChangeCounter]);
+
+  // Effect inicial para detectar variables
+  useEffect(() => {
+    const detectedVars = detectVariables();
+    setOriginalVars({...detectedVars}); // Guardar valores originales solo la primera vez
+  }, []);
+
+  // Effect para re-detectar cuando cambie el tema
+  useEffect(() => {
+    if (themeChangeCounter > 0) { // Solo ejecutar en cambios, no en la carga inicial
+      detectVariables();
+    }
+  }, [themeChangeCounter, detectVariables]);
+
+  // Observer para detectar cambios en las clases del html
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' &&
+            mutation.attributeName === 'class' &&
+            mutation.target === document.documentElement) {
+          console.log('🎨 Cambio de tema detectado, recalculando variables...');
+          // Pequeño delay para asegurar que los estilos se han aplicado
+          setTimeout(() => {
+            setThemeChangeCounter(prev => prev + 1);
+          }, 100);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const updateCSSVar = (varName, value) => {
-    // Actualización directa sin iframe
-    document.documentElement.style.setProperty(varName, value);
+    // Detectar el tema actual
+    const htmlElement = document.documentElement;
+    const isDark = htmlElement.classList.contains('dark');
+    const isLight = htmlElement.classList.contains('light');
+
+    // Crear o encontrar el style element para el tema específico
+    let styleId = 'theme-editor-override';
+    if (isDark) styleId += '-dark';
+    else if (isLight) styleId += '-light';
+    else styleId += '-system';
+
+    let styleElement = document.getElementById(styleId);
+    if (!styleElement) {
+      styleElement = document.createElement('style');
+      styleElement.id = styleId;
+      document.head.appendChild(styleElement);
+    }
+
+    // Determinar el selector correcto según el tema
+    let selector = ':root';
+    if (isDark) selector = '.dark';
+    else if (isLight) selector = '.light';
+
+    // Obtener el CSS existente y actualizar/agregar la variable
+    let existingCSS = styleElement.textContent || '';
+    const varPattern = new RegExp(`${varName.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*:[^;}]+`, 'g');
+
+    if (existingCSS.includes(selector)) {
+      // El selector ya existe, actualizar la variable
+      const selectorPattern = new RegExp(`(${selector.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*{[^}]*)(${varName.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*:[^;}]+)([^}]*})`, 'g');
+      if (selectorPattern.test(existingCSS)) {
+        // La variable ya existe, reemplazarla
+        existingCSS = existingCSS.replace(varPattern, `${varName}: ${value}`);
+      } else {
+        // La variable no existe, agregarla al selector existente
+        existingCSS = existingCSS.replace(
+          new RegExp(`(${selector.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*{[^}]*)(})`, 'g'),
+          `$1  ${varName}: ${value};\n$2`
+        );
+      }
+    } else {
+      // El selector no existe, crearlo
+      existingCSS += `\n${selector} {\n  ${varName}: ${value};\n}\n`;
+    }
+
+    styleElement.textContent = existingCSS;
     setCssVars(prev => ({ ...prev, [varName]: value }));
   };
 
   const resetVar = (varName) => {
+    // Detectar el tema actual
+    const htmlElement = document.documentElement;
+    const isDark = htmlElement.classList.contains('dark');
+    const isLight = htmlElement.classList.contains('light');
+
+    // Encontrar el style element correcto
+    let styleId = 'theme-editor-override';
+    if (isDark) styleId += '-dark';
+    else if (isLight) styleId += '-light';
+    else styleId += '-system';
+
+    const styleElement = document.getElementById(styleId);
+    if (styleElement) {
+      // Remover la variable del CSS override
+      let existingCSS = styleElement.textContent || '';
+      const varPattern = new RegExp(`\\s*${varName.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*:[^;}]+;?`, 'g');
+      existingCSS = existingCSS.replace(varPattern, '');
+
+      // Si el selector queda vacío, removerlo también
+      const emptySelectors = [':root', '.dark', '.light'];
+      emptySelectors.forEach(selector => {
+        const emptySelectorPattern = new RegExp(`${selector.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*{\\s*}`, 'g');
+        existingCSS = existingCSS.replace(emptySelectorPattern, '');
+      });
+
+      styleElement.textContent = existingCSS.trim();
+
+      // Si el style element está vacío, removerlo
+      if (!existingCSS.trim()) {
+        styleElement.remove();
+      }
+    }
+
+    // Recalcular el valor actual después de remover el override
+    const computedStyle = getComputedStyle(document.documentElement);
+    const currentValue = computedStyle.getPropertyValue(varName).trim();
     const originalValue = originalVars[varName];
-    document.documentElement.style.removeProperty(varName);
-    setCssVars(prev => ({ ...prev, [varName]: originalValue }));
+    setCssVars(prev => ({ ...prev, [varName]: currentValue || originalValue }));
   };
 
   return {

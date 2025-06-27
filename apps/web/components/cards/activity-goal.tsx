@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { MinusIcon, PlusIcon } from "lucide-react"
+import { Icon } from "@/lib/icon"
 
 import { Button } from "@/components/ui/button"
 import { Bar, BarChart } from "@/lib/charts"
@@ -12,8 +12,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card"
-import { ChartConfig, ChartContainer } from "@workspace/ui/components/chart"
+} from "@/components/ui/card"
+import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 
 const data = [
   {
@@ -86,7 +86,7 @@ export function CardsActivityGoal() {
             onClick={() => onClick(-10)}
             disabled={goal <= 200}
           >
-            <MinusIcon />
+            <Icon.Decrease destructive sm />
             <span className="sr-only">Decrease</span>
           </Button>
           <div className="text-center">
@@ -104,7 +104,7 @@ export function CardsActivityGoal() {
             onClick={() => onClick(10)}
             disabled={goal >= 400}
           >
-            <PlusIcon />
+            <Icon.Increase success sm />
             <span className="sr-only">Increase</span>
           </Button>
         </div>

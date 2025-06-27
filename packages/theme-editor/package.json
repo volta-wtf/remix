@@ -7,7 +7,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c --watch",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test:variables": "node test-variables.js"
   },
   "bin": {
     "theme-editor": "./bin/theme-editor.cjs"

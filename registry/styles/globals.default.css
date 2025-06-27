@@ -1,0 +1,158 @@
+@import "stylewindcss";
+
+:root {
+  --radius: 0.5rem;
+
+  --color-scheme: light dark;
+  /* Base */
+  --background: var(--min-contrast);
+  --foreground: var(--color-contrast-800);
+  --decoration: var(--foreground);
+  --content: var(--foreground);
+  --controls: var(--foreground);
+  --ambient: var(--foreground);
+  --accent: var(--ambient);
+  --active: var(--primary);
+  /* Surfaces */
+  --surface: var(--background);
+  --card: var(--surface);
+  --popover: var(--surface);
+  --modal: var(--surface);
+  --tooltip: var(--foreground);
+  --muted: --alpha(var(--ambient)/4%);
+  --variant: --alpha(var(--ambient)/8%);
+  --highlighted: --alpha(var(--accent)/8%);
+  --selected: --alpha(var(--accent)/10%);
+  /* Content */
+  --heading: var(--content);
+  --text: --alpha(var(--content)/90%);
+  --text-subtle: --alpha(var(--content)/70%);
+  --text-disabled: --alpha(var(--content)/40%);
+  --text-hint: --alpha(var(--content)/30%);
+  --icon: var(--text);
+  --icon-subtle: var(--text-subtle);
+  --icon-disabled: var(--text-disabled);
+  --icon-hint: var(--text-hint);
+  --border: --alpha(var(--foreground)/10%); /* --alpha(var(--foreground)/10%) */
+  --divider: var(--border);
+  --line: --alpha(var(--foreground)/5%);
+  /* Controls */
+  --outline: --alpha(var(--controls)/10%);
+  --input: --alpha(var(--controls)/5%);
+  --button: --alpha(var(--controls)/10%);
+  --hovered: --alpha(var(--ambient)/8%);
+  --focused: --alpha(var(--ambient)/12%);
+  --pressed: --alpha(var(--ambient)/16%);
+  --dragging: --alpha(var(--ambient)/16%);
+  /* Interactivity */
+  --ring: var(--active);
+  --link: var(--active);
+  --visited: var(--active);
+  --selection: var(--active);
+  --mark: var(--color-warning-500);
+  --caret: var(--foreground);
+  /* Ambient */
+  --backdrop: var(--ambient);
+  --shadow: var(--ambient);
+  /* Brand colors */
+  --primary: var(--color-primary-500);
+  --secondary: var(--color-secondary-500);
+  --tertiary: var(--color-tertiary-500);
+  /* Functional colors */
+  --destructive: var(--color-destructive-500);
+  --cautionary: var(--color-cautionary-500);
+  --affirmative: var(--color-affirmative-500);
+  --informative: var(--color-informative-500);
+  /* Contrast colors */
+  --min-contrast: var(--lightest);
+  --max-contrast: var(--darkest);
+  /* Fixed colors */
+  --lightest: #fff;
+  --darkest: #000;
+  --clear: transparent;
+  --current: currentColor;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--max-contrast);
+    --foreground: var(--color-contrast-100);
+    --decoration: var(--foreground);
+    --content: var(--foreground);
+    --controls: var(--foreground);
+    --ambient: var(--foreground);
+    --accent: var(--ambient);
+    --primary: var(--color-primary-400);
+    --surface: var(--color-contrast-950);
+    --shadow: var(--color-ambient-950);
+   }
+ }
+
+/* Color palettes */
+:root {
+  --tone-primary-50: #eff6ff;
+  --tone-primary-100: #dbeafe;
+  --tone-primary-200: #bfdbfe;
+  --tone-primary-300: #93c5fd;
+  --tone-primary-400: #60a5fa;
+  --tone-primary-500: #3b82f6;
+  --tone-primary-600: #2563eb;
+  --tone-primary-700: #1d4ed8;
+  --tone-primary-800: #1e40af;
+  --tone-primary-900: #1e3a8a;
+  --tone-primary-950: #172554;
+
+  --tone-secondary-50: #f8fafc;
+  --tone-secondary-100: #f1f5f9;
+  --tone-secondary-200: #e2e8f0;
+  --tone-secondary-300: #cbd5e1;
+  --tone-secondary-400: #94a3b8;
+  --tone-secondary-500: #64748b;
+  --tone-secondary-600: #475569;
+  --tone-secondary-700: #334155;
+  --tone-secondary-800: #1e293b;
+  --tone-secondary-900: #0f172a;
+  --tone-secondary-950: #020617;
+
+  --tone-tertiary-50: var(--tone-ambient-50);
+  --tone-tertiary-100: var(--tone-ambient-100);
+  --tone-tertiary-200: var(--tone-ambient-200);
+  --tone-tertiary-300: var(--tone-ambient-300);
+  --tone-tertiary-400: var(--tone-ambient-400);
+  --tone-tertiary-500: var(--tone-ambient-500);
+  --tone-tertiary-600: var(--tone-ambient-600);
+  --tone-tertiary-700: var(--tone-ambient-700);
+  --tone-tertiary-800: var(--tone-ambient-800);
+  --tone-tertiary-900: var(--tone-ambient-900);
+  --tone-tertiary-950: var(--tone-ambient-950);
+
+  --tone-contrast-50: var(--tone-secondary-50);
+  --tone-contrast-100: var(--tone-secondary-100);
+  --tone-contrast-200: var(--tone-secondary-200);
+  --tone-contrast-300: var(--tone-secondary-300);
+  --tone-contrast-400: var(--tone-secondary-400);
+  --tone-contrast-500: var(--tone-secondary-500);
+  --tone-contrast-600: var(--tone-secondary-600);
+  --tone-contrast-700: var(--tone-secondary-700);
+  --tone-contrast-800: var(--tone-secondary-800);
+  --tone-contrast-900: var(--tone-secondary-900);
+  --tone-contrast-950: var(--tone-secondary-950);
+
+  --tone-ambient-50: var(--tone-primary-50);
+  --tone-ambient-100: var(--tone-primary-100);
+  --tone-ambient-200: var(--tone-primary-200);
+  --tone-ambient-300: var(--tone-primary-300);
+  --tone-ambient-400: var(--tone-primary-400);
+  --tone-ambient-500: var(--tone-primary-500);
+  --tone-ambient-600: var(--tone-primary-600);
+  --tone-ambient-700: var(--tone-primary-700);
+  --tone-ambient-800: var(--tone-primary-800);
+  --tone-ambient-900: var(--tone-primary-900);
+  --tone-ambient-950: var(--tone-primary-950);
+
+  --tone-destructive-500: #ef4444;
+  --tone-cautionary-500: #f59e0b;
+  --tone-affirmative-500: #10b981;
+  --tone-informative-500: #3b82f6;
+}

@@ -17,39 +17,39 @@ function createThemeEditorButton() {
 
   // Estilos absolutos que no dependen de variables CSS
   floatingButton.style.cssText = `
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-bottom: 4px !important;
     position: fixed !important;
     bottom: 20px !important;
     right: 20px !important;
-    width: 40px !important;
-    height: 40px !important;
+    width: 2.25rem !important;
+    height: 2.25rem !important;
     border: none !important;
     border-radius: 50% !important;
-    background: #1f2937 !important;
+    background: rgba(0,0,0,0.8) !important;
+    box-shadow: 0 0 0 1px #000, inset 0 0 0 1px rgba(255,255,255,0.1), 0px 16px 32px -8px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(48px);
     color: #ffffff !important;
     font-size: 30px !important;
     line-height: 40px !important;
     cursor: pointer !important;
     z-index: 9999 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-    transition: all 0.2s ease !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    padding-bottom: 4px !important;
+    will-change: scale, box-shadow, width, background;
+    transition: scale 150ms cubic-bezier(0.23,0.88,0.26,0.92), width 250ms cubic-bezier(0.23,0.88,0.26,0.92), box-shadow 250ms cubic-bezier(0.23,0.88,0.26,0.92), background 150ms ease !important;
   `;
 
   // Event listeners para el botón
   floatingButton.addEventListener('mouseenter', () => {
-    floatingButton.style.transform = 'scale(1.1)';
-    floatingButton.style.backgroundColor = '#374151';
+    floatingButton.style.backgroundColor = 'rgba(0,0,0,0.7)';
   });
 
   floatingButton.addEventListener('mouseleave', () => {
-    floatingButton.style.transform = 'scale(1)';
-    floatingButton.style.backgroundColor = '#1f2937';
+    floatingButton.style.backgroundColor = 'rgba(0,0,0,0.8)';
   });
 
   floatingButton.addEventListener('click', toggleThemeEditorPanel);

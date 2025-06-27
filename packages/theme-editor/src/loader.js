@@ -25,67 +25,170 @@ app.use('/theme-editor.js', (_req, res) => {
 
 // Función para buscar el archivo globals.css dinámicamente
 function findGlobalsCss(startDir = process.cwd()) {
-  const possiblePaths = [
-    // Rutas comunes para Next.js
-    join(startDir, 'app/globals.css'),
-    join(startDir, 'src/app/globals.css'),
-    join(startDir, 'src/globals.css'),
+  console.log(`🔍 Directorio inicial: ${startDir}`);
 
-    // Rutas comunes para otros frameworks
-    join(startDir, 'styles/globals.css'),
-    join(startDir, 'src/styles/globals.css'),
-    join(startDir, 'public/globals.css'),
-    join(startDir, 'assets/globals.css'),
-    join(startDir, 'src/assets/globals.css'),
+  // Detectar si el proyecto actual usa @workspace/ui
+  const isUsingWorkspaceUI = detectWorkspaceUIUsage(startDir);
+  console.log(`📦 ¿Usa @workspace/ui?: ${isUsingWorkspaceUI}`);
 
-    // Buscar en subdirectorios app
-    join(startDir, 'apps/*/app/globals.css'),
-    join(startDir, 'apps/*/src/app/globals.css'),
-  ];
+  let searchDir = startDir;
+  let useMonorepoSearch = false;
+
+  if (isUsingWorkspaceUI) {
+    // Solo si usa @workspace/ui, buscar el directorio raíz del monorepo
+    if (startDir.includes('/apps/') || startDir.includes('/packages/')) {
+      const parts = startDir.split('/');
+      const rootIndex = Math.max(
+        parts.lastIndexOf('apps') - 1,
+        parts.lastIndexOf('packages') - 1
+      );
+      if (rootIndex > 0) {
+        searchDir = parts.slice(0, rootIndex + 1).join('/');
+        useMonorepoSearch = true;
+        console.log(`📁 Detectado monorepo con @workspace/ui, usando directorio raíz: ${searchDir}`);
+      }
+    }
+
+    // También buscar hacia arriba hasta encontrar package.json con workspaces
+    if (!useMonorepoSearch) {
+      let currentDir = startDir;
+      for (let i = 0; i < 3; i++) { // máximo 3 niveles hacia arriba
+        const packageJsonPath = join(currentDir, 'package.json');
+        if (existsSync(packageJsonPath)) {
+          try {
+            const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+            if (packageJson.workspaces || packageJson.packages) {
+              searchDir = currentDir;
+              useMonorepoSearch = true;
+              console.log(`📦 Encontrado monorepo con workspaces: ${searchDir}`);
+              break;
+            }
+          } catch (e) {
+            // Ignorar errores de parsing
+          }
+        }
+        const parentDir = join(currentDir, '..');
+        if (parentDir === currentDir) break;
+        currentDir = parentDir;
+      }
+    }
+  }
+
+  const possiblePaths = [];
+
+  if (useMonorepoSearch && isUsingWorkspaceUI) {
+    // Rutas específicas para monorepos que usan @workspace/ui
+    console.log(`🔍 Búsqueda en monorepo desde: ${searchDir}`);
+    possiblePaths.push(
+      // Prioridad: packages/ui (donde está nuestro CSS)
+      join(searchDir, 'packages/ui/src/styles/globals.css'),
+      join(searchDir, 'packages/ui/styles/globals.css'),
+
+      // Prioridad: registry (donde está nuestro CSS)
+      join(searchDir, 'registry/styles/globals.css'),
+      join(searchDir, 'packages/ui/styles/globals.css'),
+
+      // Otras ubicaciones de packages
+      join(searchDir, 'packages/theme/src/styles/globals.css'),
+      join(searchDir, 'packages/styles/src/globals.css'),
+      join(searchDir, 'packages/design-system/src/styles/globals.css')
+    );
+  } else {
+    // Rutas estándar para proyectos normales
+    console.log(`🔍 Búsqueda estándar desde: ${searchDir}`);
+    possiblePaths.push(
+      // Next.js estándar
+      join(searchDir, 'src/app/globals.css'),
+      join(searchDir, 'app/globals.css'),
+      join(searchDir, 'src/styles/globals.css'),
+      join(searchDir, 'styles/globals.css'),
+
+      // Otras ubicaciones comunes
+      join(searchDir, 'src/globals.css'),
+      join(searchDir, 'public/globals.css'),
+      join(searchDir, 'assets/globals.css'),
+      join(searchDir, 'src/assets/globals.css')
+    );
+  }
 
   // Verificar rutas directas primero
   for (const path of possiblePaths) {
-    if (!path.includes('*') && existsSync(path)) {
+    if (existsSync(path)) {
       console.log(`📁 Archivo globals.css encontrado en: ${path}`);
       return path;
     }
   }
 
-  // Buscar en apps/* con wildcard
-  const appsDir = join(startDir, 'apps');
-  if (existsSync(appsDir)) {
-    try {
-      const appDirs = readdirSync(appsDir).filter(dir => {
-        const dirPath = join(appsDir, dir);
-        return statSync(dirPath).isDirectory();
-      });
+  // Solo si usa @workspace/ui, buscar en packages/* y apps/*
+  if (useMonorepoSearch && isUsingWorkspaceUI) {
+    // Buscar en packages/*
+    const packagesDir = join(searchDir, 'packages');
+    if (existsSync(packagesDir)) {
+      console.log('🔍 Buscando en directorio packages/...');
+      try {
+        const packageDirs = readdirSync(packagesDir).filter(dir => {
+          const dirPath = join(packagesDir, dir);
+          return statSync(dirPath).isDirectory();
+        });
 
-      for (const appDir of appDirs) {
-        const appPaths = [
-          join(appsDir, appDir, 'app/globals.css'),
-          join(appsDir, appDir, 'src/app/globals.css'),
-          join(appsDir, appDir, 'styles/globals.css'),
-          join(appsDir, appDir, 'src/styles/globals.css'),
-        ];
+        for (const packageDir of packageDirs) {
+          const packagePaths = [
+            join(packagesDir, packageDir, 'src/styles/globals.css'),
+            join(packagesDir, packageDir, 'styles/globals.css'),
+            join(packagesDir, packageDir, 'src/app/globals.css'),
+            join(packagesDir, packageDir, 'app/globals.css')
+          ];
 
-        for (const path of appPaths) {
-          if (existsSync(path)) {
-            console.log(`📁 Archivo globals.css encontrado en app "${appDir}": ${path}`);
-            return path;
+          for (const path of packagePaths) {
+            if (existsSync(path)) {
+              console.log(`📁 Archivo globals.css encontrado en package "${packageDir}": ${path}`);
+              return path;
+            }
           }
         }
+      } catch (error) {
+        console.warn('⚠️  Error al buscar en directorio packages:', error.message);
       }
-    } catch (error) {
-      console.warn('⚠️  Error al buscar en directorio apps:', error.message);
+    }
+
+    // Buscar en apps/*
+    const appsDir = join(searchDir, 'apps');
+    if (existsSync(appsDir)) {
+      console.log('🔍 Buscando en directorio apps/...');
+      try {
+        const appDirs = readdirSync(appsDir).filter(dir => {
+          const dirPath = join(appsDir, dir);
+          return statSync(dirPath).isDirectory();
+        });
+
+        for (const appDir of appDirs) {
+          const appPaths = [
+            join(appsDir, appDir, 'src/styles/globals.css'),
+            join(appsDir, appDir, 'styles/globals.css'),
+            join(appsDir, appDir, 'src/app/globals.css'),
+            join(appsDir, appDir, 'app/globals.css')
+          ];
+
+          for (const path of appPaths) {
+            if (existsSync(path)) {
+              console.log(`📁 Archivo globals.css encontrado en app "${appDir}": ${path}`);
+              return path;
+            }
+          }
+        }
+      } catch (error) {
+        console.warn('⚠️  Error al buscar en directorio apps:', error.message);
+      }
     }
   }
 
-  // Búsqueda recursiva limitada en directorios comunes
+  // Búsqueda recursiva limitada solo en el directorio actual
   const searchDirs = ['src', 'app', 'styles'];
-  for (const searchDir of searchDirs) {
-    const dirPath = join(startDir, searchDir);
+  console.log('🔍 Búsqueda recursiva limitada...');
+  for (const searchDirName of searchDirs) {
+    const dirPath = join(searchDir, searchDirName);
     if (existsSync(dirPath)) {
-      const found = searchRecursively(dirPath, 'globals.css', 3); // máximo 3 niveles
+      const found = searchRecursively(dirPath, 'globals.css', 2); // máximo 2 niveles
       if (found) {
         console.log(`📁 Archivo globals.css encontrado recursivamente: ${found}`);
         return found;
@@ -93,7 +196,128 @@ function findGlobalsCss(startDir = process.cwd()) {
     }
   }
 
-  throw new Error(`❌ No se pudo encontrar el archivo globals.css en el proyecto. Directorio base: ${startDir}`);
+  throw new Error(`❌ No se pudo encontrar el archivo globals.css en el proyecto.
+Directorio: ${searchDir}
+Tipo de búsqueda: ${useMonorepoSearch ? 'Monorepo' : 'Estándar'}
+Usa @workspace/ui: ${isUsingWorkspaceUI}
+
+  Ubicaciones sugeridas:
+  ${useMonorepoSearch ?
+'- registry/styles/globals.css (recomendado)\n- packages/ui/src/styles/globals.css\n- packages/theme/src/styles/globals.css' :
+  '- src/app/globals.css (Next.js)\n- src/styles/globals.css\n- styles/globals.css'}`);
+  }
+
+// Función para detectar si el proyecto usa @workspace/ui
+function detectWorkspaceUIUsage(startDir) {
+  try {
+    // Buscar package.json en el directorio actual y algunos niveles arriba
+    let currentDir = startDir;
+    for (let i = 0; i < 3; i++) {
+      const packageJsonPath = join(currentDir, 'package.json');
+      if (existsSync(packageJsonPath)) {
+        try {
+          const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+          const deps = {
+            ...packageJson.dependencies,
+            ...packageJson.devDependencies,
+            ...packageJson.peerDependencies
+          };
+
+          // Verificar si usa @workspace/ui o similar
+          if (deps['@workspace/ui'] || deps['@workspace/theme'] || deps['@workspace/design-system']) {
+            return true;
+          }
+
+          // Verificar imports en archivos comunes
+          const commonFiles = ['layout.tsx', 'layout.jsx', '_app.tsx', '_app.jsx', 'app.tsx', 'app.jsx'];
+          for (const file of commonFiles) {
+            const filePath = join(currentDir, 'src', file);
+            const altFilePath = join(currentDir, file);
+
+            for (const path of [filePath, altFilePath]) {
+              if (existsSync(path)) {
+                const content = readFileSync(path, 'utf8');
+                                 if (content.includes('@workspace/ui') || content.includes('packages/ui') || content.includes('registry')) {
+                  return true;
+                }
+              }
+            }
+          }
+
+        } catch (e) {
+          // Ignorar errores de parsing
+        }
+      }
+
+      const parentDir = join(currentDir, '..');
+      if (parentDir === currentDir) break;
+      currentDir = parentDir;
+    }
+
+    // Detección adicional: verificar si estamos en un monorepo con packages/ui o registry
+    // Esto cubre el caso de ejecutar desde el directorio raíz del monorepo
+    let checkDir = startDir;
+    for (let i = 0; i < 3; i++) {
+      // Si existe registry/styles/globals.css, probablemente es nuestro monorepo (nueva estructura)
+      const registryGlobalsPath = join(checkDir, 'registry/styles/globals.css');
+      if (existsSync(registryGlobalsPath)) {
+        console.log('🔍 Detectado monorepo por estructura: encontrado registry/styles/globals.css');
+        return true;
+      }
+
+      // Si existe packages/ui/src/styles/globals.css, probablemente es nuestro monorepo (estructura anterior)
+      const uiGlobalsPath = join(checkDir, 'packages/ui/src/styles/globals.css');
+      if (existsSync(uiGlobalsPath)) {
+        console.log('🔍 Detectado monorepo por estructura: encontrado packages/ui/src/styles/globals.css');
+        return true;
+      }
+
+      // También verificar si existe registry/package.json con nombre @workspace/ui
+      const registryPackageJsonPath = join(checkDir, 'registry/package.json');
+      if (existsSync(registryPackageJsonPath)) {
+        try {
+          const registryPackageJson = JSON.parse(readFileSync(registryPackageJsonPath, 'utf8'));
+          if (registryPackageJson.name && (
+            registryPackageJson.name.includes('@workspace/ui') ||
+            registryPackageJson.name.includes('ui') ||
+            registryPackageJson.name.includes('design-system')
+          )) {
+            console.log(`🔍 Detectado monorepo por package UI en registry: ${registryPackageJson.name}`);
+            return true;
+          }
+        } catch (e) {
+          // Ignorar errores de parsing
+        }
+      }
+
+      // También verificar si existe packages/ui/package.json con nombre @workspace/ui
+      const uiPackageJsonPath = join(checkDir, 'packages/ui/package.json');
+      if (existsSync(uiPackageJsonPath)) {
+        try {
+          const uiPackageJson = JSON.parse(readFileSync(uiPackageJsonPath, 'utf8'));
+          if (uiPackageJson.name && (
+            uiPackageJson.name.includes('@workspace/ui') ||
+            uiPackageJson.name.includes('ui') ||
+            uiPackageJson.name.includes('design-system')
+          )) {
+            console.log(`🔍 Detectado monorepo por package UI: ${uiPackageJson.name}`);
+            return true;
+          }
+        } catch (e) {
+          // Ignorar errores de parsing
+        }
+      }
+
+      const parentDir = join(checkDir, '..');
+      if (parentDir === checkDir) break;
+      checkDir = parentDir;
+    }
+
+    return false;
+  } catch (error) {
+    console.warn('⚠️  Error detectando uso de @workspace/ui:', error.message);
+    return false;
+  }
 }
 
 // Función auxiliar para búsqueda recursiva limitada
@@ -132,11 +356,46 @@ function searchRecursively(dir, filename, maxDepth) {
   return null;
 }
 
+
+
+// Endpoint de debug para diagnosticar problemas
+app.get('/debug-css', (req, res) => {
+  try {
+    const cssFilePath = findGlobalsCss();
+    const cssContent = readFileSync(cssFilePath, 'utf8');
+
+    // Buscar variables CSS
+    const variableMatches = cssContent.match(/--[\w-]+\s*:\s*[^;]+/g) || [];
+
+    res.json({
+      success: true,
+      cssFilePath,
+      cssFileSize: cssContent.length,
+      totalVariables: variableMatches.length,
+      variables: variableMatches.slice(0, 10), // Primeras 10 para no sobrecargar
+      preview: cssContent.substring(0, 500) + '...'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Endpoint para guardar variables CSS
 app.post('/save-css', (req, res) => {
   try {
-    const { variables } = req.body;
+    const { variables, activeTheme } = req.body;
     console.log('💾 Guardando variables CSS:', variables);
+    console.log('🎨 Tema activo:', activeTheme);
+
+    if (!variables || Object.keys(variables).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'No se proporcionaron variables para guardar'
+      });
+    }
 
     // Buscar el archivo globals.css dinámicamente
     const cssFilePath = findGlobalsCss();
@@ -144,41 +403,108 @@ app.post('/save-css', (req, res) => {
 
     // Leer el archivo CSS actual
     let cssContent = readFileSync(cssFilePath, 'utf8');
-    console.log('📄 Archivo CSS leído:', cssFilePath);
+    console.log('📄 Archivo CSS leído, tamaño:', cssContent.length, 'caracteres');
 
-    // Actualizar cada variable modificada en el contenido CSS
+    let updatedCount = 0;
+
+    // Determinar el selector base según el tema activo
+    const targetSelector = activeTheme === 'dark' ? '.dark' : ':root';
+    console.log('🎯 Selector objetivo:', targetSelector);
+
+    // Procesar cada variable
     Object.entries(variables).forEach(([varName, newValue]) => {
-      // Crear regex para encontrar la variable específica
-      const varRegex = new RegExp(`(${varName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}\\s*:\\s*)[^;]+`, 'g');
+      console.log(`\n🔄 Procesando variable: ${varName} = ${newValue}`);
 
-      // Reemplazar el valor
-      const replacement = `$1${newValue}`;
-      const oldContent = cssContent;
-      cssContent = cssContent.replace(varRegex, replacement);
+      // Escapar caracteres especiales
+      const escapedVarName = varName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-      if (cssContent !== oldContent) {
-        console.log(`✅ Variable actualizada: ${varName} = ${newValue}`);
-      } else {
-        console.log(`⚠️  Variable no encontrada en archivo: ${varName}`);
+      // Encontrar todas las ocurrencias de esta variable
+      const varRegex = new RegExp(`(\\s*${escapedVarName}\\s*:\\s*)[^;\\n]+`, 'g');
+      let match;
+      const matches = [];
+
+      while ((match = varRegex.exec(cssContent)) !== null) {
+        matches.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          fullMatch: match[0],
+          prefix: match[1]
+        });
       }
+
+      console.log(`📍 Encontradas ${matches.length} ocurrencias de ${varName}`);
+
+      // Procesar las ocurrencias de atrás hacia adelante para mantener posiciones
+      matches.reverse().forEach((match, index) => {
+        console.log(`\n🔍 Analizando ocurrencia ${matches.length - index} en posición ${match.start}`);
+
+        // Buscar hacia atrás para encontrar el selector más cercano
+        const beforeVariable = cssContent.substring(0, match.start);
+
+        // Buscar los selectores hacia atrás
+        const rootMatch = beforeVariable.lastIndexOf(':root');
+        const darkMatch = beforeVariable.lastIndexOf('.dark');
+
+        // Determinar cuál selector está más cerca
+        let closestSelector = null;
+        let closestPosition = -1;
+
+        if (rootMatch !== -1 && rootMatch > closestPosition) {
+          closestSelector = ':root';
+          closestPosition = rootMatch;
+        }
+
+        if (darkMatch !== -1 && darkMatch > closestPosition) {
+          closestSelector = '.dark';
+          closestPosition = darkMatch;
+        }
+
+        console.log(`📦 Variable en posición ${match.start} pertenece a: ${closestSelector}`);
+
+        // Solo actualizar si coincide con el selector objetivo
+        if (closestSelector === targetSelector) {
+          console.log(`✅ Actualizando variable en ${closestSelector}`);
+
+          // Reemplazar esta ocurrencia específica
+          const beforeMatch = cssContent.substring(0, match.start);
+          const afterMatch = cssContent.substring(match.end);
+          const newVariableDeclaration = match.prefix + newValue;
+
+          cssContent = beforeMatch + newVariableDeclaration + afterMatch;
+          updatedCount++;
+
+          console.log(`✅ Variable actualizada: ${varName} = ${newValue} en ${closestSelector}`);
+        } else {
+          console.log(`⏭️ Saltando variable en ${closestSelector} (objetivo: ${targetSelector})`);
+        }
+      });
     });
 
-    // Escribir el archivo actualizado
-    writeFileSync(cssFilePath, cssContent, 'utf8');
-    console.log('✅ Archivo CSS guardado exitosamente');
+    // Escribir el archivo actualizado solo si hubo cambios
+    if (updatedCount > 0) {
+      writeFileSync(cssFilePath, cssContent, 'utf8');
+      console.log(`✅ Archivo CSS guardado exitosamente. ${updatedCount} variables actualizadas en ${targetSelector}.`);
+    } else {
+      console.log('⚠️ No se realizaron cambios en el archivo CSS');
+    }
 
     res.json({
       success: true,
-      message: 'Variables CSS guardadas exitosamente',
-      updatedCount: Object.keys(variables).length
+      message: `Variables CSS guardadas exitosamente en ${targetSelector}. ${updatedCount} de ${Object.keys(variables).length} variables actualizadas.`,
+      updatedCount: updatedCount,
+      totalRequested: Object.keys(variables).length,
+      targetSelector: targetSelector
     });
 
   } catch (error) {
     console.error('❌ Error al guardar variables CSS:', error);
+    console.error('Stack trace:', error.stack);
+
     res.status(500).json({
       success: false,
       message: 'Error al guardar variables CSS',
-      error: error.message
+      error: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 });

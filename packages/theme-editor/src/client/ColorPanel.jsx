@@ -180,6 +180,8 @@ export function ColorPanel({
                   labelTransform={colorLabelTransform}
                   hoveredItem={hoveredItem}
                   onHover={setHoveredItem}
+                  showPreview={true}
+                  showTypeIndicator={false} // Los colores ya se muestran claramente
                 />
               ))}
             </div>
@@ -214,6 +216,8 @@ export function ColorPanel({
                     labelTransform={colorLabelTransform}
                     hoveredItem={hoveredItem}
                     onHover={setHoveredItem}
+                    showPreview={true}
+                    showTypeIndicator={false} // Los colores ya se muestran claramente
                   />
                 ))}
               </div>

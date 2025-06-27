@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styles } from './panel-styles.js';
-import { PropertyItem, SaveFooter, SectionHeader } from './PropertyComponents.jsx';
+import { PropertyItem, SaveFooter, SectionHeader, ThemeSelector } from './PropertyComponents.jsx';
 
 /**
  * VariablesPanel - Panel para variables generales del tema
@@ -59,6 +59,11 @@ export function VariablesPanel({
 
   return (
     <div>
+      {/* Selector de Temas */}
+      <div style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.05)' }}>
+        <ThemeSelector />
+      </div>
+
       <div data-slot="property-list" style={styles.propertyList}>
         {/* Variables principales (:root y otros) - EXCLUYENDO variables de colores */}
         {mainVariables.map(([varName, value]) => (

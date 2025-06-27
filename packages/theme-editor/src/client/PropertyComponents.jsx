@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { styles } from './panel-styles.js';
+import { VariablePreview, VariableTypeIndicator } from './VariablePreview.jsx';
 
 /**
  * PropertyItem - Componente reutilizable para renderizar una variable CSS
@@ -15,7 +16,9 @@ export function PropertyItem({
   dropdownProps = {},
   labelTransform = (name) => name.replace(/^--/, '').replace(/(^\w|-\w)/g, (m) => m.replace('-', ' ').toUpperCase()),
   hoveredItem,
-  onHover
+  onHover,
+  showPreview = true,
+  showTypeIndicator = true
 }) {
   const currentStyle = isModified ? styles.variableModified : styles.variable;
   const isHovered = hoveredItem === varName;
@@ -24,21 +27,42 @@ export function PropertyItem({
   return (
     <div
       data-slot="property-item"
-      style={currentStyle}
+      style={{ ...currentStyle, position: 'relative' }}
       onMouseEnter={() => onHover?.(varName)}
       onMouseLeave={() => onHover?.(null)}
     >
       <div style={styles.property}>
         <label style={styles.label}>
-          {labelTransform(varName)}
-          {isModified && <span style={styles.indicator}>●</span>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>{labelTransform(varName)}</span>
+            {isModified && <span style={styles.indicator}>●</span>}
+          </div>
         </label>
         <div style={{ position: 'relative', width: '100%' }}>
+          {/* Preview visual de la variable dentro del input */}
+          {showPreview && (
+            <div style={{
+              position: 'absolute',
+              left: '8px',
+              top: '50%',
+              lineHeight: '0',
+              transform: 'translateY(-50%)',
+              zIndex: 2,
+              pointerEvents: 'none'
+            }}>
+              <VariablePreview
+                varName={varName}
+                value={value}
+              />
+            </div>
+          )}
+
           <input
             type="text"
             style={{
               ...styles.input,
               borderColor: (isFocused ? 'rgba(0,0,0,0.4)' : (isHovered ? 'rgba(0,0,0,0.1)' : 'transparent')),
+              paddingLeft: showPreview ? '36px' : '12px', // Espacio para el preview
               paddingRight: '28px',
             }}
             onFocus={() => setIsFocused(true)}
@@ -49,7 +73,7 @@ export function PropertyItem({
             autoComplete="off"
           />
 
-          {showDropdown ? (
+          {showDropdown && isHovered ? (
             <DropdownButton
               varName={varName}
               {...dropdownProps}
@@ -73,7 +97,7 @@ export function PropertyItem({
           )}
         </div>
       </div>
-      <div style={styles.value}>
+            <div style={styles.value}>
         Valor actual: {value}
         {isModified && dropdownProps.originalValue && (
           <span style={{ color: '#ef4444', marginLeft: '12px', fontSize: '12px' }}>
@@ -116,24 +140,44 @@ export function ResetButton({ varName, onReset }) {
  * DropdownButton - Botón para abrir dropdown de variables
  */
 export function DropdownButton({ varName, isOpen, onToggle }) {
+  const arrowSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: ${isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}; transition: transform 0.2s ease;">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7828 9.00259C18.1278 9.4951 18.0579 10.2138 17.6266 10.6078L12.6266 15.1758C12.2614 15.5095 11.7425 15.5095 11.3773 15.1758L6.37729 10.6078C5.94603 10.2138 5.87611 9.4951 6.22112 9.00259C6.56613 8.51008 7.19542 8.43023 7.62667 8.82424L12.002 12.8216L16.3772 8.82424C16.8085 8.43023 17.4378 8.51008 17.7828 9.00259Z" fill="currentColor"/>
+  </svg>`;
+
   return (
     <button
       type="button"
+      data-dropdown="true"
       style={{
         position: 'absolute',
-        right: '8px',
+        right: '0px',
         top: '50%',
         transform: 'translateY(-50%)',
         background: 'none',
         border: 'none',
         cursor: 'pointer',
         color: '#6b7280',
-        fontSize: '12px',
-        padding: '2px',
+        width: '32px',
+        height: '32px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '0',
       }}
       onClick={() => onToggle(varName)}
     >
-      {isOpen ? '▲' : '▼'}
+      {/* Línea separadora */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '0px',
+          top: '25%',
+          bottom: '25%',
+          width: '1px',
+          backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        }}
+      />
+      <div dangerouslySetInnerHTML={{ __html: arrowSvg }} />
     </button>
   );
 }
@@ -151,8 +195,29 @@ export function VariableDropdown({
   hoveredItem,
   onHover
 }) {
+  // Manejar click fuera del dropdown
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Si el click es fuera del dropdown, cerrarlo inmediatamente
+      if (!event.target.closest('[data-dropdown="true"]')) {
+        onClose();
+      }
+    };
+
+    // Agregar listener con un pequeño delay para evitar que se cierre inmediatamente al abrir
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+    }, 50);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
     <div
+      data-dropdown="true"
       style={{
         position: 'absolute',
         top: '100%',
@@ -183,7 +248,6 @@ export function VariableDropdown({
         placeholder="Filtrar variables..."
         value={filter}
         onChange={onFilterChange}
-        onBlur={() => setTimeout(onClose, 200)}
         autoFocus
       />
       {Object.keys(cssVars)
@@ -454,7 +518,7 @@ export function ColorSectionTabs({
       zIndex: 1,
       position: 'relative'
     }}>
-      {sections.map(({ key, label, icon, count }) => (
+      {sections.map(({ key, label, count }) => (
         <button
           key={key}
           style={{
@@ -470,7 +534,7 @@ export function ColorSectionTabs({
           }}
           onClick={() => onSectionChange(key)}
         >
-          {icon} {label} ({count})
+          {label} ({count})
         </button>
       ))}
     </div>
@@ -490,6 +554,358 @@ export function EmptyState({ message }) {
       maxWidth: '50%'
     }}>
       {message}
+    </div>
+  );
+}
+
+/**
+ * ThemeSelector - Selector de temas para el panel
+ */
+export function ThemeSelector() {
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    // Detectar tema actual del documento
+    const doc = getTargetDocument();
+    if (doc.documentElement.classList.contains('dark')) return 'dark';
+    if (doc.documentElement.classList.contains('light')) return 'light';
+    return 'system';
+  });
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [themeVariables, setThemeVariables] = useState([]);
+
+  // Función para obtener el documento objetivo (puede ser iframe)
+  function getTargetDocument() {
+    try {
+      if (window.parent && window.parent !== window && window.parent.document) {
+        return window.parent.document;
+      }
+    } catch (e) {
+      // Fallback si no se puede acceder al documento padre
+    }
+    return document;
+  }
+
+  // Función para obtener el valor actual de una variable CSS
+  const getCSSVariable = useCallback((varName) => {
+    const doc = getTargetDocument();
+    const computed = getComputedStyle(doc.documentElement);
+    return computed.getPropertyValue(varName).trim();
+  }, []);
+
+  // Función para actualizar las variables del tema
+  const updateThemeVariables = useCallback(() => {
+    const variables = [
+      { name: '--background', label: 'Background' },
+      { name: '--foreground', label: 'Foreground' },
+      { name: '--ambient', label: 'Ambient' },
+      { name: '--primary', label: 'Primary' },
+      { name: '--secondary', label: 'Secondary' }
+    ];
+
+    const updated = variables.map(({ name, label }) => ({
+      name,
+      label,
+      value: getCSSVariable(name)
+    }));
+
+    setThemeVariables(updated);
+  }, [getCSSVariable]);
+
+  // Función para cambiar el tema
+  const changeTheme = useCallback((theme) => {
+    console.log(`🎨 Cambiando tema a: ${theme}`);
+
+    const doc = getTargetDocument();
+    const html = doc.documentElement;
+
+    // Remover clases existentes
+    html.classList.remove('light', 'dark');
+
+    // Aplicar nueva clase según el tema
+    if (theme === 'light') {
+      html.classList.add('light');
+    } else if (theme === 'dark') {
+      html.classList.add('dark');
+    }
+    // Para 'system', no agregamos ninguna clase (usa preferencia del sistema)
+
+    // Actualizar estado inmediatamente
+    setCurrentTheme(theme);
+    setDropdownOpen(false);
+
+    // Actualizar las variables después de cambiar el tema
+    setTimeout(() => {
+      updateThemeVariables();
+    }, 150); // Dar tiempo para que se apliquen los estilos
+  }, [updateThemeVariables]);
+
+    // Detectar cambios de tema externos y actualizar variables
+  useEffect(() => {
+    const doc = getTargetDocument();
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' &&
+            mutation.attributeName === 'class' &&
+            mutation.target === doc.documentElement) {
+
+          // Actualizar las variables cuando cambia el tema
+          setTimeout(() => {
+            updateThemeVariables();
+          }, 100);
+        }
+      });
+    });
+
+    observer.observe(doc.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    // Inicializar las variables
+    updateThemeVariables();
+
+    return () => observer.disconnect();
+  }, [updateThemeVariables]);
+
+  const themeOptions = [
+    { value: 'system', label: 'Sistema', description: 'Sigue la preferencia del sistema' },
+    { value: 'light', label: 'Claro', description: 'Siempre tema claro' },
+    { value: 'dark', label: 'Oscuro', description: 'Siempre tema oscuro' }
+  ];
+
+  const currentOption = themeOptions.find(opt => opt.value === currentTheme);
+
+  return (
+    <div>
+
+      <div style={{ padding: '8px' }}>
+        {/* Dropdown Button */}
+        <div style={{ position: 'relative' }}>
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            style={{
+              padding: '6px 12px',
+              border: '1px solid rgba(0, 0, 0, 0.1)',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '11px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '8px',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = '#d1d5db';
+              e.target.style.backgroundColor = '#f3f4f6';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = '#e5e7eb';
+              e.target.style.backgroundColor = '#f9fafb';
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>{currentOption?.label}</span>
+            </div>
+            <span style={{
+              transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.2s ease'
+            }}>
+              ▼
+            </span>
+          </button>
+
+          {/* Dropdown Menu */}
+          {dropdownOpen && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+                background: '#ffffff',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                marginTop: '4px',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                overflow: 'hidden'
+              }}
+            >
+              {themeOptions.map((option, index) => (
+                <button
+                  key={option.value}
+                  onClick={() => changeTheme(option.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    background: currentTheme === option.value ? '#f3f4f6' : 'transparent',
+                    border: 'none',
+                    borderBottom: index < themeOptions.length - 1 ? '1px solid #f3f4f6' : 'none',
+                    fontSize: '14px',
+                    color: '#374151',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    textAlign: 'left',
+                    transition: 'background-color 0.15s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (currentTheme !== option.value) {
+                      e.target.style.backgroundColor = '#f9fafb';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (currentTheme !== option.value) {
+                      e.target.style.backgroundColor = 'transparent';
+                    }
+                  }}
+                >
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: '500' }}>{option.label}</div>
+                    <div style={{
+                      fontSize: '12px',
+                      color: '#6b7280',
+                      marginTop: '2px'
+                    }}>
+                      {option.description}
+                    </div>
+                  </div>
+                  {currentTheme === option.value && (
+                    <span style={{ color: '#10b981', fontSize: '16px' }}>✓</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Color Scheme Preview */}
+      <div style={{
+        display: 'none',
+        padding: '12px',
+        background: '#f9fafb',
+        borderRadius: '6px',
+        border: '1px solid rgba(0, 0, 0, 0.05)'
+      }}>
+        <div style={{
+          fontSize: '12px',
+          fontWeight: '500',
+          color: '#6b7280',
+          marginBottom: '8px'
+        }}>
+          Color Scheme
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{
+            flex: 1,
+            padding: '8px 12px',
+            background: currentTheme === 'light' || (currentTheme === 'system' && !window.matchMedia('(prefers-color-scheme: dark)').matches) ? '#ffffff' : '#f3f4f6',
+            border: '1px solid #e5e7eb',
+            borderRadius: '4px',
+            fontSize: '12px',
+            fontWeight: '500',
+            color: '#374151',
+            textAlign: 'center'
+          }}>
+            Light
+          </div>
+          <div style={{
+            flex: 1,
+            padding: '8px 12px',
+            background: currentTheme === 'dark' || (currentTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? '#1f2937' : '#f3f4f6',
+            border: '1px solid #e5e7eb',
+            borderRadius: '4px',
+            fontSize: '12px',
+            fontWeight: '500',
+            color: currentTheme === 'dark' || (currentTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? '#ffffff' : '#6b7280',
+            textAlign: 'center'
+          }}>
+            Dark
+          </div>
+        </div>
+      </div>
+
+      {/* Theme Variables Preview */}
+      <div style={{
+        display: 'none',
+        background: '#f9fafb',
+        borderRadius: '6px',
+        border: '1px solid #f3f4f6'
+      }}>
+
+        <div style={{
+          padding: '8px 12px',
+          fontSize: '11px',
+          fontWeight: '400',
+          color: 'rgba(0, 0, 0, 0.4)',
+        }}>
+          Variables Principales
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '12px' }}>
+          {themeVariables.map(({ name, label, value }) => (
+            <div
+              key={name}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '8px 12px',
+                background: '#ffffff',
+                border: '1px solid #e5e7eb',
+                borderRadius: '4px',
+                fontSize: '12px'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                {/* Color preview circle */}
+                <div
+                  style={{
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '50%',
+                    background: value || '#f3f4f6',
+                    border: '1px solid #e5e7eb',
+                    flexShrink: 0
+                  }}
+                />
+                <span style={{ fontWeight: '500', color: '#374151' }}>
+                  {label}
+                </span>
+              </div>
+              <span style={{
+                color: '#6b7280',
+                fontSize: '11px',
+                fontFamily: 'monospace',
+                maxWidth: '120px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}>
+                {value || 'sin valor'}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Overlay para cerrar dropdown */}
+      {dropdownOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 999
+          }}
+          onClick={() => setDropdownOpen(false)}
+        />
+      )}
     </div>
   );
 }
