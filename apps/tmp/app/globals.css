@@ -6,7 +6,7 @@
 :root {
   --scheme: light dark;
 
-  --hex: bue;
+  --hex: red;
   --hex-alpha: #80000000;
   --rgb: rgb(0 0 0);
   --rgb-alpha: rgb(0 0 0 / 50%);
@@ -25,4 +25,8 @@
   --variable-deep: var(--variable);
   --alpha-variable: --alpha(var(--hex)/50%);
   --variable-color: --alpha(#000000/50%);
+}
+
+.dark {
+  --hex: blue;
 }
