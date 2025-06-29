@@ -1,0 +1,10 @@
+/*
+
+@utility sticky {
+    z-index: var(--z-sticky);
+}
+@utility fixed {
+    z-index: var(--z-fixed);
+}
+
+*/

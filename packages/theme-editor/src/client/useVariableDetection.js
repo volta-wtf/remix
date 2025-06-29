@@ -1,12 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
+import { resolveAllVariables, resolveCSSValue } from './cssResolver.js';
 
-export function useVariableDetection() {
+export function useVariableDetection(settings = {}) {
   const [cssVars, setCssVars] = useState({});
+  const [computedVars, setComputedVars] = useState({}); // Siempre valores computados para preview
   const [originalVars, setOriginalVars] = useState({});
   const [varSources, setVarSources] = useState({});
   const [debugInfo, setDebugInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [themeChangeCounter, setThemeChangeCounter] = useState(0);
+
+  // Configuraciones por defecto
+  const {
+    useSourceValues = true,
+    showAllVariables = false
+  } = settings;
 
   // Función para detectar variables CSS
   const detectVariables = useCallback(() => {
@@ -164,23 +172,130 @@ export function useVariableDetection() {
       }
     });
 
-    // Actualizar los valores computed style para reflejar el tema actual
-    const finalVars = {};
+    // Decidir qué valores usar según configuración
+    const displayVars = {}; // Variables para mostrar en inputs
+    const computedValues = {}; // Variables computadas para preview
+    const sourceVars = {}; // Variables encontradas en CSS fuente
+
+    // SIEMPRE obtener valores computados básicos del navegador
+    const browserComputedVars = {};
     Object.keys(vars).forEach(varName => {
       const computedValue = computedStyle.getPropertyValue(varName).trim();
-      finalVars[varName] = computedValue || vars[varName];
+      if (computedValue && (showAllVariables || !varName.startsWith('--tw-'))) {
+        browserComputedVars[varName] = computedValue;
+      }
     });
 
-    console.log('📊 Total variables encontradas:', Object.keys(finalVars).length);
-    debugLog.push(`Total final: ${Object.keys(finalVars).length} variables`);
+    // 🔍 LOG: Mostrar todas las variables que contienen --alpha
+    const alphaVars = Object.entries(vars).filter(([name, value]) =>
+      value && value.includes && value.includes('--alpha')
+    );
+    console.log('🔍 Variables que contienen --alpha encontradas:', alphaVars);
 
-    setCssVars(finalVars);
+    // 🔍 LOG: Mostrar variables específicas que esperamos
+    const expectedAlphaVars = ['--muted', '--variant', '--scrim-soft', '--shadow-soft', '--surface', '--card'];
+    expectedAlphaVars.forEach(varName => {
+      const foundValue = vars[varName];
+      const computedValue = browserComputedVars[varName];
+      console.log(`🔍 Variable esperada ${varName}:`, {
+        foundInCSS: foundValue,
+        computedByBrowser: computedValue,
+        hasAlphaFunction: foundValue && foundValue.includes('--alpha')
+      });
+    });
+
+    if (useSourceValues) {
+      // MODO: Valores del archivo CSS (prioritario)
+      debugLog.push('🎯 Modo: Valores del archivo CSS');
+
+      // Primero agregar todas las variables encontradas en CSS fuente
+      Object.keys(vars).forEach(varName => {
+        if (varSources[varName]) {
+          // Tenemos el valor original del CSS fuente
+          displayVars[varName] = vars[varName];
+          sourceVars[varName] = vars[varName];
+        }
+      });
+
+      // Solo usar computed style para variables que no encontramos en fuente
+      Object.keys(vars).forEach(varName => {
+        if (!sourceVars[varName]) {
+          const computedValue = computedStyle.getPropertyValue(varName).trim();
+          if (computedValue && (showAllVariables || !varName.startsWith('--tw-'))) {
+            displayVars[varName] = computedValue;
+            console.log(`⚠️ Variable solo encontrada via computed: ${varName} = ${computedValue}`);
+          }
+        }
+      });
+
+    } else {
+      // MODO: Valores computados del navegador
+      debugLog.push('🖥️ Modo: Valores computados del navegador');
+
+      Object.keys(vars).forEach(varName => {
+        const computedValue = computedStyle.getPropertyValue(varName).trim();
+        if (computedValue && (showAllVariables || !varName.startsWith('--tw-'))) {
+          displayVars[varName] = computedValue;
+        }
+      });
+
+      // Guardar también los valores originales para referencia
+      Object.keys(vars).forEach(varName => {
+        if (varSources[varName]) {
+          sourceVars[varName] = vars[varName];
+        }
+      });
+    }
+
+    // Resolver recursivamente todas las variables para preview
+    console.log('🔧 Resolviendo variables recursivamente...');
+    try {
+      const allVarsForResolution = { ...vars, ...displayVars };
+      const resolvedVars = resolveAllVariables(allVarsForResolution, browserComputedVars);
+
+      // Usar variables resueltas para preview
+      Object.keys(displayVars).forEach(varName => {
+        if (resolvedVars[varName] && resolvedVars[varName] !== displayVars[varName]) {
+          computedValues[varName] = resolvedVars[varName];
+          console.log(`✅ Resuelto ${varName}: "${displayVars[varName]}" → "${resolvedVars[varName]}"`);
+        } else {
+          // Fallback a valor computado del navegador
+          computedValues[varName] = browserComputedVars[varName] || displayVars[varName];
+        }
+      });
+    } catch (error) {
+      console.warn('Error resolviendo variables:', error);
+      // Fallback: usar valores computados del navegador
+      Object.keys(displayVars).forEach(varName => {
+        computedValues[varName] = browserComputedVars[varName] || displayVars[varName];
+      });
+    }
+
+    // Filtrar variables del sistema si no se solicitan todas
+    const filteredDisplayVars = {};
+    const filteredComputedVars = {};
+    Object.keys(displayVars).forEach(varName => {
+      if (showAllVariables || (!varName.startsWith('--tw-') && !varName.startsWith('--un-'))) {
+        filteredDisplayVars[varName] = displayVars[varName];
+        filteredComputedVars[varName] = computedValues[varName];
+      }
+    });
+
+    console.log('📊 Total variables encontradas:', Object.keys(filteredDisplayVars).length);
+    console.log('📊 Variables del CSS fuente:', Object.keys(sourceVars).length);
+    console.log('📊 Modo actual:', useSourceValues ? 'Valores del archivo' : 'Valores computados');
+    debugLog.push(`Total final: ${Object.keys(filteredDisplayVars).length} variables`);
+    debugLog.push(`CSS fuente: ${Object.keys(sourceVars).length} variables`);
+    debugLog.push(`Modo: ${useSourceValues ? 'Archivo CSS' : 'Computado'}`);
+
+    setCssVars(filteredDisplayVars);
+    setComputedVars(filteredComputedVars);
     setDebugInfo(debugLog);
     setVarSources(varSources);
     setLoading(false);
 
-    return finalVars;
-  }, [themeChangeCounter]);
+    return filteredDisplayVars;
+  }, [themeChangeCounter, useSourceValues, showAllVariables]);
 
   // Effect inicial para detectar variables
   useEffect(() => {
@@ -310,15 +425,40 @@ export function useVariableDetection() {
     setCssVars(prev => ({ ...prev, [varName]: currentValue || originalValue }));
   };
 
+  // Función de utilidad para testing del resolvedor
+  const testResolver = () => {
+    console.log('🧪 Testing CSS Resolver con variables actuales:');
+    const testVars = Object.fromEntries(
+      Object.entries(cssVars).slice(0, 10) // Solo primeras 10 para no saturar
+    );
+
+    Object.entries(testVars).forEach(([varName, value]) => {
+      const resolved = resolveCSSValue(value, cssVars, computedVars);
+      console.log(`${varName}: "${value}" → "${resolved}"`);
+    });
+
+    // Exponer en window para debugging
+    window.cssResolverTest = {
+      cssVars,
+      computedVars,
+      resolveCSSValue,
+      resolveAllVariables
+    };
+
+    console.log('🔧 Funciones de debugging disponibles en window.cssResolverTest');
+  };
+
   return {
     cssVars,
     setCssVars,
+    computedVars, // Valores computados para preview
     originalVars,
     setOriginalVars,
     varSources,
     debugInfo,
     loading,
     updateCSSVar,
-    resetVar
+    resetVar,
+    testResolver // Función para testing
   };
 }

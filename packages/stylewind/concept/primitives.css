@@ -1,0 +1,155 @@
+@theme components {
+    --ui-media--radius:              var(--radius-sm);
+    --ui-input--radius:              var(--radius-sm);      /* Input, Select */
+    --ui-button--radius:             var(--radius-sm);      /* Button, Toggle */
+    --ui-item--radius:               var(--radius-sm);      /* List, Grid, Tab */
+    --ui-card--radius:               var(--radius-md);      /* Card, Menu */
+    --ui-popover--radius:            var(--radius-md);      /* Popover, Dropdown, Pickers */
+    --ui-dialog--radius:             var(--radius-lg);      /* Modal, Alert */
+    --ui-tool--radius:               var(--radius-sm);      /* Tooltip, Toast */
+    --ui-layout--radius:             var(--radius-none);    /* Headers, Sections, Footers */
+
+}
+@theme components {
+
+    --ui-card--padding:         "";
+    --ui-card--spacing:         "";
+    --ui-card--text:            "";
+    --ui-card--border:          "";
+    --ui-card--divider:         "";
+    --ui-card--radius:          "";
+    --ui-card--background:      "";
+    --ui-card--filter:          "";
+    --ui-card--shadow:          "";
+
+    --ui-card--color-text:         "";
+    --ui-card--color-border:       "";
+    --ui-card--color-divider:      "";
+    --ui-card--color-background:   "";
+    --ui-card--border-width:       "";
+    --ui-card--border-style:       "";
+    --ui-card--box-padding:        "";
+    --ui-card--box-spacing:        "";
+    --ui-card--box-radius:         "";
+    --ui-card--box-filter:         "";
+    --ui-card--box-shadow:         "";
+
+    --ui-input:       "";
+    --ui-button:      "";
+
+    --ui-card:        "";
+    --ui-popover:     "";
+    --ui-dialog:      "";
+
+    --ui-menu:        "";
+    --ui-tabs:        "";
+    --ui-list:        "";
+    --ui-grid:        "";
+
+    --ui-item-menu:   "";
+    --ui-item-tab:    "";
+    --ui-item-list:   "";
+    --ui-item-grid:   "";
+    --ui-item-row:    "";
+    --ui-item-cell:   "";
+
+    --ui-segment:     "";
+    --ui-region:      "";
+    --ui-layout:      "";
+
+}
+
+.ui-card {
+    --color-border: red;
+    --border-width: 2px;
+    --border-style: dashed;
+
+
+    --ui-card--aspect: "";
+    --ui-card--padding: "";
+    --ui-card--gap: "";
+    --ui-card--text: "";
+    --ui-card--border: "";
+    --ui-card--divider: "";
+    --ui-card--radius: "";
+    --ui-card--background: "";
+    --ui-card--filter: "";
+    --ui-card--shadow: "";
+
+}
+
+.ui {
+    --tw-aspect: "";
+    --tw-padding: "";
+    --tw-gap: "";
+    --tw-color: "";
+    --tw-border: "";
+    --tw-border-width: "";
+    --tw-border-style: "";
+    --tw-border-radius: "";
+    --tw-background: "";
+    --tw-filter: "";
+    --tw-shadow: "";
+}
+
+@property --tw-border-style {
+    syntax: "*";
+    inherits: false;
+    initial-value: solid;
+}
+@property --tw-shadow {
+    syntax: "*";
+    inherits: false;
+    initial-value: 0 0 #0000;
+}
+
+.ui-card {
+    aspect: 1/1;
+    padding: 1rem;
+    gap: 1rem;
+    color: red;
+    border: 1px solid red;
+    divider: 1px solid red;
+    radius: 1rem;
+    background: red;
+    filter: blur(1px);
+    shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+.ui-input       { }
+.ui-button      { }
+
+.ui-card        { }
+.ui-popover     { }
+.ui-dialog      { }
+
+.ui-menu        { }
+.ui-tabs        { }
+.ui-list        { }
+.ui-grid        { }
+
+.ui-item-menu   { }
+.ui-item-tab    { }
+.ui-item-list   { }
+.ui-item-grid   { }
+.ui-item-row    { }
+.ui-item-cell   { }
+
+.ui-segment     { }
+.ui-block       { }
+.ui-section     { }
+
+.ui-region      { }
+.ui-layout      { }
+
+
+.src-promo     { } /* For promotional content like banners, ads, etc. */
+.src-content   { } /* For general content like documents, paragraphs, posts, articles, etc. */
+.src-ui        { } /* For ui related  content like labels, title, links, etc. */
+.src-form      { } /* For form content like input fields, select, labels, etc. */
+.src-data      { } /* For data content like tables, charts, etc. */
+.src-info      { } /* For informative content like alerts, notifications, etc. */
+.src-user      { } /* For user generated content like comments, reviews, etc. */
+
+
+ /* Large, bold, colorful, decorative, informative, interactive */

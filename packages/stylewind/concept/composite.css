@@ -1,0 +1,96 @@
+@theme {
+
+    --spacing-item-menu:        --spacing(2);
+    --spacing-item-tab:         --spacing(2);
+    --spacing-item-list:        --spacing(2);
+    --spacing-item-grid:        --spacing(2);
+    --spacing-item-row:         --spacing(2);
+    --spacing-item-cell:        --spacing(2);
+
+    --spacing-content-xs:       --spacing(2);
+    --spacing-content-sm:       --spacing(2);
+    --spacing-content-md:       --spacing(2);
+    --spacing-content-lg:       --spacing(2);
+    --spacing-content-xl:       --spacing(2);
+
+    --spacing-form-xs:          --spacing(2);
+    --spacing-form-sm:          --spacing(2);
+    --spacing-form-md:          --spacing(2);
+    --spacing-form-lg:          --spacing(2);
+    --spacing-form-xl:          --spacing(2);
+
+    --spacing-element-xs:       --spacing(2);
+    --spacing-element-sm:       --spacing(2);
+    --spacing-element-md:       --spacing(2);
+    --spacing-element-lg:       --spacing(2);
+    --spacing-element-xl:       --spacing(2);
+
+    --spacing-component-xs:     --spacing(2);
+    --spacing-component-sm:     --spacing(2);
+    --spacing-component-md:     --spacing(2);
+    --spacing-component-lg:     --spacing(2);
+    --spacing-component-xl:     --spacing(2);
+
+    --spacing-list-xs:          --spacing(2);
+    --spacing-list-sm:          --spacing(2);
+    --spacing-list-md:          --spacing(2);
+    --spacing-list-lg:          --spacing(2);
+    --spacing-list-xl:          --spacing(2);
+
+    --spacing-grid-xs:          --spacing(2);
+    --spacing-grid-sm:          --spacing(2);
+    --spacing-grid-md:          --spacing(2);
+    --spacing-grid-lg:          --spacing(2);
+    --spacing-grid-xl:          --spacing(2);
+
+    --spacing-segment-xs:       --spacing(2);
+    --spacing-segment-sm:       --spacing(2);
+    --spacing-segment-md:       --spacing(2);
+    --spacing-segment-lg:       --spacing(2);
+    --spacing-segment-xl:       --spacing(2);
+
+    --spacing-region-xs:        --spacing(2);
+    --spacing-region-sm:        --spacing(2);
+    --spacing-region-md:        --spacing(2);
+    --spacing-region-lg:        --spacing(2);
+    --spacing-region-xl:        --spacing(2);
+
+    --spacing-layout-xs:        --spacing(2);
+    --spacing-layout-sm:        --spacing(2);
+    --spacing-layout-md:        --spacing(2);
+    --spacing-layout-lg:        --spacing(2);
+    --spacing-layout-xl:        --spacing(2);
+
+}
+
+@theme {
+
+    /*
+    spacing
+    gap
+    text
+    - Background
+    - Border
+    divider
+    - Radius
+    filter
+    shadow
+    */
+
+    emphasis: [ 'strong',
+        'medium',
+        'weak',
+        ],
+
+    --radius-item-sm: var(--radius-sm);
+    --radius-item-lg: var(--radius-lg);
+    --radius-card-sm: var(--radius-sm);
+    --radius-card-lg: var(--radius-lg);
+    --radius-dialog-sm: var(--radius-sm);
+    --radius-dialog-lg: var(--radius-md);
+
+    /*
+    --color-line-table:         var(--color-line);
+    --color-line-chart:         var(--color-line);
+    */
+}

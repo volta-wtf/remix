@@ -1,0 +1,54 @@
+@utility container {
+    margin-inline: var(--container-margin);
+    padding-inline: var(--container-padding);
+}
+
+@utility stack {
+    display: inline flex;
+    flex-direction: row;
+
+    &>* {
+        align-self: start;
+    }
+
+    &.vertical {
+        flex-direction: column;
+    }
+}
+
+@utility stack-* {
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    gap: --value(--gap-*);
+}
+
+@utility rows {
+    display: flex;
+    flex-direction: column;
+}
+
+@utility rows-* {
+    display: flex;
+    flex-direction: column;
+    gap: --value(--gap-*);
+}
+
+@utility columns {
+    display: flex;
+    flex-direction: row;
+
+    &>* {
+        flex-grow: 1;
+        /* Los hijos pueden crecer si hay espacio disponible */
+        flex-shrink: 1;
+        /* Los hijos pueden reducirse si no hay suficiente espacio */
+        flex-basis: auto;
+        /* El tamaño inicial es el contenido, a menos que se le defina un width */
+    }
+}
+
+@utility col {
+    display: block;
+    flex: 1;
+}

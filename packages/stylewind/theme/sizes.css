@@ -1,0 +1,27 @@
+@theme {
+
+    --container-3xs:    16rem;
+    --container-2xs:    18rem;
+    --container-xs:     20rem;
+    --container-sm:     24rem;
+    --container-md:     28rem;
+    --container-lg:     32rem;
+    --container-xl:     36rem;
+    --container-2xl:    42rem;
+    --container-3xl:    48rem;
+    --container-4xl:    56rem;
+    --container-5xl:    64rem;
+    --container-6xl:    72rem;
+    --container-7xl:    80rem;
+
+    --size-icon-2xs:    0.5rem;    /* 8px */
+    --size-icon-xs:     0.75rem;   /* 12px */
+    --size-icon-sm:     1rem;      /* 16px */
+    --size-icon-md:     1.25rem;   /* 20px */
+    --size-icon-lg:     1.5rem;    /* 24px */
+    --size-icon-xl:     2rem;      /* 32px */
+    --size-icon-2xl:    3rem;      /* 48px */
+    --size-icon-3xl:    4rem;      /* 80px */
+    --size-icon-4xl:    5rem;      /* 128px */
+
+}

@@ -1,0 +1,78 @@
+// Utilidades para iconos del Theme Editor
+
+/**
+ * Icono para valores desconocidos (esquinas redondeadas)
+ */
+export const unknownValueIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="black" stroke-opacity="0.1"/>
+<path d="M11.1221 11.958H9.37891C9.38346 11.5479 9.41536 11.1947 9.47461 10.8984C9.53841 10.5977 9.64551 10.3265 9.7959 10.085C9.95085 9.84342 10.1559 9.60417 10.4111 9.36719C10.6253 9.17578 10.8122 8.99349 10.9717 8.82031C11.1312 8.64714 11.2565 8.4694 11.3477 8.28711C11.4388 8.10026 11.4844 7.8929 11.4844 7.66504C11.4844 7.40072 11.4434 7.18197 11.3613 7.00879C11.2839 6.83105 11.1654 6.69661 11.0059 6.60547C10.8509 6.51432 10.6549 6.46875 10.418 6.46875C10.222 6.46875 10.0397 6.51204 9.87109 6.59863C9.70247 6.68066 9.56348 6.80827 9.4541 6.98145C9.34928 7.15462 9.2946 7.38249 9.29004 7.66504H7.30762C7.32129 7.04069 7.46484 6.52572 7.73828 6.12012C8.01628 5.70996 8.3877 5.4069 8.85254 5.21094C9.31738 5.01042 9.83919 4.91016 10.418 4.91016C11.056 4.91016 11.6029 5.01497 12.0586 5.22461C12.5143 5.42969 12.863 5.73275 13.1045 6.13379C13.346 6.53027 13.4668 7.01335 13.4668 7.58301C13.4668 7.97949 13.3893 8.33268 13.2344 8.64258C13.0794 8.94792 12.8766 9.23275 12.626 9.49707C12.3753 9.76139 12.0996 10.0348 11.7988 10.3174C11.5391 10.5498 11.3613 10.7936 11.2656 11.0488C11.1745 11.304 11.1266 11.6071 11.1221 11.958ZM9.17383 14.0703C9.17383 13.7786 9.27409 13.5371 9.47461 13.3457C9.67513 13.1497 9.94401 13.0518 10.2812 13.0518C10.6139 13.0518 10.8805 13.1497 11.0811 13.3457C11.2861 13.5371 11.3887 13.7786 11.3887 14.0703C11.3887 14.3529 11.2861 14.5921 11.0811 14.7881C10.8805 14.984 10.6139 15.082 10.2812 15.082C9.94401 15.082 9.67513 14.984 9.47461 14.7881C9.27409 14.5921 9.17383 14.3529 9.17383 14.0703Z" fill="black" fill-opacity="0.1"/>
+</svg>`;
+
+/**
+ * Icono para variables desconocidas (forma circular)
+ */
+export const unknownVariableIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="19" height="19" rx="9.5" stroke="black" stroke-opacity="0.1"/>
+<path d="M11.1221 11.958H9.37891C9.38346 11.5479 9.41536 11.1947 9.47461 10.8984C9.53841 10.5977 9.64551 10.3265 9.7959 10.085C9.95085 9.84342 10.1559 9.60417 10.4111 9.36719C10.6253 9.17578 10.8122 8.99349 10.9717 8.82031C11.1312 8.64714 11.2565 8.4694 11.3477 8.28711C11.4388 8.10026 11.4844 7.8929 11.4844 7.66504C11.4844 7.40072 11.4434 7.18197 11.3613 7.00879C11.2839 6.83105 11.1654 6.69661 11.0059 6.60547C10.8509 6.51432 10.6549 6.46875 10.418 6.46875C10.222 6.46875 10.0397 6.51204 9.87109 6.59863C9.70247 6.68066 9.56348 6.80827 9.4541 6.98145C9.34928 7.15462 9.2946 7.38249 9.29004 7.66504H7.30762C7.32129 7.04069 7.46484 6.52572 7.73828 6.12012C8.01628 5.70996 8.3877 5.4069 8.85254 5.21094C9.31738 5.01042 9.83919 4.91016 10.418 4.91016C11.056 4.91016 11.6029 5.01497 12.0586 5.22461C12.5143 5.42969 12.863 5.73275 13.1045 6.13379C13.346 6.53027 13.4668 7.01335 13.4668 7.58301C13.4668 7.97949 13.3893 8.33268 13.2344 8.64258C13.0794 8.94792 12.8766 9.23275 12.626 9.49707C12.3753 9.76139 12.0996 10.0348 11.7988 10.3174C11.5391 10.5498 11.3613 10.7936 11.2656 11.0488C11.1745 11.304 11.1266 11.6071 11.1221 11.958ZM9.17383 14.0703C9.17383 13.7786 9.27409 13.5371 9.47461 13.3457C9.67513 13.1497 9.94401 13.0518 10.2812 13.0518C10.6139 13.0518 10.8805 13.1497 11.0811 13.3457C11.2861 13.5371 11.3887 13.7786 11.3887 14.0703C11.3887 14.3529 11.2861 14.5921 11.0811 14.7881C10.8805 14.984 10.6139 15.082 10.2812 15.082C9.94401 15.082 9.67513 14.984 9.47461 14.7881C9.27409 14.5921 9.17383 14.3529 9.17383 14.0703Z" fill="black" fill-opacity="0.1"/>
+</svg>`;
+
+/**
+ * Icono para valores vacíos/undefined (línea diagonal)
+ */
+export const emptyValueIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="black" stroke-opacity="0.1"/>
+<rect x="13.1816" y="6.11084" width="1" height="10" rx="0.5" transform="rotate(45 13.1816 6.11084)" fill="black" fill-opacity="0.1"/>
+</svg>`;
+
+/**
+ * Icono para valores transparentes (línea roja diagonal)
+ */
+export const transparentValueIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="black" stroke-opacity="0.1"/>
+<line y1="-0.5" x2="18.1204" y2="-0.5" transform="matrix(-0.696638 0.717423 -0.751647 -0.659565 16 3)" stroke="#FF0000"/>
+</svg>`;
+
+/**
+ * Función para obtener el icono apropiado según el estado de la variable
+ */
+export function getVariableIcon(varName, value, isVariableReference = false) {
+  // Si el valor está completamente vacío
+  if (!value || value.trim() === '') {
+    return {
+      svg: emptyValueIcon,
+      tooltip: `💭 Variable vacía: "${varName}"\nEsta variable no tiene ningún valor asignado.\nPrueba asignarle un valor válido para ver su preview.`,
+      type: 'empty'
+    };
+  }
+
+  // Si el valor es transparente
+  if (value.trim().toLowerCase() === 'transparent') {
+    return {
+      svg: transparentValueIcon,
+      tooltip: `🔍 Valor transparente: "${varName}"\nEsta variable tiene el valor "transparent".\nEsto significa que el elemento será completamente invisible.`,
+      type: 'transparent'
+    };
+  }
+
+  // Si es una referencia a otra variable CSS (var(--nombre))
+  if (isVariableReference && /^var\(--[\w-]+\)$/.test(value.trim())) {
+    const referencedVar = value.match(/var\((--[\w-]+)\)/)?.[1];
+    return {
+      svg: unknownVariableIcon,
+      tooltip: `🔗 Referencia a variable: "${referencedVar}"\nEsta variable usa el valor de otra variable.\nVerifica que la variable referenciada esté definida.`,
+      type: 'variable-reference'
+    };
+  }
+
+  // Si el valor parece ser desconocido o no válido
+  if (value === 'undefined' || value === 'null' || value === 'unknown') {
+    return {
+      svg: unknownValueIcon,
+      tooltip: `⚠️ Valor no válido: "${value}"\nEsta variable tiene un valor no reconocido.\nPrueba con un valor CSS válido (color, tamaño, etc.)`,
+      type: 'unknown-value'
+    };
+  }
+
+  // Valor normal, retornar null para que use el preview normal
+  return null;
+}

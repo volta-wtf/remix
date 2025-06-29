@@ -3,6 +3,7 @@ import { styles } from './panel-styles.js';
 import { VariablesPanel } from './VariablesPanel.jsx';
 import { ColorPanel } from './ColorPanel.jsx';
 import { DebugPanel } from './DebugPanel.jsx';
+import { SettingsPanel } from './SettingsPanel.jsx';
 import { useVariableDetection } from './useVariableDetection.js';
 
 // ========================
@@ -52,6 +53,14 @@ const DebugIcon = () => (
   </svg>
 );
 
+// Icono de Configuración (engrane)
+const SettingsIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 10.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
+    <path d="M6.7 1.4a1.1 1.1 0 0 1 2.6 0l.2 1.3c.1.4.4.7.8.8l1.2.4c.5.2.8.8.6 1.3l-.4 1.2c-.1.4 0 .8.2 1.1l1 1c.4.4.4 1 0 1.4l-1 1c-.3.3-.3.7-.2 1.1l.4 1.2c.2.5-.1 1.1-.6 1.3l-1.2.4c-.4.1-.7.4-.8.8l-.2 1.3a1.1 1.1 0 0 1-2.6 0l-.2-1.3c-.1-.4-.4-.7-.8-.8l-1.2-.4c-.5-.2-.8-.8-.6-1.3l.4-1.2c.1-.4 0-.8-.2-1.1l-1-1c-.4-.4-.4-1 0-1.4l1-1c.3-.3.3-.7.2-1.1l-.4-1.2c-.2-.5.1-1.1.6-1.3l1.2-.4c.4-.1.7-.4.8-.8l.2-1.3Z" stroke="currentColor" strokeWidth="1.5"/>
+  </svg>
+);
+
 // Componente Tab individual
 const Tab = ({ isActive, onClick, icon, disabled = false }) => (
   <button
@@ -98,11 +107,25 @@ const AppFrame = ({ children }) => (
 );
 
 // Componente Header del panel
-const AppHeader = ({ children, onClose }) => (
+const AppHeader = ({ children, onClose, onSettingsClick }) => (
   <div style={styles.header}>
     <div style={styles.headerTop}>
       {children}
-      <button style={styles.closeButton} onClick={onClose}>✕</button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {onSettingsClick && (
+          <button
+            style={{
+              ...styles.closeButton,
+              fontSize: '14px'
+            }}
+            onClick={onSettingsClick}
+            title="Configuración"
+          >
+            <SettingsIcon />
+          </button>
+        )}
+        <button style={styles.closeButton} onClick={onClose}>✕</button>
+      </div>
     </div>
   </div>
 );
@@ -167,23 +190,37 @@ export function ThemeEditorApp({ onClose }) {
   const [activeTab, setActiveTab] = useState('variables');
   const [isSpecificRulesCollapsed, setIsSpecificRulesCollapsed] = useState(true);
 
+  // Estados de configuración
+  const [showSettingsPanel, setShowSettingsPanel] = useState(false);
+  const [settings, setSettings] = useState({
+    useSourceValues: true,          // Usar valores del archivo CSS vs computados
+    showPreview: true,              // Mostrar previews visuales
+    showTypeIndicator: true,        // Mostrar indicadores de tipo
+    groupByType: false,             // Agrupar variables por tipo
+    showDebugInfo: false,           // Mostrar información de debug
+    showAllVariables: false,        // Mostrar todas las variables (incluyendo sistema)
+    enableAlphaInputs: true         // Habilitar inputs separados para opacidad - ACTIVADO por defecto
+  });
+
   // Estados de cambios modificados (centralizados)
   const [modifiedVariables, setModifiedVariables] = useState({});
   const [modifiedColors, setModifiedColors] = useState({});
   const [savingVariables, setSavingVariables] = useState(false);
   const [savingColors, setSavingColors] = useState(false);
 
-  // Hook de detección de variables
+  // Hook de detección de variables (con configuraciones)
   const {
     cssVars,
+    computedVars,
     originalVars,
     setOriginalVars,
     varSources,
     debugInfo,
     loading,
     updateCSSVar,
-    resetVar
-  } = useVariableDetection();
+    resetVar,
+    testResolver
+  } = useVariableDetection(settings);
 
   // Función para determinar si una variable es de colores
   const isColorVariable = (varName) => {
@@ -357,6 +394,22 @@ export function ThemeEditorApp({ onClose }) {
     }, 3000);
   };
 
+  // Funciones para manejar configuración
+  const handleSettingChange = (settingKey, value) => {
+    setSettings(prev => ({
+      ...prev,
+      [settingKey]: value
+    }));
+  };
+
+  const handleCloseSettings = () => {
+    setShowSettingsPanel(false);
+  };
+
+  const handleOpenSettings = () => {
+    setShowSettingsPanel(true);
+  };
+
   // Inyectar estilos para la selección de texto al montar
   React.useEffect(() => {
     injectTextSelectionStyles();
@@ -369,18 +422,20 @@ export function ThemeEditorApp({ onClose }) {
 
   // Panel principal
   return (
-    <AppFrame>
-      <AppHeader onClose={onClose}>
-        <AppTabs
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          disabled={false}
-        />
-      </AppHeader>
+    <>
+      <AppFrame>
+        <AppHeader onClose={onClose} onSettingsClick={handleOpenSettings}>
+          <AppTabs
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            disabled={false}
+          />
+        </AppHeader>
       <AppContent>
         {activeTab === 'variables' && (
           <VariablesPanel
             cssVars={cssVars}
+            computedVars={computedVars}
             varSources={varSources}
             originalVars={originalVars}
             modifiedVars={modifiedVariables}
@@ -397,12 +452,14 @@ export function ThemeEditorApp({ onClose }) {
             setIsSpecificRulesCollapsed={setIsSpecificRulesCollapsed}
             updateCSSVar={updateThemeVar}
             resetVar={resetThemeVar}
+            settings={settings}
           />
         )}
 
         {activeTab === 'colors' && (
           <ColorPanel
             cssVars={cssVars}
+            computedVars={computedVars}
             originalVars={originalVars}
             modifiedVars={modifiedColors}
             saving={savingColors}
@@ -410,18 +467,32 @@ export function ThemeEditorApp({ onClose }) {
             onResetAll={resetAllColorVars}
             updateCSSVar={updateColorVar}
             resetVar={resetColorVar}
+            settings={settings}
           />
         )}
 
         {activeTab === 'debug' && (
           <DebugPanel
             cssVars={cssVars}
+            computedVars={computedVars}
             varSources={varSources}
             originalVars={originalVars}
             debugInfo={debugInfo}
+            settings={settings}
+            testResolver={testResolver}
           />
         )}
       </AppContent>
     </AppFrame>
+
+    {/* Panel de Configuración */}
+    {showSettingsPanel && (
+      <SettingsPanel
+        settings={settings}
+        onSettingChange={handleSettingChange}
+        onClose={handleCloseSettings}
+      />
+    )}
+  </>
   );
 }

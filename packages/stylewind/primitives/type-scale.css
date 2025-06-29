@@ -1,0 +1,48 @@
+:root {
+    /*
+    Use this in your root element
+    --font-size: 16px;
+    --font-scale: var(--scale-major-third);
+    */
+
+    /* Typescales ratios */
+    --scale-minor-second:       1.067; /* 15:16 - 1.0594630943592953 */
+    --scale-major-second:       1.125; /*  8:9  - 1.122462048309373 */
+    --scale-minor-third:        1.200; /*  5:6  - 1.189207115002721 */
+    --scale-major-third:        1.250; /*  4:5  - 1.2599210498948732 */
+    --scale-perfect-fourth:     1.333; /*  3:4  - 1.3348398541721097 */
+    --scale-augmented-fourth:   1.414; /*  1:√2 - 1.4142135623730951 */
+    --scale-diminished-fifth:   1.498; /*   - 1.4983070768766815 */
+    --scale-perfect-fifth:      1.500; /*  2:3  - 1.4983070768766815 */
+    --scale-major-sixth:        1.587; /*  3:5  - 1.587461874239049 */
+    --scale-golden-ratio:       1.618; /* 1.618033988749895 */
+    --scale-major-sixth:        1.682; /* 1.6817928305074296 */
+    --scale-minor-seventh:      1.782; /* 1.781797436280679 */
+    --scale-major-seventh:      1.888; /* 1.887748625363387 */
+    --scale-octave:             2.000; /* 2 */
+
+    /* Typography scale */
+    --scale-text-005: calc(var(--scale-text-025) / var(--font-scale)); /* 8px ? */
+    --scale-text-025: calc(var(--scale-text-050) / var(--font-scale)); /* 11px */
+    --scale-text-050: calc(var(--scale-text-075) / var(--font-scale)); /* 12px */
+    --scale-text-075: calc(var(--scale-text-100) / var(--font-scale)); /* 14px */
+    --scale-text-100: var(--font-size); /* 16px */
+    --scale-text-150: calc(var(--scale-text-100) * var(--font-scale)); /* 18px */
+    --scale-text-200: calc(var(--scale-text-150) * var(--font-scale)); /* 20px */
+    --scale-text-250: calc(var(--scale-text-200) * var(--font-scale)); /* 22px */
+    --scale-text-300: calc(var(--scale-text-250) * var(--font-scale)); /* 25px */
+    --scale-text-350: calc(var(--scale-text-300) * var(--font-scale)); /* 28px */
+    --scale-text-400: calc(var(--scale-text-350) * var(--font-scale)); /* 32px */
+    --scale-text-450: calc(var(--scale-text-400) * var(--font-scale)); /* 36px */
+    --scale-text-500: calc(var(--scale-text-450) * var(--font-scale)); /* 41px */
+    --scale-text-550: calc(var(--scale-text-500) * var(--font-scale)); /* 46px */
+    --scale-text-600: calc(var(--scale-text-550) * var(--font-scale)); /* 51px */
+    --scale-text-650: calc(var(--scale-text-600) * var(--font-scale)); /* 58px */
+    --scale-text-700: calc(var(--scale-text-650) * var(--font-scale)); /* 65px */
+    --scale-text-750: calc(var(--scale-text-700) * var(--font-scale)); /* 73px */
+    --scale-text-800: calc(var(--scale-text-750) * var(--font-scale)); /* 83px */
+    --scale-text-850: calc(var(--scale-text-800) * var(--font-scale)); /* 93px */
+    --scale-text-900: calc(var(--scale-text-850) * var(--font-scale)); /* 105px */
+    --scale-text-950: calc(var(--scale-text-900) * var(--font-scale)); /* 118px */
+    --scale-text-999: calc(var(--scale-text-950) * var(--font-scale)); /* 133px */
+}

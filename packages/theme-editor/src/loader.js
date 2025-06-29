@@ -3,10 +3,39 @@ import express from 'express';
 import cors from 'cors';
 import { resolve, join } from 'path';
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'fs';
+import { createServer } from 'net';
 
 // ---- Theme Editor UI Server ----
 const app = express();
-const PORT = 4444;
+
+// Función para encontrar un puerto disponible
+function findAvailablePort(startPort = 4444) {
+  return new Promise((resolve, reject) => {
+    const server = createServer();
+
+    server.listen(startPort, () => {
+      const port = server.address().port;
+      server.close(() => {
+        resolve(port);
+      });
+    });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        // Puerto ocupado, intentar con el siguiente
+        findAvailablePort(startPort + 1)
+          .then(resolve)
+          .catch(reject);
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
+// Puerto configurado por variable de entorno o detectado automáticamente
+const DEFAULT_PORT = parseInt(process.env.THEME_EDITOR_PORT) || 4444;
+let PORT = DEFAULT_PORT;
 
 // Middleware CORS
 app.use(cors({
@@ -514,31 +543,45 @@ app.get('/status', (_req, res) => {
   res.json({ status: 'active', message: 'Theme Editor server running' });
 });
 
-app.listen(PORT, () => {
-  console.log(`🎨 Theme Editor server lista en http://localhost:${PORT}`);
-});
+// Iniciar el servidor con detección automática de puerto
+(async () => {
+  try {
+    PORT = await findAvailablePort(DEFAULT_PORT);
 
-// ---- Monkey Patch HTTP Server ----
-const originalCreateServer = http.createServer;
-http.createServer = listener => originalCreateServer((req, res) => {
-  let html = '';
-  const write = res.write;
-  const end = res.end;
-  res.write = chunk => {
-    html += chunk.toString();
-    return true;
-  };
-  res.end = chunk => {
-    if (chunk) html += chunk.toString();
-    if ((res.getHeader('content-type') || '').includes('text/html')) {
-      html = html.replace(/<\/body>/i,
-        `<script src="http://localhost:${PORT}/theme-editor.js"></script></body>`
-      );
-    }
-    write.call(res, html);
-    end.call(res);
-  };
-  listener(req, res);
-});
+    app.listen(PORT, () => {
+      console.log(`🎨 Theme Editor server lista en http://localhost:${PORT}`);
+      if (PORT !== DEFAULT_PORT) {
+        console.log(`⚠️  Puerto ${DEFAULT_PORT} ocupado, usando puerto ${PORT}`);
+      }
 
-console.log('✅ theme-editor loader inicializado');
+      // ---- Monkey Patch HTTP Server ----
+      // Ejecutar después de que el servidor esté listo para usar el PORT correcto
+      const originalCreateServer = http.createServer;
+      http.createServer = listener => originalCreateServer((req, res) => {
+        let html = '';
+        const write = res.write;
+        const end = res.end;
+        res.write = chunk => {
+          html += chunk.toString();
+          return true;
+        };
+        res.end = chunk => {
+          if (chunk) html += chunk.toString();
+          if ((res.getHeader('content-type') || '').includes('text/html')) {
+            html = html.replace(/<\/body>/i,
+              `<script src="http://localhost:${PORT}/theme-editor.js"></script></body>`
+            );
+          }
+          write.call(res, html);
+          end.call(res);
+        };
+        listener(req, res);
+      });
+
+      console.log('✅ theme-editor loader inicializado');
+    });
+  } catch (error) {
+    console.error('❌ Error al iniciar el servidor del Theme Editor:', error);
+    process.exit(1);
+  }
+})();

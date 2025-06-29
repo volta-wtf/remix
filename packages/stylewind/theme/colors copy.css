@@ -1,0 +1,395 @@
+@theme default { /* Base colors */
+    /* Contrast colors */
+    --color-min-contrast:       var(--color-lightest);
+    --color-max-contrast:       var(--color-darkest);
+    --color-foreground:         var(--color-contrast-800);
+    --color-background:         var(--color-min-contrast);
+    /* Fixed colors */
+    --color-lightest:           var(--color-white, #fff);
+    --color-darkest:            var(--color-black, #000);
+    --color-clear:              transparent;
+    --color-current:            currentColor;
+}
+@theme default { /* Tint colors */
+    --tint-inactive:            var(--color-neutral-500);
+    --tint-active:              var(--color-primary-500);
+    --tint-accent:              var(--color-tertiary-500);
+    --tint-surface:             var(--tint-accent);
+
+    --tint-form:                var(--color-foreground);
+    --tint-text:                var(--color-foreground);
+    --tint-heading:             var(--tint-text);
+    --tint-icon:                var(--tint-text);
+    --tint-decoration:          var(--tint-text);
+
+    --tint-highlight:           var(--color-warning-400);
+    --tint-ambient:             var(--color-ambient-700);
+    --tint-variant:             var(--tint-ambient);
+    --tint-scrim:               var(--tint-ambient);
+    --tint-shadow:              var(--tint-ambient);
+    --tint-states:              var(--tint-ambient);
+
+    --tint-inverse-text:        var(--color-background);
+    --tint-inverse-surface:     var(--color-foreground);
+    --tint-inverse-accent:      var(--color-primary-400);
+    --tint-inverse:             var(--tint-inverse-text); /* Deprecated */
+}
+@theme default { /* Shades & Mixes */
+
+    /* Emphasis shades */
+    --shade-emphasis-higher:    100%; /* Heading */
+    --shade-emphasis-high:      98%;  /* Default */
+    --shade-emphasis-medium:    88%;  /* Subtle */
+    --shade-emphasis-low:       64%;  /* Muted */
+    --shade-emphasis-lower:     32%;  /* Disabled */
+    /* Text shades */
+    /* TODO: la clase heading no funciona para este color */
+    --shade-text-hardest:       var(--shade-emphasis-higher);
+    --shade-text-default:       var(--shade-emphasis-high);
+    --shade-text-subtle:        var(--shade-emphasis-medium);
+    --shade-text-muted:         var(--shade-emphasis-low);
+    --shade-text-disabled:      var(--shade-emphasis-lower);
+    --shade-text-hint:          var(--shade-emphasis-lower);
+    /* Icons shades */
+    --shade-icon-hardest:       var(--shade-text-heading);
+    --shade-icon-default:       var(--shade-text-default);
+    --shade-icon-subtle:        var(--shade-text-subtle);
+    --shade-icon-muted:         var(--shade-text-muted);
+    --shade-icon-disabled:      var(--shade-text-disabled);
+    --shade-icon-hint:          var(--shade-text-hint);
+    /* form shades */
+    --shade-form-filled:        92%;
+    --shade-form-disabled:      32%;
+    --shade-form-button:        10%;
+    --shade-form-input:         5%;
+    --shade-form-outline:       var(--shade-outline);
+    /* States shades */
+    --shade-state-hover:        8%;
+    --shade-state-focus:        12%;
+    --shade-state-press:        12%;
+    --shade-state-drag:         16%;
+    /* Interactive shades */
+    --shade-highlight:          30%;
+    --shade-selection:          30%;
+    --shade-ring:               60%;
+    /* Decorations shades */
+    --shade-track:              10%;
+    --shade-outline:            20%;
+    --shade-border:             10%;
+    --shade-divider:            10%;
+    --shade-line:               8%;
+    /* Effects shades */
+    --shade-shadow-base:        10%;
+    --shade-shadow-soft:        5%;
+    --shade-shadow-hard:        16%;
+    /* Background shades */
+    --shade-scrim:              40%;
+    --shade-scrim-hard:         80%;
+    --shade-scrim-soft:         20%;
+    --shade-variant:            5%;
+    --shade-variant-dim:        10%;
+    --shade-variant-bright:     2%;
+    --shade-surface:            80%;
+    /* Surface mixes */
+    --mix-surface:              0; /* 1 yes, 0 no */
+    --mix-surface-lower:        0%;
+    --mix-surface-low:          4%;
+    --mix-surface-medium:       6%;
+    --mix-surface-high:         8%;
+    --mix-surface-higher:       8%;
+}
+@theme default { /* Content colors */
+
+    /* Text colors
+    --color-text-inverse:       --alpha(var(--tint-inverse)/var(--shade-text-default));*/
+    --color-text-heading:       --alpha(var(--tint-heading)/var(--shade-text-heading));
+    --color-text-default:       --alpha(var(--tint-text)/var(--shade-text-default));
+    --color-text-subtle:        --alpha(var(--tint-text)/var(--shade-text-subtle));
+    --color-text-muted:         --alpha(var(--tint-text)/var(--shade-text-muted));
+    --color-text-disabled:      --alpha(var(--tint-text)/var(--shade-text-disabled));
+    --color-text-hint:          --alpha(var(--tint-text)/var(--shade-text-hint));
+
+    /* Icon colors
+    --color-icon-inverse:       --alpha(var(--tint-inverse)/var(--shade-icon-default));*/
+    --color-icon-heading:       --alpha(var(--tint-icon)/var(--shade-icon-heading));
+    --color-icon-default:       --alpha(var(--tint-icon)/var(--shade-icon-default));
+    --color-icon-subtle:        --alpha(var(--tint-icon)/var(--shade-icon-subtle));
+    --color-icon-muted:         --alpha(var(--tint-icon)/var(--shade-icon-muted));
+    --color-icon-disabled:      --alpha(var(--tint-icon)/var(--shade-icon-disabled));
+    --color-icon-hint:          --alpha(var(--tint-icon)/var(--shade-icon-hint));
+
+    /*
+    Esto podría servir para ajustar el color
+    de los iconos lineaes y duotonospor
+    separado de los iconos solidos
+
+    --color-fill-heading:       --alpha(var(--tint-icon)/var(--shade-icon-heading));
+    --color-fill-default:       --alpha(var(--tint-icon)/var(--shade-icon-default));
+    --color-fill-subtle:        --alpha(var(--tint-icon)/var(--shade-icon-subtle));
+    --color-fill-muted:         --alpha(var(--tint-icon)/var(--shade-icon-muted));
+    --color-fill-disabled:      --alpha(var(--tint-icon)/var(--shade-icon-disabled));
+    --color-fill-hint:          --alpha(var(--tint-icon)/var(--shade-icon-hint));
+
+    --color-stroke-heading:       --alpha(var(--tint-icon)/var(--shade-icon-heading));
+    --color-stroke-default:       --alpha(var(--tint-icon)/var(--shade-icon-default));
+    --color-stroke-subtle:        --alpha(var(--tint-icon)/var(--shade-icon-subtle));
+    --color-stroke-muted:         --alpha(var(--tint-icon)/var(--shade-icon-muted));
+    --color-stroke-disabled:      --alpha(var(--tint-icon)/var(--shade-icon-disabled));
+    --color-stroke-hint:          --alpha(var(--tint-icon)/var(--shade-icon-hint));
+    */
+}
+@theme default { /* Interactive colors */
+
+    /* Link colors */
+    --color-link:               var(--tint-active);
+    --color-link-hover:         var(--tint-active);
+    --color-link-active:        var(--tint-active);
+    --color-link-visited:       var(--color-link);
+
+    /* State colors */
+    --color-state-hover:        --alpha(var(--tint-states)/var(--shade-state-hover));
+    --color-state-focus:        --alpha(var(--tint-states)/var(--shade-state-focus));
+    --color-state-press:        --alpha(var(--tint-states)/var(--shade-state-press));
+    --color-state-drag:         --alpha(var(--tint-states)/var(--shade-state-drag));
+
+    /* Form colors */
+    --color-button:             --alpha(var(--tint-form)/var(--shade-form-button));
+    --color-input:              --alpha(var(--tint-form)/var(--shade-form-input));
+    --color-outline:            --alpha(var(--tint-form)/var(--shade-outline));
+    --color-filled:             --alpha(var(--tint-form)/var(--shade-form-filled));
+    --color-disabled:           --alpha(var(--tint-form)/var(--shade-form-disabled));
+    --color-track:              --alpha(var(--tint-form)/var(--shade-track));
+
+    /* Interaction colors */
+    --color-active:             var(--tint-active);
+    --color-inactive:           var(--tint-inactive);
+    --color-accent:             var(--tint-accent);
+    --color-ring:               --alpha(var(--tint-active)/var(--shade-ring));
+    --color-selection:          --alpha(var(--tint-active)/var(--shade-selection));
+    --color-caret:              var(--color-max-contrast);
+
+    /*
+    --color-scroll-track:       --alpha(var(--tint-active)/var(--shade-selection));
+    --color-scroll-thumb:       --alpha(var(--tint-active)/var(--shade-selection));
+    */
+
+}
+@theme default { /* Decorative colors */
+
+    --color-highlight:          --alpha(var(--tint-highlight)/var(--shade-highlight));
+    --color-border:             --alpha(var(--tint-decoration)/var(--shade-border));
+    --color-divider:            --alpha(var(--tint-decoration)/var(--shade-divider));
+    --color-line:               --alpha(var(--tint-decoration)/var(--shade-line));
+
+    --color-shadow-soft:        --alpha(var(--tint-shadow)/var(--shade-shadow-soft));
+    --color-shadow-base:        --alpha(var(--tint-shadow)/var(--shade-shadow-base));
+    --color-shadow-hard:        --alpha(var(--tint-shadow)/var(--shade-shadow-hard));
+    --color-shadow:             var(--color-shadow-base);
+
+}
+@theme default { /* Background colors */
+
+    --color-surface:            var(--color-background);
+    --color-surface-alpha:      --alpha(var(--color-min-contrast)/var(--shade-surface));
+
+    --color-surface-lower:      color-mix(in srgb, var(--color-surface), var(--tint-surface) calc(var(--mix-surface-lower) * var(--mix-surface)));
+    --color-surface-low:        color-mix(in srgb, var(--color-surface), var(--tint-surface) calc(var(--mix-surface-low) * var(--mix-surface)));
+    --color-surface-medium:     color-mix(in srgb, var(--color-surface), var(--tint-surface) calc(var(--mix-surface-medium) * var(--mix-surface)));
+    --color-surface-high:       color-mix(in srgb, var(--color-surface), var(--tint-surface) calc(var(--mix-surface-high) * var(--mix-surface)));
+    --color-surface-higher:     color-mix(in srgb, var(--color-surface), var(--tint-surface) calc(var(--mix-surface-higher) * var(--mix-surface)));
+
+    --color-variant:            --alpha(var(--tint-variant)/var(--shade-variant));
+    --color-variant-dim:        --alpha(var(--tint-variant)/var(--shade-variant-dim));
+    --color-variant-bright:     --alpha(var(--tint-variant)/var(--shade-variant-bright));
+
+    --color-scrim:              --alpha(var(--tint-scrim)/var(--shade-scrim));
+    --color-scrim-hard:         --alpha(var(--tint-scrim)/var(--shade-scrim-hard));
+    --color-scrim-soft:         --alpha(var(--tint-scrim)/var(--shade-scrim-soft));
+
+}
+@theme default { /* Accent Colors */
+
+    --color-primary-hardest:    var(--color-primary-800);
+    --color-primary-harder:     var(--color-primary-700);
+    --color-primary-hard:       var(--color-primary-600);
+    --color-primary:            var(--color-primary-500);
+    --color-primary-subtle:     var(--color-primary-200);
+    --color-primary-subtler:    var(--color-primary-100);
+    --color-primary-subtlest:   var(--color-primary-50);
+
+    --color-secondary-hardest:  var(--color-secondary-800);
+    --color-secondary-harder:   var(--color-secondary-700);
+    --color-secondary-hard:     var(--color-secondary-600);
+    --color-secondary:          var(--color-secondary-500);
+    --color-secondary-subtle:   var(--color-secondary-200);
+    --color-secondary-subtler:  var(--color-secondary-100);
+    --color-secondary-subtlest: var(--color-secondary-50);
+
+    --color-tertiary-hardest:   var(--color-tertiary-800);
+    --color-tertiary-harder:    var(--color-tertiary-700);
+    --color-tertiary-hard:      var(--color-tertiary-600);
+    --color-tertiary:           var(--color-tertiary-500);
+    --color-tertiary-subtle:    var(--color-tertiary-200);
+    --color-tertiary-subtler:   var(--color-tertiary-100);
+    --color-tertiary-subtlest:  var(--color-tertiary-50);
+
+    --color-error-hardest:      var(--color-error-800);
+    --color-error-harder:       var(--color-error-700);
+    --color-error-hard:         var(--color-error-600);
+    --color-error:              var(--color-error-500);
+    --color-error-subtle:       var(--color-error-200);
+    --color-error-subtler:      var(--color-error-100);
+    --color-error-subtlest:     var(--color-error-50);
+
+    --color-warning-hardest:    var(--color-warning-800);
+    --color-warning-harder:     var(--color-warning-700);
+    --color-warning-hard:       var(--color-warning-600);
+    --color-warning:            var(--color-warning-500);
+    --color-warning-subtle:     var(--color-warning-200);
+    --color-warning-subtler:    var(--color-warning-100);
+    --color-warning-subtlest:   var(--color-warning-50);
+
+    --color-success-hardest:    var(--color-success-800);
+    --color-success-harder:     var(--color-success-700);
+    --color-success-hard:       var(--color-success-600);
+    --color-success:            var(--color-success-500);
+    --color-success-subtle:     var(--color-success-200);
+    --color-success-subtler:    var(--color-success-100);
+    --color-success-subtlest:   var(--color-success-50);
+
+    --color-info-hardest:       var(--color-info-800);
+    --color-info-harder:        var(--color-info-700);
+    --color-info-hard:          var(--color-info-600);
+    --color-info:               var(--color-info-500);
+    --color-info-subtle:        var(--color-info-200);
+    --color-info-subtler:       var(--color-info-100);
+    --color-info-subtlest:      var(--color-info-50);
+
+}
+@theme default { /* Chart colors */
+
+    /* Categorical colors */
+    --color-chart-1:      var(--color-red-500);
+    --color-chart-2:      var(--color-blue-500);
+    --color-chart-3:      var(--color-green-500);
+    --color-chart-4:      var(--color-yellow-500);
+    --color-chart-5:      var(--color-orange-500);
+    --color-chart-6:      var(--color-purple-500);
+    --color-chart-7:      var(--color-pink-500);
+    --color-chart-8:      var(--color-brown-500);
+    --color-chart-9:      var(--color-emerald-500);
+    --color-chart-10:     var(--color-cyan-500);
+
+    /* Sequential colors */
+    --color-seq-from:     initial;
+    --color-seq-to:       initial;
+
+    /* Divergent colors */
+    --color-div-start:    initial;
+    --color-div-center:   initial;
+    --color-div-end:      initial;
+
+}
+@theme default { /* Addon colors */
+
+    /* Status */
+    --color-alert:              var(--color-error);
+    --color-online:             var(--color-positive);
+    --color-offline:            var(--color-neutral);
+
+    /* Data */
+    --color-increment:          var(--color-positive);
+    --color-decrement:          var(--color-negative);
+
+    /* Sentiment */
+    --color-negative:           var(--color-error);
+    --color-intermediate:       var(--color-warning);
+    --color-positive:           var(--color-success);
+    --color-neutral:            var(--color-neutral-400);
+
+    /* Commerce */
+    --color-new:                var(--color-accent);
+    --color-promo:              var(--color-accent);
+    --color-discount:           var(--color-error);
+    --color-gift:               var(--color-warning);
+    --color-pay:                var(--color-success);
+
+}
+
+@scheme dark { /* Dark mode colors */
+    --color-min-contrast:       var(--color-darkest);
+    --color-max-contrast:       var(--color-lightest);
+
+    --color-background:         var(--color-neutral-950);
+    --color-foreground:         var(--color-neutral-50);
+    --color-surface:            var(--color-neutral-900);
+    --tint-ambient:             var(--color-ambient-100);
+    --tint-active:              var(--color-primary-400);
+    --tint-shadow:              var(--color-min-contrast);
+
+    --shade-text-default:       100%;
+    --shade-text-subtle:        85%;
+    --shade-text-muted:         64%;
+    --shade-text-disabled:      64%;
+    --shade-text-hint:          40%;
+
+    --shade-shadow-base:        24%;
+    --shade-shadow-soft:        50%;
+    --shade-shadow-hard:        75%;
+
+    --color-primary-hardest:    var(--color-primary-200);
+    --color-primary-harder:     var(--color-primary-300);
+    --color-primary-hard:       var(--color-primary-400);
+    --color-primary:            var(--color-primary-600);
+    --color-primary-subtle:     var(--color-primary-800);
+    --color-primary-subtler:    var(--color-primary-900);
+    --color-primary-subtlest:   var(--color-primary-950);
+
+    --color-secondary-hardest:  var(--color-secondary-200);
+    --color-secondary-harder:   var(--color-secondary-300);
+    --color-secondary-hard:     var(--color-secondary-400);
+    --color-secondary:          var(--color-secondary-600);
+    --color-secondary-subtle:   var(--color-secondary-800);
+    --color-secondary-subtler:  var(--color-secondary-900);
+    --color-secondary-subtlest: var(--color-secondary-950);
+
+    --color-tertiary-hardest:   var(--color-tertiary-200);
+    --color-tertiary-harder:    var(--color-tertiary-300);
+    --color-tertiary-hard:      var(--color-tertiary-400);
+    --color-tertiary:           var(--color-tertiary-600);
+    --color-tertiary-subtle:    var(--color-tertiary-800);
+    --color-tertiary-subtler:   var(--color-tertiary-900);
+    --color-tertiary-subtlest:  var(--color-tertiary-950);
+
+    --color-error-hardest:      var(--color-error-200);
+    --color-error-harder:       var(--color-error-300);
+    --color-error-hard:         var(--color-error-400);
+    --color-error:              var(--color-error-600);
+    --color-error-subtle:       var(--color-error-800);
+    --color-error-subtler:      var(--color-error-900);
+    --color-error-subtlest:     var(--color-error-950);
+
+    --color-warning-hardest:    var(--color-warning-200);
+    --color-warning-harder:     var(--color-warning-300);
+    --color-warning-hard:       var(--color-warning-400);
+    --color-warning:            var(--color-warning-600);
+    --color-warning-subtle:     var(--color-warning-800);
+    --color-warning-subtler:    var(--color-warning-900);
+    --color-warning-subtlest:   var(--color-warning-950);
+
+    --color-success-hardest:    var(--color-success-200);
+    --color-success-harder:     var(--color-success-300);
+    --color-success-hard:       var(--color-success-400);
+    --color-success:            var(--color-success-600);
+    --color-success-subtle:     var(--color-success-800);
+    --color-success-subtler:    var(--color-success-900);
+    --color-success-subtlest:   var(--color-success-950);
+
+    --color-info-hardest:       var(--color-info-200);
+    --color-info-harder:        var(--color-info-300);
+    --color-info-hard:          var(--color-info-400);
+    --color-info:               var(--color-info-600);
+    --color-info-subtle:        var(--color-info-800);
+    --color-info-subtler:       var(--color-info-900);
+    --color-info-subtlest:      var(--color-info-950);
+}

@@ -1,0 +1,11 @@
+@import "tailwindcss/utilities" layer(utilities);
+
+/*
+@import "./utilities/layers.css";
+@import "./utilities/layout.css";
+@import "./utilities/interface.css";
+@import "./utilities/content.css";
+@import "./utilities/decorations.css";
+*/
+
+@plugin "stylewindcss";

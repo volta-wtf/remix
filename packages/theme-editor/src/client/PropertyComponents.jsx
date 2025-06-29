@@ -3,11 +3,55 @@ import { styles } from './panel-styles.js';
 import { VariablePreview, VariableTypeIndicator } from './VariablePreview.jsx';
 
 /**
+ * Extrae el contenido interno de var() para mostrarlo en el input
+ * var(--primary) → --primary
+ * var(--color, #000) → --color, #000
+ * otros valores → sin cambios
+ */
+function extractVarContent(value) {
+  if (!value || typeof value !== 'string') return value;
+
+  const varPattern = /^var\s*\(\s*([^)]+)\s*\)$/i;
+  const match = value.match(varPattern);
+
+  return match ? match[1].trim() : value;
+}
+
+/**
+ * Restaura el formato var() si el contenido parece ser una variable CSS
+ * --primary → var(--primary)
+ * --color, #000 → var(--color, #000)
+ * otros valores → sin cambios
+ */
+function restoreVarFormat(content) {
+  if (!content || typeof content !== 'string') return content;
+
+  const trimmed = content.trim();
+
+  // Si ya tiene var(), no cambiar
+  if (trimmed.startsWith('var(')) return content;
+
+  // Si empieza con --, es una variable CSS
+  if (trimmed.startsWith('--')) {
+    return `var(${trimmed})`;
+  }
+
+  // Si contiene --, podría ser una variable con fallback
+  if (trimmed.includes('--') && trimmed.includes(',')) {
+    return `var(${trimmed})`;
+  }
+
+  // Otros valores sin cambios
+  return content;
+}
+
+/**
  * PropertyItem - Componente reutilizable para renderizar una variable CSS
  */
 export function PropertyItem({
   varName,
   value,
+  computedValue, // Valor computado para preview
   isModified,
   onUpdate,
   onReset,
@@ -20,9 +64,36 @@ export function PropertyItem({
   showPreview = true,
   showTypeIndicator = true
 }) {
-  const currentStyle = isModified ? styles.variableModified : styles.variable;
+  // Determinar el estilo según el estado de la variable
+  const getVariableStyle = () => {
+    if (!value || value.trim() === '') {
+      return styles.variableEmpty;
+    }
+    if (value.trim().toLowerCase() === 'transparent') {
+      return styles.variableTransparent;
+    }
+    if (value === 'undefined' || value === 'null' || value === 'unknown') {
+      return styles.variableUndefined;
+    }
+    if (isModified) {
+      return styles.variableModified;
+    }
+    return styles.variable;
+  };
+
+  const currentStyle = getVariableStyle();
   const isHovered = hoveredItem === varName;
   const [isFocused, setIsFocused] = React.useState(false);
+
+  // Manejar el cambio en el input con auto-wrapping de variables
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    const finalValue = restoreVarFormat(inputValue);
+    onUpdate(varName, finalValue);
+  };
+
+  // Valor para mostrar en el input (sin var() wrapper)
+  const displayValue = extractVarContent(value);
 
   return (
     <div
@@ -52,7 +123,7 @@ export function PropertyItem({
             }}>
               <VariablePreview
                 varName={varName}
-                value={value}
+                value={computedValue || value}
               />
             </div>
           )}
@@ -67,8 +138,8 @@ export function PropertyItem({
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            value={value}
-            onChange={(e) => onUpdate(varName, e.target.value)}
+            value={displayValue}
+            onChange={handleInputChange}
             placeholder={placeholder}
             autoComplete="off"
           />

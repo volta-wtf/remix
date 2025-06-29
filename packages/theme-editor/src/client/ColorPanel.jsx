@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { styles } from './panel-styles.js';
 import { PropertyItem, SaveFooter, ColorSectionTabs, EmptyState } from './PropertyComponents.jsx';
+import { AlphaInput, isAlphaFunction } from './AlphaInput.jsx';
 
 /**
  * ColorPanel - Panel especializado para variables de colores
@@ -13,16 +14,29 @@ import { PropertyItem, SaveFooter, ColorSectionTabs, EmptyState } from './Proper
  */
 export function ColorPanel({
   cssVars,
+  computedVars,
   originalVars,
   modifiedVars,
   saving,
   onSave,
   onResetAll,
   updateCSSVar,
-  resetVar
+  resetVar,
+  settings = {} // Agregar settings
 }) {
   const [activeSection, setActiveSection] = useState('wheel'); // 'wheel' o 'palette'
   const [hoveredItem, setHoveredItem] = useState(null);
+
+  // Función para decidir qué componente usar
+  const shouldUseAlphaInput = (value) => {
+    const hasAlpha = isAlphaFunction(value);
+    const enabledInSettings = settings.enableAlphaInputs;
+    console.log(`🎨 ColorPanel shouldUseAlphaInput: value="${value}", hasAlpha=${hasAlpha}, enabled=${enabledInSettings}`);
+    if (hasAlpha) {
+      console.log(`🎨 ✅ Variable de color con función alpha detectada: ${value}`);
+    }
+    return enabledInSettings && hasAlpha;
+  };
 
   // Filtrar y agrupar variables de colores
   const colorVars = useMemo(() => {
@@ -138,6 +152,52 @@ export function ColorPanel({
     }
   ];
 
+  // Función para renderizar una variable de color
+  const renderColorVariable = ({ varName, value }) => {
+    if (shouldUseAlphaInput(value)) {
+      return (
+        <AlphaInput
+          key={varName}
+          varName={varName}
+          value={value}
+          computedValue={computedVars[varName]}
+          isModified={modifiedVars.hasOwnProperty(varName)}
+          onUpdate={updateCSSVar}
+          onReset={resetVar}
+          placeholder="Valor de color"
+          showPreview={settings.showPreview !== false}
+        />
+      );
+    } else {
+      return (
+        <PropertyItem
+          key={varName}
+          varName={varName}
+          value={value}
+          computedValue={computedVars[varName]}
+          isModified={modifiedVars.hasOwnProperty(varName)}
+          onUpdate={updateCSSVar}
+          onReset={resetVar}
+          placeholder="Valor de color"
+          labelTransform={colorLabelTransform}
+          hoveredItem={hoveredItem}
+          onHover={setHoveredItem}
+          showPreview={settings.showPreview !== false}
+          showTypeIndicator={false} // Los colores ya se muestran claramente
+        />
+      );
+    }
+  };
+
+  console.log('🎨 ColorPanel render - settings:', settings);
+  console.log('🎨 ColorPanel render - cssVars keys:', Object.keys(cssVars));
+
+  // Log de variables que empiezan con --color- o --tone-
+  const colorVariables = Object.entries(cssVars).filter(([varName]) =>
+    varName.startsWith('--color-') || varName.startsWith('--tone-')
+  );
+  console.log('🎨 ColorPanel - Variables de colores encontradas:', colorVariables);
+
   return (
     <div data-slot="color-panel">
       {/* Header con tabs de sección */}
@@ -168,22 +228,7 @@ export function ColorPanel({
               }}>
                 {colorName} ({variables.length})
               </h3>
-              {variables.map(({ varName, value }) => (
-                <PropertyItem
-                  key={varName}
-                  varName={varName}
-                  value={value}
-                  isModified={modifiedVars.hasOwnProperty(varName)}
-                  onUpdate={updateCSSVar}
-                  onReset={resetVar}
-                  placeholder="Valor de color"
-                  labelTransform={colorLabelTransform}
-                  hoveredItem={hoveredItem}
-                  onHover={setHoveredItem}
-                  showPreview={true}
-                  showTypeIndicator={false} // Los colores ya se muestran claramente
-                />
-              ))}
+              {variables.map(renderColorVariable)}
             </div>
           ))}
         </div>
@@ -196,42 +241,22 @@ export function ColorPanel({
             <div key={category} style={{ marginBottom: '24px' }}>
               <h3 style={{
                 fontSize: '14px',
-                fontWeight: '600',
-                color: '#374151',
-                marginBottom: '8px',
+                fontWeight: '500',
+                color: '#1f2937',
+                marginBottom: '12px',
                 textTransform: 'capitalize'
               }}>
                 {category} ({variables.length})
               </h3>
-              <div style={{ paddingLeft: '8px' }}>
-                {variables.map(({ varName, value }) => (
-                  <PropertyItem
-                    key={varName}
-                    varName={varName}
-                    value={value}
-                    isModified={modifiedVars.hasOwnProperty(varName)}
-                    onUpdate={updateCSSVar}
-                    onReset={resetVar}
-                    placeholder="Valor de color"
-                    labelTransform={colorLabelTransform}
-                    hoveredItem={hoveredItem}
-                    onHover={setHoveredItem}
-                    showPreview={true}
-                    showTypeIndicator={false} // Los colores ya se muestran claramente
-                  />
-                ))}
-              </div>
+              {variables.map(renderColorVariable)}
             </div>
           ))}
         </div>
       )}
 
-      {/* Mensaje si no hay variables */}
-      {((activeSection === 'wheel' && Object.keys(colorVars.wheelColors).length === 0) ||
-        (activeSection === 'palette' && Object.keys(colorVars.paletteColors).length === 0)) && (
-        <EmptyState
-          message={`No se encontraron variables de ${activeSection === 'wheel' ? 'Color Wheel' : 'Color Palette'}`}
-        />
+      {/* Estado vacío */}
+      {Object.keys(colorVars.wheelColors).length === 0 && Object.keys(colorVars.paletteColors).length === 0 && (
+        <EmptyState message="No se encontraron variables de colores en el tema actual." />
       )}
 
       {/* Footer elegante para guardar */}

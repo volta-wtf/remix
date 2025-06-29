@@ -1,0 +1,23 @@
+@theme {
+
+    /* Functional layers */
+    --z-back:            -1;
+    --z-surface:          0;
+    --z-scrim:           10;
+    --z-content:         20;
+    --z-forward:        999;
+
+    /* Layout layers */
+    --z-sticky:         150; /* Between lifted and rised layers */
+    --z-fixed:          250; /* Between rised and floating layers */
+    --z-backdrop:       290; /* Behind floating layers */
+    --z-overlay:        390; /* Behind elevated layers */
+
+    /* Elevation layers */
+    --z-lifted:         100; /* Lower - cards, controls, fields */
+    --z-raised:         200; /* Low - FABS, popovers */
+    --z-floating:       300; /* Medium - modals, offcanvas */
+    --z-elevated:       400; /* High - pickers, alerts */
+    --z-suspended:      500; /* Higher - notifications, tooltips, banners */
+
+}
