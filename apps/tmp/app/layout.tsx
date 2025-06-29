@@ -3,7 +3,8 @@ import { Providers } from "@/components/providers"
 
 import Script from "next/script"
 
-import "@workspace/ui-registry/stylewind.css"
+import "./globals.css"
+//import "@workspace/ui-registry/stylewind.css"
 
 const fontSans = Geist({
   subsets: ["latin"],

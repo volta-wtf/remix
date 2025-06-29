@@ -1,3 +1,8 @@
+@import "stylewindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Color scheme support for better native styling */
 :root {
   --scheme: light dark;
 
@@ -20,4 +25,4 @@
   --variable-deep: var(--variable);
   --alpha-variable: --alpha(var(--hex)/50%);
   --variable-color: --alpha(#000000/50%);
-  }
+}

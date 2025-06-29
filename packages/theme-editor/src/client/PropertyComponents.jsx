@@ -97,7 +97,7 @@ export function PropertyItem({
           )}
         </div>
       </div>
-            <div style={styles.value}>
+      <div style={styles.value}>
         Valor actual: {value}
         {isModified && dropdownProps.originalValue && (
           <span style={{ color: '#ef4444', marginLeft: '12px', fontSize: '12px' }}>
