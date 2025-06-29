@@ -1,6 +1,5 @@
 import React from 'react';
 import { analyzeVariable } from '../utils/variable-type-detector.js';
-import { getVariableIcon } from '../icons/index.js';
 
 /**
  * VariablePreview - Componente que muestra un preview visual de una variable CSS
@@ -11,16 +10,32 @@ export function VariablePreview({ varName, value, size = 'normal' }) {
     return null;
   }
 
-  // Detectar si es una referencia a variable CSS
-  const isVariableReference = /^var\(--[\w-]+\)/.test(value?.trim() || '');
+  // Si el valor está vacío, mostrar el ícono de desconocido
+  if (!value || value.trim() === '') {
+    const emptyPreview = {
+      element: 'div',
+      style: {
+        width: '20px',
+        height: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        flexShrink: 0
+      },
+      content: {
+        type: 'empty-icon',
+        svg: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0.75" y="0.75" width="18.5" height="18.5" rx="3.25" stroke="black" stroke-opacity="0.1" stroke-width="1.5"/>
+          <rect x="13.2051" y="5.4278" width="1.92308" height="10.9956" rx="0.961538" transform="rotate(45 13.2051 5.4278)" fill="black" fill-opacity="0.1"/>
+        </svg>`
+      },
+      tooltip: 'Campo vacío'
+    };
 
-  // Usar la nueva función para obtener el icono apropiado
-  const specialIcon = getVariableIcon(varName, value, isVariableReference);
-
-  if (specialIcon) {
     return (
       <div
-        title={specialIcon.tooltip}
+        title={emptyPreview.tooltip}
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -28,18 +43,9 @@ export function VariablePreview({ varName, value, size = 'normal' }) {
           cursor: 'help'
         }}
       >
-        <div
-          style={{
-            width: '20px',
-            height: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            flexShrink: 0
-          }}
-          dangerouslySetInnerHTML={{ __html: specialIcon.svg }}
-        />
+        <div style={emptyPreview.style}>
+          <div dangerouslySetInnerHTML={{ __html: emptyPreview.content.svg }} />
+        </div>
       </div>
     );
   }

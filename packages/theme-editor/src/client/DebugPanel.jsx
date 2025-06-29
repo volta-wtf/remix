@@ -5,100 +5,15 @@ import { detectVariableType } from '../utils/variable-type-detector.js';
 
 export function DebugPanel({
   cssVars,
-  computedVars,
   varSources,
   originalVars,
-  debugInfo,
-  settings,
-  testResolver
+  debugInfo
 }) {
   const [selectedVariable, setSelectedVariable] = useState(null);
   const [showAnalysisFor, setShowAnalysisFor] = useState(null);
 
   return (
     <div style={{ padding: '16px' }}>
-      {/* CSS Resolver Testing Section */}
-      <div style={styles.debugSection}>
-        <h3 style={styles.debugSectionTitle}>
-          🔧 Probador de Resolvedor CSS
-        </h3>
-        <div style={styles.debugContent}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '12px' }}>
-            Prueba la resolución recursiva de variables CSS y funciones --alpha().
-          </p>
-          <button
-            onClick={() => testResolver && testResolver()}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#3b82f6',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '12px',
-              cursor: 'pointer',
-              marginBottom: '12px'
-            }}
-          >
-            🧪 Probar Resolvedor (Ver Consola)
-          </button>
-          <div style={{
-            fontSize: '11px',
-            color: '#6b7280',
-            backgroundColor: '#f9fafb',
-            padding: '8px',
-            borderRadius: '4px',
-            fontFamily: 'ui-monospace, monospace'
-          }}>
-            Ejemplo: "--alpha(var(--shadow-tint)/5%)" → "rgba(59, 130, 246, 0.05)"
-          </div>
-        </div>
-      </div>
-
-      {/* Variables Resueltas vs Originales */}
-      <div style={styles.debugSection}>
-        <h3 style={styles.debugSectionTitle}>
-          🔄 Resolución de Variables
-        </h3>
-        <div style={styles.debugContent}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '12px' }}>
-            Comparación entre valores del archivo CSS y valores resueltos para preview:
-          </p>
-
-          {Object.entries(cssVars).slice(0, 8).map(([varName, originalValue]) => {
-            const resolvedValue = computedVars[varName];
-            const hasChanged = resolvedValue && resolvedValue !== originalValue;
-
-            return (
-              <div key={varName} style={{
-                padding: '8px',
-                marginBottom: '8px',
-                backgroundColor: hasChanged ? '#f0f9ff' : '#f9fafb',
-                borderRadius: '4px',
-                border: `1px solid ${hasChanged ? '#bfdbfe' : '#e5e7eb'}`
-              }}>
-                <div style={{ fontSize: '11px', fontWeight: '600', marginBottom: '4px' }}>
-                  {varName}
-                </div>
-                <div style={{ fontSize: '10px', fontFamily: 'ui-monospace, monospace' }}>
-                  <div style={{ color: '#6b7280', marginBottom: '2px' }}>
-                    📄 Archivo: {originalValue}
-                  </div>
-                  <div style={{ color: hasChanged ? '#1d4ed8' : '#6b7280' }}>
-                    🎨 Resuelto: {resolvedValue || 'Sin cambios'}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
-          {Object.keys(cssVars).length > 8 && (
-            <div style={{ fontSize: '11px', color: '#6b7280', fontStyle: 'italic' }}>
-              ... y {Object.keys(cssVars).length - 8} variables más
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Análisis de Variables Section */}
       <div style={styles.debugSection}>
         <h3 style={styles.debugSectionTitle}>
