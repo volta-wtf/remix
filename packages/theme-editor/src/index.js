@@ -17,14 +17,6 @@ export {
   findGlobalsCssSafe
 } from './utils/css-finder.js';
 
-// Exportar utilidades de detección de stylesheets
-export {
-  findGlobalsCssStylesheet,
-  findEditableStylesheets,
-  extractVariablesFromStylesheet,
-  detectVariablesFromEditableStylesheets
-} from './utils/stylesheet-matcher.js';
-
 // Exportar utilidades de valores computados
 export {
   getComputedCSSVariable,

@@ -22,6 +22,8 @@ export const NETWORK = {
 export const API_ENDPOINTS = {
   SAVE_CSS: '/save-css',
   DEBUG_CSS: '/debug-css',
+  DEBUG_STYLESHEETS: '/debug-stylesheets',
+  GET_VARIABLES: '/api/variables',
   STATUS: '/status'
 };
 

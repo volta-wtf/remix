@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { promisify } from 'util';
 import net from 'net';
 import { findGlobalsCss } from './utils/css-finder.js';
+import { getVariablesFromFileSystem } from './utils/css-parser.js';
 import { NETWORK, API_ENDPOINTS, CSS, DEV } from './config/constants.js';
 
 // ---- Función para encontrar puerto disponible ----
@@ -48,9 +49,6 @@ app.use('/theme-editor.js', (_req, res) => {
   res.sendFile(resolve(__dirname, '../dist/theme-editor.js'));
 });
 
-
-
-
 // Endpoint de debug para diagnosticar problemas
 app.get(API_ENDPOINTS.DEBUG_CSS, (req, res) => {
   try {
@@ -67,6 +65,54 @@ app.get(API_ENDPOINTS.DEBUG_CSS, (req, res) => {
       totalVariables: variableMatches.length,
       variables: variableMatches.slice(0, 10), // Primeras 10 para no sobrecargar
       preview: cssContent.substring(0, 500) + '...'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Endpoint de debug para diagnosticar stylesheets del DOM
+app.get(API_ENDPOINTS.DEBUG_STYLESHEETS, (req, res) => {
+  try {
+    // Como este endpoint se ejecuta en el servidor, devolverá información del archivo
+    const cssFilePath = findGlobalsCss();
+    const cssContent = readFileSync(cssFilePath, 'utf8');
+
+    // Buscar variables CSS con regex más detallado
+    const rootVarsMatch = cssContent.match(/:root\s*{([^}]+)}/g);
+    const darkVarsMatch = cssContent.match(/\.dark\s*{([^}]+)}/g);
+
+    let rootVariables = [];
+    let darkVariables = [];
+
+    if (rootVarsMatch) {
+      rootVarsMatch.forEach(block => {
+        const vars = block.match(/--[\w-]+\s*:\s*[^;]+/g) || [];
+        rootVariables = rootVariables.concat(vars);
+      });
+    }
+
+    if (darkVarsMatch) {
+      darkVarsMatch.forEach(block => {
+        const vars = block.match(/--[\w-]+\s*:\s*[^;]+/g) || [];
+        darkVariables = darkVariables.concat(vars);
+      });
+    }
+
+    res.json({
+      success: true,
+      cssFilePath,
+      cssFileSize: cssContent.length,
+      hasRootBlock: !!rootVarsMatch,
+      hasDarkBlock: !!darkVarsMatch,
+      rootVariables: rootVariables.length,
+      darkVariables: darkVariables.length,
+      sampleRootVars: rootVariables.slice(0, 5),
+      sampleDarkVars: darkVariables.slice(0, 5),
+      preview: cssContent.substring(0, 800) + '...'
     });
   } catch (error) {
     res.status(500).json({
@@ -198,6 +244,42 @@ app.post(API_ENDPOINTS.SAVE_CSS, (req, res) => {
       message: 'Error al guardar variables CSS',
       error: error.message,
       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+});
+
+// Endpoint para obtener variables CSS del sistema de archivos
+app.get(API_ENDPOINTS.GET_VARIABLES || '/api/variables', (req, res) => {
+  try {
+    console.log('🔍 Obteniendo variables CSS del sistema de archivos...');
+
+    const result = getVariablesFromFileSystem();
+
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        error: result.error,
+        variables: {},
+        sources: {}
+      });
+    }
+
+    console.log(`✅ Enviando ${Object.keys(result.variables).length} variables al cliente`);
+
+    res.json({
+      success: true,
+      variables: result.variables,
+      sources: result.sources,
+      filePath: result.filePath,
+      totalVariables: Object.keys(result.variables).length
+    });
+  } catch (error) {
+    console.error('❌ Error obteniendo variables:', error.message);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      variables: {},
+      sources: {}
     });
   }
 });

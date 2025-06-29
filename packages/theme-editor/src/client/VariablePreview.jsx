@@ -76,8 +76,10 @@ export function VariablePreview({ varName, value, size = 'normal' }) {
     if (typeof preview.content === 'object' && preview.content.type) {
       switch (preview.content.type) {
         case 'spacing-bar':
+          // Extraer solo las propiedades de estilo válidas (sin 'type')
+          const { type, ...spacingStyle } = preview.content;
           return (
-            <div style={preview.content} />
+            <div style={spacingStyle} />
           );
         case 'typography-text':
           return (
@@ -93,12 +95,23 @@ export function VariablePreview({ varName, value, size = 'normal' }) {
           return (
             <div dangerouslySetInnerHTML={{ __html: preview.content.svg }} />
           );
+        case 'text':
+          return preview.content.text;
         default:
-          return preview.content;
+          // Si es un objeto con propiedades pero no reconocemos el tipo, intentar renderizar como texto
+          if (preview.content.text) {
+            return preview.content.text;
+          }
+          return null;
       }
     }
 
-    return preview.content;
+    // Si no es un objeto con type, renderizar directamente
+    if (typeof preview.content === 'string') {
+      return preview.content;
+    }
+
+    return null;
   };
 
   return (

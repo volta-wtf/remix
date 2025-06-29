@@ -4,45 +4,59 @@ import {
   updateComputedValuesForPreview,
   createThemeObserver
 } from '../utils/computed-style-utils.js';
-import { detectVariablesFromEditableStylesheets } from '../utils/stylesheet-matcher.js';
 
-// Función para determinar si una variable es editable (solo app local y registry)
-function isEditableVariable(varName, sourceInfo) {
-  // Si no tenemos información del origen, no es editable
-  if (!sourceInfo || !sourceInfo.file) {
-    console.log(`⏭️ Variable ${varName}: Sin información de origen`);
-    return false;
+
+
+// Función para obtener variables del servidor (sistema de archivos)
+async function fetchVariablesFromServer() {
+  try {
+    // Detectar el puerto del theme editor
+    const currentPort = window.location.port || '3000';
+    const portNum = parseInt(currentPort);
+
+    const portMapping = {
+      3001: 4442, // apps/wip
+      3002: 4443, // apps/web
+      3003: 4444, // apps/tmp
+    };
+
+    const themeEditorPort = portMapping[portNum] || 4444;
+    const apiUrl = `http://localhost:${themeEditorPort}/api/variables`;
+
+    console.log(`🔍 Obteniendo variables desde: ${apiUrl}`);
+
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.error || 'Error desconocido del servidor');
+    }
+
+    console.log(`✅ Recibidas ${data.totalVariables} variables del servidor`);
+    console.log(`📁 Archivo fuente: ${data.filePath}`);
+
+    return {
+      variables: data.variables,
+      sources: data.sources,
+      filePath: data.filePath
+    };
+  } catch (error) {
+    console.error('❌ Error obteniendo variables del servidor:', error.message);
+    throw error;
   }
+}
 
-  const fileName = sourceInfo.file.toLowerCase();
-
-  // Log para debug
-  console.log(`🔍 Verificando variable ${varName} de archivo: "${sourceInfo.file}"`);
-
-  // Variables editables son solo de:
-  // 1. globals.css (archivo local de la app) - buscar por nombre o ruta
-  // 2. Archivos que contengan "registry" en la ruta
-  // 3. Estilos inline del theme-editor (overrides temporales)
-  const isEditableSource =
-    fileName === 'globals.css' ||                    // Nombre exacto
-    fileName.endsWith('/globals.css') ||             // Ruta que termina en globals.css
-    fileName.includes('/app/globals.css') ||         // Ruta específica de Next.js
-    fileName.includes('registry') ||                 // Registry
-    sourceInfo.type === 'inline' ||                 // Estilos inline
-    sourceInfo.file === 'Estilo inline';           // Estilos inline del theme-editor
-
-  // Excluir variables que claramente vienen de paquetes externos
-  const isExternalPackage =
-    fileName.includes('stylewind') ||
-    fileName.includes('tailwind') ||
-    fileName.includes('node_modules') ||
-    fileName.includes('package');
-
-  const isEditable = isEditableSource && !isExternalPackage;
-
-  console.log(`${isEditable ? '✅' : '❌'} Variable ${varName}: ${isEditable ? 'EDITABLE' : 'NO EDITABLE'} (${sourceInfo.file})`);
-
-  return isEditable;
+// Función para determinar si una variable es editable
+function isEditableVariable(varName, sourceInfo) {
+  // Todas las variables que vienen del servidor son editables
+  // porque el css-parser ya filtró solo las del globals.css
+  console.log(`✅ Variable ${varName}: EDITABLE (desde sistema de archivos)`);
+  return true;
 }
 
 export function useVariableDetection() {
@@ -53,16 +67,19 @@ export function useVariableDetection() {
   const [loading, setLoading] = useState(true);
   const [themeChangeCounter, setThemeChangeCounter] = useState(0);
 
-  // Función simplificada que usa stylesheet-matcher
-  const detectVariables = useCallback(() => {
-    console.log('🎯 Detectando variables usando stylesheet-matcher...');
+  // Función para detectar variables desde el servidor
+  const detectVariables = useCallback(async () => {
+    console.log('🎯 Detectando variables desde el sistema de archivos...');
     const debugLog = [];
 
     try {
-      // ✅ Usar la nueva utilidad que conecta css-finder con DOM
-      const { variables, sources } = detectVariablesFromEditableStylesheets();
+      setLoading(true);
 
-      debugLog.push(`Variables encontradas en stylesheets editables: ${Object.keys(variables).length}`);
+      // Obtener variables del servidor
+      const { variables, sources, filePath } = await fetchVariablesFromServer();
+
+      debugLog.push(`Variables cargadas desde: ${filePath}`);
+      debugLog.push(`Variables encontradas: ${Object.keys(variables).length}`);
 
       // Aplicar valores computados SOLO para preview
       const finalVars = {};
@@ -70,7 +87,7 @@ export function useVariableDetection() {
         const computedValue = getComputedValueForPreview(varName, originalValue);
         finalVars[varName] = computedValue;
 
-        console.log(`✅ ${varName} = "${computedValue}" (original: "${originalValue}", archivo: ${sources[varName]?.file})`);
+        console.log(`✅ ${varName} = "${computedValue}" (original: "${originalValue}")`);
       });
 
       console.log(`📊 Variables finales para editor: ${Object.keys(finalVars).length}`);
@@ -93,8 +110,9 @@ export function useVariableDetection() {
 
   // Effect inicial para detectar variables
   useEffect(() => {
-    const detectedVars = detectVariables();
-    setOriginalVars({...detectedVars}); // Guardar valores originales solo la primera vez
+    detectVariables().then(detectedVars => {
+      setOriginalVars({...detectedVars}); // Guardar valores originales solo la primera vez
+    });
   }, []);
 
   // Effect para re-detectar cuando cambie el tema
@@ -201,20 +219,33 @@ export function useVariableDetection() {
       }
     }
 
-    // ✅ Usar la utilidad para obtener el valor computado después del reset
-    const currentValue = getComputedValueForPreview(varName, originalVars[varName]);
-    setCssVars(prev => ({ ...prev, [varName]: currentValue }));
+    // Restaurar valor original
+    setCssVars(prev => ({ ...prev, [varName]: originalVars[varName] }));
+  };
+
+  const resetAllVars = () => {
+    // Remover todos los style elements de override
+    ['theme-editor-override', 'theme-editor-override-dark', 'theme-editor-override-light', 'theme-editor-override-system'].forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.remove();
+      }
+    });
+
+    // Restaurar valores originales
+    setCssVars({...originalVars});
   };
 
   return {
     cssVars,
-    setCssVars,
     originalVars,
-    setOriginalVars,
     varSources,
     debugInfo,
     loading,
     updateCSSVar,
-    resetVar
+    resetVar,
+    resetAllVars,
+    detectVariables: () => detectVariables(),
+    isEditableVariable
   };
 }
