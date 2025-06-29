@@ -14,6 +14,10 @@ export default function Page() {
           </svg>
           Button
         </Button>
+
+        <div className="border-outline">
+          <h1 className="text-disabled">Hello World</h1>
+        </div>
       </div>
     </div>
   )

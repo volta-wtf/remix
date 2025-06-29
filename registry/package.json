@@ -55,21 +55,23 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.8",
     "@turbo/gen": "^2.4.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "tailwindcss": "^4.1.7",
+    "@stylewindcss/postcss": "workspace:*",
+    "stylewindcss": "workspace:*",
     "typescript": "^5.7.3"
   },
   "exports": {
+    "./shadcn.css": "./styles/shadcn.css",
+    "./stylewind.css": "./styles/stylewind.css",
     "./globals.css": "./styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./lib/*.ts",
-    "./components/*": "./components/*.tsx",
+    "./components/ui/*": "./ui/*.tsx",
     "./hooks/*": "./hooks/*.ts"
   }
 }

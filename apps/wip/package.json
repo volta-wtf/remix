@@ -1,10 +1,11 @@
 {
   "name": "working",
+  "description": "UI Elements. Working in progress",
   "version": "0.0.1",
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "theme-editor next dev --turbopack",
+    "dev": "theme-editor next dev --turbopack --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

@@ -1,1 +1,0 @@
-# Concepts and work in progress code

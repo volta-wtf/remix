@@ -4,7 +4,8 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center min-h-svh">
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Hello World</h1>
+        <h1 className="text-2xl font-bold">Theme Editor</h1>
+        <div className="text-subtle">asdasdsad</div>
         <Button size="sm">
           <svg viewBox="0 0 438.549 438.549">
             <path

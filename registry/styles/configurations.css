@@ -1,0 +1,204 @@
+@import "stylewindcss";
+
+/* Theme minimal */
+:root {
+  /* Contrast */
+  --scheme: light dark;
+  /* Baser colors */
+  --background: var(--min-contrast); /* All variants */
+  --surface: var(--background);/* All variants */
+  --foreground: var(--tone-contrast-800); /* All variants */
+  --decoration: var(--foreground); /* All variants */
+  --content: var(--foreground); /* All variants */
+  --controls: var(--foreground); /* All variants */
+  --ambient: var(--foreground); /* All variants */
+  --accent: var(--ambient); /* All variants */
+  --active: var(--primary); /* All variants */
+  /* Brand colors */
+  --primary: var(--tone-primary-500);
+  --secondary: var(--tone-secondary-500);
+  --tertiary: var(--tone-tertiary-500);
+  /* Functional colors */
+  --destructive: var(--tone-destructive-500);
+  --cautionary: var(--tone-cautionary-500);
+  --affirmative: var(--tone-affirmative-500);
+  --informative: var(--tone-informative-500);
+
+}
+
+/* Theme default */
+:root {
+  /* Contrast */
+  --scheme: light dark;
+  /* Baser colors */
+  --background: var(--min-contrast); /* All variants */
+  --surface: var(--background);/* All variants */
+  --foreground: var(--tone-contrast-800); /* All variants */
+  --decoration: var(--foreground); /* All variants */
+  --content: var(--foreground); /* All variants */
+    --heading: var(--content); /* .color-heading */
+    --text: --alpha(var(--content)/90%); /* .color-text */
+    --icon: var(--text); /* .color-icon */
+    --border: --alpha(var(--foreground)/10%); /*.border .[type]-as-border */
+    --divider: var(--color-border); /* .divide .[type]-as-divider */
+    --line: --alpha(var(--foreground)/5%); /* .line .[type]-as-line */
+  --controls: var(--foreground); /* All variants */
+    --outline: --alpha(var(--controls)/10%); /* .outline .[type]-as-outline */
+    --input: --alpha(var(--controls)/5%); /* .bg-input */
+    --button: --alpha(var(--controls)/10%); /* .bg-button */
+  --ambient: var(--foreground); /* All variants */
+    --state: var(--ambient);
+    --shadow: var(--ambient); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+    --scrim: var(--ambient); /* .bg-scrim */
+    --backdrop: var(--ambient); /* .bg-backdrop */
+  --accent: var(--ambient); /* All variants */
+    --caret: var(--accent); /* caret-color: var(--caret) */
+  --active: var(--primary); /* All variants */
+    --ring: var(--active); /* .ring */
+    --link: var(--active); /* .color-link */
+    --visited: var(--active); /* .color-visited */
+    --selection: var(--active); /* ::selection */
+  --mark: var(--tone-cautionary-500); /* .mark */
+  /* Brand colors */
+  --primary: var(--tone-primary-500);
+  --secondary: var(--tone-secondary-500);
+  --tertiary: var(--tone-tertiary-500);
+  /* Functional colors */
+  --destructive: var(--tone-destructive-500);
+  --cautionary: var(--tone-cautionary-500);
+  --affirmative: var(--tone-affirmative-500);
+  --informative: var(--tone-informative-500);
+}
+
+/* Theme advanced */
+:root {
+  /* Contrast */
+  --scheme: light dark;
+  /* Baser colors */
+  --background: var(--min-contrast); /* All variants */
+     /* Surfaces */
+    --variant: --alpha(var(--ambient)/8%); /* .bg-variant */
+    --muted: --alpha(var(--ambient)/4%); /* .bg-muted */
+    --scrim: var(--ambient); /* .bg-scrim */
+    --backdrop: var(--ambient); /* .bg-backdrop */
+  --surface: var(--background);/* All variants */
+    /* Containers */
+    --card: var(--surface); /* .bg-card */
+    --popover: var(--surface); /* .bg-popover */
+    --modal: var(--surface); /* .bg-modal */
+  --foreground: var(--tone-contrast-800); /* All variants */
+  --decoration: var(--foreground); /* All variants */
+  --content: var(--foreground); /* All variants */
+      /* Content */
+    --heading: var(--content); /* .color-heading */
+    --text: --alpha(var(--content)/90%); /* .color-text */
+      --text-muted: --alpha(var(--content)/70%); /* .color-text-muted */
+      --text-subtle: --alpha(var(--content)/40%); /* .color-text-subtle */
+      --text-disabled: --alpha(var(--content)/30%); /* .color-text-disabled */
+      --text-hint: --alpha(var(--content)/30%); /* .color-text-hint */
+      --text-silent: --alpha(var(--content)/10%); /* .color-text-silent */
+    --icon: var(--text); /* .color-icon */
+      --icon-muted: var(--text-muted); /* .color-icon-muted */
+      --icon-subtle: var(--text-subtle); /* .color-icon-subtle */
+      --icon-disabled: var(--text-disabled); /* .color-icon-disabled */
+      --icon-hint: var(--text-hint); /* .color-icon-hint */
+      --icon-silent: var(--text-silent); /* .color-icon-silent */
+    --border: --alpha(var(--foreground)/10%); /*.border .[type]-as-border */
+    --divider: var(--border); /* .divide .[type]-as-divider */
+    --line: --alpha(var(--foreground)/5%); /* .line .[type]-as-line */
+  --controls: var(--foreground); /* All variants */
+    --outline: --alpha(var(--controls)/10%); /* .outline .[type]-as-outline */
+    --input: --alpha(var(--controls)/5%); /* .bg-input */
+    --button: --alpha(var(--controls)/10%); /* .bg-button */
+    --tooltip: var(--controls); /* .bg-tooltip */
+    /* Surfaces */
+    --highlighted: --alpha(var(--accent)/8%);
+    --accented: var(--accent);
+    --selected: --alpha(var(--accent)/10%);
+  --ambient: var(--tint-foreground); /* All variants */
+    /* States */
+    --state-tint: var(--ambient);
+    --state-hovered: --alpha(var(--state-tint)/8%);
+    --state-focused: --alpha(var(--state-tint)/12%);
+    --state-pressed: --alpha(var(--state-tint)/16%);
+    --state-dragging: --alpha(var(--state-tint)/16%);
+    /* Ambient */
+    --shadow-tint: var(--ambient); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+    --shadow-soft: --alpha(var(--shadow-tint)/5%); /* --shadow-md: 0 4px 6px -1px var(--shadow), 0 2px 4px -2px var(--shadow); */
+    --shadow-medium: --alpha(var(--shadow-tint)/10%); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+    --shadow-hard: --alpha(var(--shadow-tint)/15%); /* --shadow-2xl: 0 25px 50px -12px var(--shadow-hard); */
+    /* Backgrounds */
+
+  --accent: var(--tint-ambient); /* All variants */
+    --caret: var(--accent); /* caret-color: var(--caret) */
+  --active: var(--primary); /* All variants */
+    /* Interactivity */
+    --ring: var(--active); /* .ring */
+    --link: var(--active); /* .color-link */
+    --visited: var(--active); /* .color-visited */
+    --selection: var(--active); /* ::selection */
+  --mark: var(--color-cautionary-500); /* .mark */
+
+  /* Brand colors */
+  --primary: var(--color-primary-500);
+  --secondary: var(--color-secondary-500);
+  --tertiary: var(--color-tertiary-500);
+  /* Functional colors */
+  --destructive: var(--color-destructive-500);
+  --cautionary: var(--color-cautionary-500);
+  --affirmative: var(--color-affirmative-500);
+  --informative: var(--color-informative-500);
+}
+
+/*
+  # All variants
+
+  .border
+  .border-as-divider
+  .border-as-line
+  .border-as-outline
+  .border-as-ring
+
+  .line
+  .line-as-outline
+  .line-as-border
+  .line-as-divider
+  .line-as-line
+
+  .divide
+  .divide-as-border
+  .divide-as-line
+  .divide-as-outline
+
+  .outline
+  .outline-as-ring
+  .outline-as-border
+  .outline-as-divider
+  .outline-as-line
+
+  .ring
+
+  .bg-[color]
+  .fill-[color]
+
+  .color-heading[-color]
+  .color-text[-color] (replace text- for content)
+
+  .color-icon[-color] (new class for icons)
+  .fill-icon-[color]
+  .stroke-icon-[color]
+
+  .color-shadow-[color] ()
+
+  .border-[color]
+  .divider-[color]
+  .line-[color] (custom)
+
+  .stroke-[color]
+
+  .ring-[color]
+  .accent-[color]
+  .selection-[color]
+  .mark-[color]
+  .caret-[color]
+*/

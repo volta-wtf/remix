@@ -1,0 +1,208 @@
+:root {
+  /* Contrast */
+  --scheme: light dark;
+  /* Baser colors */
+  --background: var(--min-contrast); /* All variants */
+  --surface: var(--background);/* All variants */
+  --foreground: var(--tone-contrast-800); /* All variants */
+  --decoration: var(--foreground); /* All variants */
+  --content: var(--foreground); /* All variants */
+  --controls: var(--foreground); /* All variants */
+  --accent: var(--ambient); /* All variants */
+  --active: var(--primary); /* All variants */
+  --ambient: var(--foreground); /* All variants */
+  --scrim: var(--ambient); /* .bg-scrim */
+  --backdrop: var(--ambient); /* .bg-backdrop */
+  --card: var(--surface); /* .bg-card */
+  --popover: var(--surface); /* .bg-popover */
+  --modal: var(--surface); /* .bg-modal */
+  --heading: var(--content); /* .color-heading */
+  --text: --alpha(var(--content)/90%); /* .color-text */
+  --icon: var(--emphasis-default); /* .color-icon */
+  --border: --alpha(var(--foreground)/10%); /*.border .[type]-as-border */
+  --outline: --alpha(var(--controls)/10%); /* .outline .[type]-as-outline */
+  --input: --alpha(var(--controls)/5%); /* .bg-input */
+  --button: --alpha(var(--controls)/10%); /* .bg-button */
+  --ring: var(--active); /* .ring */
+  --link: var(--active); /* .color-link */
+  --visited: var(--active); /* .color-visited */
+  --selection: var(--active); /* ::selection */
+  --mark: var(--color-cautionary-500); /* .mark */
+  --caret: var(--accent); /* caret-color: var(--caret) */
+  --state: var(--ambient);
+  --shadow: var(--ambient); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+  /* Accent colors */
+  --primary: var(--color-primary-500);
+  --secondary: var(--color-secondary-500);
+  --tertiary: var(--color-tertiary-500);
+  --destructive: var(--color-destructive-500);
+  --cautionary: var(--color-cautionary-500);
+  --affirmative: var(--color-affirmative-500);
+  --informative: var(--color-informative-500);
+
+}
+
+:root {
+  /* Contrast */
+  --scheme: light dark;
+  /* Baser colors */
+  --background: var(--min-contrast); /* All variants */
+  --surface: var(--background);/* All variants */
+  --foreground: var(--tone-contrast-800); /* All variants */
+  --decoration: var(--foreground); /* All variants */
+  --content: var(--foreground); /* All variants */
+  --controls: var(--foreground); /* All variants */
+  --accent: var(--ambient); /* All variants */
+  --active: var(--primary); /* All variants */
+  --ambient: var(--foreground); /* All variants */
+
+  /* Backgrounds */
+  --variant: --alpha(var(--ambient)/8%); /* .bg-variant */
+  --muted: --alpha(var(--ambient)/4%); /* .bg-muted */
+  --scrim: var(--ambient); /* .bg-scrim */
+  --backdrop: var(--ambient); /* .bg-backdrop */
+
+  /* Surfaces */
+  --card: var(--surface); /* .bg-card */
+  --popover: var(--surface); /* .bg-popover */
+  --modal: var(--surface); /* .bg-modal */
+
+  /* Content */
+  --heading: var(--content); /* .color-heading */
+  --text: --alpha(var(--content)/90%); /* .color-text */
+  --icon: var(--emphasis-default); /* .color-icon */
+  --border: --alpha(var(--foreground)/10%); /*.border .[type]-as-border */
+  --divider: var(--color-border); /* .divide .[type]-as-divider */
+  --line: --alpha(var(--foreground)/5%); /* .line .[type]-as-line */
+
+  /* Controls */
+  --tooltip: var(--controls); /* .bg-tooltip */
+  --outline: --alpha(var(--controls)/10%); /* .outline .[type]-as-outline */
+  --input: --alpha(var(--controls)/5%); /* .bg-input */
+  --button: --alpha(var(--controls)/10%); /* .bg-button */
+  --highlighted: --alpha(var(--accent)/8%);
+  --accented: var(--accent);
+  --selected: --alpha(var(--accent)/10%);
+
+  /* Interactivity */
+  --ring: var(--active); /* .ring */
+  --link: var(--active); /* .color-link */
+  --visited: var(--active); /* .color-visited */
+  --selection: var(--active); /* ::selection */
+  --mark: var(--color-cautionary-500); /* .mark */
+  --caret: var(--accent); /* caret-color: var(--caret) */
+  --state: var(--ambient);
+  --shadow: var(--ambient); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+
+  /* Brand colors */
+  --primary: var(--color-primary-500);
+  --secondary: var(--color-secondary-500);
+  --tertiary: var(--color-tertiary-500);
+
+  /* Functional colors */
+  --destructive: var(--color-destructive-500);
+  --cautionary: var(--color-cautionary-500);
+  --affirmative: var(--color-affirmative-500);
+  --informative: var(--color-informative-500);
+
+}
+
+
+:root {
+  /* Contrast */
+  --scheme: light dark;
+  /* Baser colors */
+  --background: var(--min-contrast); /* All variants */
+  --surface: var(--background);/* All variants */
+  --foreground: var(--tone-contrast-800); /* All variants */
+  --decoration: var(--foreground); /* All variants */
+  --content: var(--foreground); /* All variants */
+  --controls: var(--foreground); /* All variants */
+  --accent: var(--ambient); /* All variants */
+  --active: var(--primary); /* All variants */
+  --ambient: var(--foreground); /* All variants */
+
+  /* Backgrounds */
+  --variant: --alpha(var(--ambient)/8%); /* .bg-variant */
+  --muted: --alpha(var(--ambient)/4%); /* .bg-muted */
+  --scrim: var(--ambient); /* .bg-scrim */
+  --scrim-soft: --alpha(var(--scrim),10%); /* .bg-scrim-soft */
+  --scrim-medium: --alpha(var(--scrim),30%); /* .bg-scrim */
+  --scrim-hard: --alpha(var(--scrim),50%); /* .bg-scrim-hard */
+  --backdrop: var(--ambient); /* .bg-backdrop */
+  --backdrop-soft: --alpha(var(--backdrop),20%); /* .bg-backdrop-soft */
+  --backdrop-medium: --alpha(var(--backdrop),40%); /* .bg-backdrop-soft */
+  --backdrop-hard: --alpha(var(--backdrop),80%); /* .bg-backdrop-hard */
+
+  /* Surfaces */
+  --card: var(--surface); /* .bg-card */
+  --popover: var(--surface); /* .bg-popover */
+  --modal: var(--surface); /* .bg-modal */
+
+  /* Text */
+  --heading: var(--content); /* .color-heading */
+  --text: --alpha(var(--content)/90%); /* .color-text */
+  --text-muted: --alpha(var(--content)/70%); /* .color-text-muted */
+  --text-subtle: --alpha(var(--content)/40%); /* .color-text-subtle */
+  --text-disabled: --alpha(var(--content)/30%); /* .color-text-disabled */
+  --text-hint: --alpha(var(--content)/30%); /* .color-text-hint */
+  --text-silent: --alpha(var(--content)/10%); /* .color-text-silent */
+
+  /* Icons */
+  --icon: var(--emphasis-default); /* .color-icon */
+  --icon-muted: var(--emphasis-muted); /* .color-icon-muted */
+  --icon-subtle: var(--emphasis-subtle); /* .color-icon-subtle */
+  --icon-disabled: var(--emphasis-disabled); /* .color-icon-disabled */
+  --icon-hint: var(--emphasis-hint); /* .color-icon-hint */
+  --icon-silent: var(--emphasis-silent); /* .color-icon-silent */
+
+  /* Borders */
+  --border: --alpha(var(--foreground)/10%); /*.border .[type]-as-border */
+  --divider: var(--color-border); /* .divide .[type]-as-divider */
+  --line: --alpha(var(--foreground)/5%); /* .line .[type]-as-line */
+
+  /* Controls */
+  --tooltip: var(--controls); /* .bg-tooltip */
+  --outline: --alpha(var(--controls)/10%); /* .outline .[type]-as-outline */
+  --input: --alpha(var(--controls)/5%); /* .bg-input */
+  --button: --alpha(var(--controls)/10%); /* .bg-button */
+  --highlighted: --alpha(var(--accent)/8%);
+  --accented: var(--accent);
+  --selected: --alpha(var(--accent)/10%);
+
+  /* Interactivity */
+  --ring: var(--active); /* .ring */
+  --link: var(--active); /* .color-link */
+  --visited: var(--active); /* .color-visited */
+  --selection: var(--active); /* ::selection */
+  --mark: var(--color-cautionary-500); /* .mark */
+  --caret: var(--accent); /* caret-color: var(--caret) */
+
+  /* States */
+  --state: var(--ambient);
+  --state-focused: --alpha(var(--state)/12%);
+  --state-pressed: --alpha(var(--state)/16%);
+  --state-dragging: --alpha(var(--state)/16%);
+
+  /* Shadows */
+  --shadow: var(--ambient); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+  --shadow-soft: --alpha(var(--shadow)/5%); /* --shadow-md: 0 4px 6px -1px var(--shadow), 0 2px 4px -2px var(--shadow); */
+  --shadow-medium: --alpha(var(--shadow)/10%); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+  --shadow-hard: --alpha(var(--shadow)/15%); /* --shadow-2xl: 0 25px 50px -12px var(--shadow-hard); */
+
+  /* Chart */
+  --chart-axis: var(--border); /* .axis .[type]-as-axis */
+  --chart-grid: var(--line); /* .axis .[type]-as-axis */
+
+  /* Brand colors */
+  --primary: var(--color-primary-500);
+  --secondary: var(--color-secondary-500);
+  --tertiary: var(--color-tertiary-500);
+
+  /* Functional colors */
+  --destructive: var(--color-destructive-500);
+  --cautionary: var(--color-cautionary-500);
+  --affirmative: var(--color-affirmative-500);
+  --informative: var(--color-informative-500);
+
+}
