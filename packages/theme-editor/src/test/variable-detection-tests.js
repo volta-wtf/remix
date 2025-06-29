@@ -5,7 +5,8 @@
  * node packages/theme-editor/src/test/variable-detection-tests.js
  */
 
-import { detectVariableType, analyzeVariable, generateVariablePreview } from '../utils/variable-type-detector.js';
+import { detectVariableType, analyzeVariable } from '../utils/variable-type-detector.js';
+import { generateVariablePreview } from '../utils/variable-preview-generator.js';
 
 // Colores para output en consola
 const colors = {

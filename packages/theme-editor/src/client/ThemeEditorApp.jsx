@@ -4,6 +4,7 @@ import { VariablesPanel } from './VariablesPanel.jsx';
 import { ColorPanel } from './ColorPanel.jsx';
 import { DebugPanel } from './DebugPanel.jsx';
 import { useVariableDetection } from './useVariableDetection.js';
+import { NETWORK, API_ENDPOINTS, UI, CSS, DEV } from '../config/constants.js';
 
 // ========================
 // COMPONENTES INTERNOS
@@ -271,13 +272,23 @@ export function ThemeEditorApp({ onClose }) {
     }
   };
 
-  const saveVariables = async () => {
+    const saveVariables = async () => {
     setSavingVariables(true);
     try {
       const activeTheme = getCurrentTheme();
-      console.log('🎨 Guardando variables en tema:', activeTheme);
+      console.log(`${DEV.LOG_PREFIXES.THEME} Guardando variables en tema:`, activeTheme);
 
-      const response = await fetch('http://localhost:4444/save-css', {
+      // Detectar puerto dinámicamente desde el script que nos cargó
+      const scripts = document.querySelectorAll(`script[src*="${CSS.FILE_NAMES.THEME_EDITOR_SCRIPT}"]`);
+      const themeEditorScript = scripts[scripts.length - 1]; // Último script cargado
+      const scriptSrc = themeEditorScript?.src || NETWORK.DEFAULT_SCRIPT_URL;
+      const scriptUrl = new URL(scriptSrc);
+      const port = scriptUrl.port || NETWORK.DEFAULT_PORT.toString();
+      const apiUrl = `${NETWORK.DEFAULT_PROTOCOL}://${NETWORK.DEFAULT_HOST}:${port}${API_ENDPOINTS.SAVE_CSS}`;
+
+      console.log(`${DEV.LOG_PREFIXES.PORT} Usando puerto dinámico:`, port);
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -290,24 +301,34 @@ export function ThemeEditorApp({ onClose }) {
         const result = await response.json();
         setOriginalVars(prev => ({ ...prev, ...modifiedVariables }));
         setModifiedVariables({});
-        showNotification(`✅ Variables guardadas en ${result.targetSelector}`, '#10b981');
+        showNotification(`${DEV.LOG_PREFIXES.SUCCESS} Variables guardadas en ${result.targetSelector}`, UI.COLORS.SUCCESS);
       } else {
         throw new Error(`Error ${response.status}`);
       }
     } catch (error) {
-      showNotification(`❌ Error: ${error.message}`, '#ef4444');
+      showNotification(`${DEV.LOG_PREFIXES.ERROR} Error: ${error.message}`, UI.COLORS.ERROR);
     } finally {
       setSavingVariables(false);
     }
   };
 
-  const saveColors = async () => {
+    const saveColors = async () => {
     setSavingColors(true);
     try {
       const activeTheme = getCurrentTheme();
-      console.log('🎨 Guardando colores en tema:', activeTheme);
+      console.log(`${DEV.LOG_PREFIXES.THEME} Guardando colores en tema:`, activeTheme);
 
-      const response = await fetch('http://localhost:4444/save-css', {
+      // Detectar puerto dinámicamente desde el script que nos cargó
+      const scripts = document.querySelectorAll(`script[src*="${CSS.FILE_NAMES.THEME_EDITOR_SCRIPT}"]`);
+      const themeEditorScript = scripts[scripts.length - 1]; // Último script cargado
+      const scriptSrc = themeEditorScript?.src || NETWORK.DEFAULT_SCRIPT_URL;
+      const scriptUrl = new URL(scriptSrc);
+      const port = scriptUrl.port || NETWORK.DEFAULT_PORT.toString();
+      const apiUrl = `${NETWORK.DEFAULT_PROTOCOL}://${NETWORK.DEFAULT_HOST}:${port}${API_ENDPOINTS.SAVE_CSS}`;
+
+      console.log(`${DEV.LOG_PREFIXES.PORT} Usando puerto dinámico:`, port);
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -320,12 +341,12 @@ export function ThemeEditorApp({ onClose }) {
         const result = await response.json();
         setOriginalVars(prev => ({ ...prev, ...modifiedColors }));
         setModifiedColors({});
-        showNotification(`✅ Colores guardados en ${result.targetSelector}`, '#10b981');
+        showNotification(`${DEV.LOG_PREFIXES.SUCCESS} Colores guardados en ${result.targetSelector}`, UI.COLORS.SUCCESS);
       } else {
         throw new Error(`Error ${response.status}`);
       }
     } catch (error) {
-      showNotification(`❌ Error: ${error.message}`, '#ef4444');
+      showNotification(`${DEV.LOG_PREFIXES.ERROR} Error: ${error.message}`, UI.COLORS.ERROR);
     } finally {
       setSavingColors(false);
     }
@@ -354,7 +375,7 @@ export function ThemeEditorApp({ onClose }) {
       if (document.body.contains(notification)) {
         document.body.removeChild(notification);
       }
-    }, 3000);
+    }, UI.NOTIFICATION_DURATION);
   };
 
   // Inyectar estilos para la selección de texto al montar

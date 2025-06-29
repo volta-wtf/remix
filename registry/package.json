@@ -65,14 +65,6 @@
     "stylewindcss": "workspace:*",
     "typescript": "^5.7.3"
   },
-  "peerDependencies": {
-    "@stylewindcss/postcss": "workspace:*",
-    "stylewindcss": "workspace:*"
-  },
-  "bundledDependencies": [
-    "@stylewindcss/postcss",
-    "stylewindcss"
-  ],
   "exports": {
     "./test.css": "./styles/test.css",
     "./shadcn.css": "./styles/shadcn.css",

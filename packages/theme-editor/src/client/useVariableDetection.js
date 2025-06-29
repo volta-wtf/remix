@@ -1,4 +1,49 @@
 import { useState, useEffect, useCallback } from 'react';
+import {
+  getComputedValueForPreview,
+  updateComputedValuesForPreview,
+  createThemeObserver
+} from '../utils/computed-style-utils.js';
+import { detectVariablesFromEditableStylesheets } from '../utils/stylesheet-matcher.js';
+
+// Función para determinar si una variable es editable (solo app local y registry)
+function isEditableVariable(varName, sourceInfo) {
+  // Si no tenemos información del origen, no es editable
+  if (!sourceInfo || !sourceInfo.file) {
+    console.log(`⏭️ Variable ${varName}: Sin información de origen`);
+    return false;
+  }
+
+  const fileName = sourceInfo.file.toLowerCase();
+
+  // Log para debug
+  console.log(`🔍 Verificando variable ${varName} de archivo: "${sourceInfo.file}"`);
+
+  // Variables editables son solo de:
+  // 1. globals.css (archivo local de la app) - buscar por nombre o ruta
+  // 2. Archivos que contengan "registry" en la ruta
+  // 3. Estilos inline del theme-editor (overrides temporales)
+  const isEditableSource =
+    fileName === 'globals.css' ||                    // Nombre exacto
+    fileName.endsWith('/globals.css') ||             // Ruta que termina en globals.css
+    fileName.includes('/app/globals.css') ||         // Ruta específica de Next.js
+    fileName.includes('registry') ||                 // Registry
+    sourceInfo.type === 'inline' ||                 // Estilos inline
+    sourceInfo.file === 'Estilo inline';           // Estilos inline del theme-editor
+
+  // Excluir variables que claramente vienen de paquetes externos
+  const isExternalPackage =
+    fileName.includes('stylewind') ||
+    fileName.includes('tailwind') ||
+    fileName.includes('node_modules') ||
+    fileName.includes('package');
+
+  const isEditable = isEditableSource && !isExternalPackage;
+
+  console.log(`${isEditable ? '✅' : '❌'} Variable ${varName}: ${isEditable ? 'EDITABLE' : 'NO EDITABLE'} (${sourceInfo.file})`);
+
+  return isEditable;
+}
 
 export function useVariableDetection() {
   const [cssVars, setCssVars] = useState({});
@@ -8,178 +53,42 @@ export function useVariableDetection() {
   const [loading, setLoading] = useState(true);
   const [themeChangeCounter, setThemeChangeCounter] = useState(0);
 
-  // Función para detectar variables CSS
+  // Función simplificada que usa stylesheet-matcher
   const detectVariables = useCallback(() => {
-    console.log('🔍 Detectando variables CSS...');
+    console.log('🎯 Detectando variables usando stylesheet-matcher...');
     const debugLog = [];
 
-    // Método 1: getComputedStyle y iterar por todas las propiedades
-    const computedStyle = getComputedStyle(document.documentElement);
-    debugLog.push(`Método 1: ComputedStyle tiene ${computedStyle.length} propiedades`);
-
-    const vars = {};
-
-    // Buscar variables CSS que empiecen con --
-    for (let i = 0; i < computedStyle.length; i++) {
-      const prop = computedStyle[i];
-      if (prop.startsWith('--')) {
-        const value = computedStyle.getPropertyValue(prop).trim();
-        vars[prop] = value;
-        console.log(`📌 Variable encontrada: ${prop} = ${value}`);
-        debugLog.push(`Encontrada: ${prop} = ${value}`);
-      }
-    }
-
-    // Método 2: Buscar en el CSS directamente con información de origen
-    debugLog.push(`Método 2: Buscando en stylesheets...`);
-    const varSources = {}; // Para rastrear el origen de cada variable
     try {
-      const allVars = {};
-      for (let i = 0; i < document.styleSheets.length; i++) {
-        const styleSheet = document.styleSheets[i];
-        const sourceInfo = styleSheet.href ?
-          new URL(styleSheet.href).pathname.split('/').pop() :
-          `<style> tag #${i + 1}`;
+      // ✅ Usar la nueva utilidad que conecta css-finder con DOM
+      const { variables, sources } = detectVariablesFromEditableStylesheets();
 
-        try {
-          for (let j = 0; j < (styleSheet.cssRules || []).length; j++) {
-            const rule = styleSheet.cssRules[j];
-            if (rule.type === CSSRule.STYLE_RULE && rule.selectorText === ':root') {
-              const cssText = rule.style.cssText;
-              const varMatches = cssText.match(/--[\w-]+:\s*[^;]+/g);
-              if (varMatches) {
-                debugLog.push(`Encontradas ${varMatches.length} variables en :root de ${sourceInfo}`);
-                varMatches.forEach(match => {
-                  const [prop, value] = match.split(':').map(s => s.trim());
-                  const cleanValue = value.replace(/;$/, '');
-                  allVars[prop] = cleanValue;
-                  varSources[prop] = {
-                    file: sourceInfo,
-                    rule: rule.selectorText,
-                    ruleIndex: j,
-                    stylesheetIndex: i
-                  };
-                  console.log(`📌 Variable CSS: ${prop} = ${cleanValue} (${sourceInfo})`);
-                });
-              }
-            }
-          }
-        } catch (e) {
-          debugLog.push(`Error accediendo stylesheet ${sourceInfo}: ${e.message}`);
-        }
-      }
-      Object.assign(vars, allVars);
-    } catch (e) {
-      debugLog.push(`Error en método 2: ${e.message}`);
-    }
+      debugLog.push(`Variables encontradas en stylesheets editables: ${Object.keys(variables).length}`);
 
-    // Método 3: Buscar en otras reglas CSS (no solo :root)
-    debugLog.push(`Método 3: Buscando variables en otras reglas CSS...`);
-    try {
-      for (let i = 0; i < document.styleSheets.length; i++) {
-        const styleSheet = document.styleSheets[i];
-        const sourceInfo = styleSheet.href ?
-          new URL(styleSheet.href).pathname.split('/').pop() :
-          `<style> tag #${i + 1}`;
+      // Aplicar valores computados SOLO para preview
+      const finalVars = {};
+      Object.entries(variables).forEach(([varName, originalValue]) => {
+        const computedValue = getComputedValueForPreview(varName, originalValue);
+        finalVars[varName] = computedValue;
 
-        try {
-          for (let j = 0; j < (styleSheet.cssRules || []).length; j++) {
-            const rule = styleSheet.cssRules[j];
-            if (rule.type === CSSRule.STYLE_RULE && rule.selectorText !== ':root') {
-              const cssText = rule.style.cssText;
-              const varMatches = cssText.match(/--[\w-]+:\s*[^;]+/g);
-              if (varMatches) {
-                debugLog.push(`Encontradas ${varMatches.length} variables en ${rule.selectorText} de ${sourceInfo}`);
-                varMatches.forEach(match => {
-                  const [prop, value] = match.split(':').map(s => s.trim());
-                  const cleanValue = value.replace(/;$/, '');
-                  if (!vars[prop]) { // Solo agregar si no existe ya
-                    vars[prop] = cleanValue;
-                    varSources[prop] = {
-                      file: sourceInfo,
-                      rule: rule.selectorText,
-                      ruleIndex: j,
-                      stylesheetIndex: i,
-                      type: 'selector-specific'
-                    };
-                    console.log(`📌 Variable CSS en selector: ${prop} = ${cleanValue} (${rule.selectorText} en ${sourceInfo})`);
-                  }
-                });
-              }
-            }
-          }
-        } catch (e) {
-          debugLog.push(`Error accediendo reglas en ${sourceInfo}: ${e.message}`);
-        }
-      }
-    } catch (e) {
-      debugLog.push(`Error en método 3: ${e.message}`);
-    }
-
-    // Método 4: Buscar variables en elementos inline
-    debugLog.push(`Método 4: Buscando variables en estilos inline...`);
-    try {
-      const elementsWithStyle = document.querySelectorAll('[style*="--"]');
-      elementsWithStyle.forEach((element, index) => {
-        const inlineStyle = element.getAttribute('style');
-        const varMatches = inlineStyle.match(/--[\w-]+:\s*[^;]+/g);
-        if (varMatches) {
-          debugLog.push(`Encontradas ${varMatches.length} variables inline en elemento ${element.tagName.toLowerCase()}`);
-          varMatches.forEach(match => {
-            const [prop, value] = match.split(':').map(s => s.trim());
-            const cleanValue = value.replace(/;$/, '');
-            if (!vars[prop]) {
-              vars[prop] = cleanValue;
-              varSources[prop] = {
-                file: 'Estilo inline',
-                rule: `${element.tagName.toLowerCase()}${element.id ? '#' + element.id : ''}${element.className ? '.' + element.className.split(' ').join('.') : ''}`,
-                ruleIndex: index,
-                stylesheetIndex: -1,
-                type: 'inline'
-              };
-              console.log(`📌 Variable inline: ${prop} = ${cleanValue} (${element.tagName})`);
-            }
-          });
-        }
+        console.log(`✅ ${varName} = "${computedValue}" (original: "${originalValue}", archivo: ${sources[varName]?.file})`);
       });
-    } catch (e) {
-      debugLog.push(`Error en método 4: ${e.message}`);
+
+      console.log(`📊 Variables finales para editor: ${Object.keys(finalVars).length}`);
+      debugLog.push(`Variables listas para edición: ${Object.keys(finalVars).length}`);
+
+      setCssVars(finalVars);
+      setVarSources(sources);
+      setDebugInfo(debugLog);
+      setLoading(false);
+
+      return finalVars;
+    } catch (error) {
+      console.error('❌ Error detectando variables:', error);
+      debugLog.push(`Error: ${error.message}`);
+      setDebugInfo(debugLog);
+      setLoading(false);
+      return {};
     }
-
-    // Método 5: Variables específicas conocidas (fallback)
-    debugLog.push(`Método 5: Verificando variables específicas...`);
-    const knownVars = [
-      '--color-background', '--color-foreground', '--color-primary',
-      '--font-size-base', '--spacing-md', '--radius-md'
-    ];
-
-    knownVars.forEach(varName => {
-      const value = computedStyle.getPropertyValue(varName).trim();
-      if (value && !vars[varName]) {
-        vars[varName] = value;
-        console.log(`📌 Variable específica: ${varName} = ${value}`);
-        debugLog.push(`Específica: ${varName} = ${value}`);
-      } else if (!value) {
-        debugLog.push(`No encontrada: ${varName}`);
-      }
-    });
-
-    // Actualizar los valores computed style para reflejar el tema actual
-    const finalVars = {};
-    Object.keys(vars).forEach(varName => {
-      const computedValue = computedStyle.getPropertyValue(varName).trim();
-      finalVars[varName] = computedValue || vars[varName];
-    });
-
-    console.log('📊 Total variables encontradas:', Object.keys(finalVars).length);
-    debugLog.push(`Total final: ${Object.keys(finalVars).length} variables`);
-
-    setCssVars(finalVars);
-    setDebugInfo(debugLog);
-    setVarSources(varSources);
-    setLoading(false);
-
-    return finalVars;
   }, [themeChangeCounter]);
 
   // Effect inicial para detectar variables
@@ -195,29 +104,18 @@ export function useVariableDetection() {
     }
   }, [themeChangeCounter, detectVariables]);
 
-  // Observer para detectar cambios en las clases del html
+  // Observer para detectar cambios en las clases del html usando la utilidad
   useEffect(() => {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' &&
-            mutation.attributeName === 'class' &&
-            mutation.target === document.documentElement) {
-          console.log('🎨 Cambio de tema detectado, recalculando variables...');
-          // Pequeño delay para asegurar que los estilos se han aplicado
-          setTimeout(() => {
-            setThemeChangeCounter(prev => prev + 1);
-          }, 100);
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
+    const observer = createThemeObserver(
+      originalVars,
+      (updatedValues) => {
+        setCssVars(updatedValues);
+        setThemeChangeCounter(prev => prev + 1);
+      }
+    );
 
     return () => observer.disconnect();
-  }, []);
+  }, [originalVars]);
 
   const updateCSSVar = (varName, value) => {
     // Detectar el tema actual
@@ -303,11 +201,9 @@ export function useVariableDetection() {
       }
     }
 
-    // Recalcular el valor actual después de remover el override
-    const computedStyle = getComputedStyle(document.documentElement);
-    const currentValue = computedStyle.getPropertyValue(varName).trim();
-    const originalValue = originalVars[varName];
-    setCssVars(prev => ({ ...prev, [varName]: currentValue || originalValue }));
+    // ✅ Usar la utilidad para obtener el valor computado después del reset
+    const currentValue = getComputedValueForPreview(varName, originalVars[varName]);
+    setCssVars(prev => ({ ...prev, [varName]: currentValue }));
   };
 
   return {

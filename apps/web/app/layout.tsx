@@ -1,5 +1,4 @@
 import { Geist, Geist_Mono } from "next/font/google"
-import Script from "next/script"
 import { Providers } from "@/components/providers"
 
 import "@workspace/ui-registry/globals.css"
@@ -25,9 +24,6 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
         <Providers>{children}</Providers>
-        {process.env.NODE_ENV === 'development' && (
-          <Script src="http://localhost:4444/theme-editor.js" strategy="afterInteractive"/>
-        )}
       </body>
     </html>
   )

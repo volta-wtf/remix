@@ -51,6 +51,9 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
     devDependencies:
+      '@stylewindcss/postcss':
+        specifier: workspace:*
+        version: link:../../packages/postcss
       '@types/node':
         specifier: ^20
         version: 20.17.19
@@ -66,6 +69,9 @@ importers:
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
+      stylewindcss:
+        specifier: workspace:*
+        version: link:../../packages/stylewind
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
