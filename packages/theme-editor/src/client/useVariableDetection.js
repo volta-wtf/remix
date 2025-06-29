@@ -55,7 +55,7 @@ async function fetchVariablesFromServer() {
 function isEditableVariable(varName, sourceInfo) {
   // Todas las variables que vienen del servidor son editables
   // porque el css-parser ya filtró solo las del globals.css
-  console.log(`✅ Variable ${varName}: EDITABLE (desde sistema de archivos)`);
+  console.log(`☑️ Variable ${varName}: EDITABLE (desde sistema de archivos)`);
   return true;
 }
 
@@ -81,13 +81,14 @@ export function useVariableDetection() {
       debugLog.push(`Variables cargadas desde: ${filePath}`);
       debugLog.push(`Variables encontradas: ${Object.keys(variables).length}`);
 
-      // Aplicar valores computados SOLO para preview
+      // Usar valores originales del CSS para los inputs
       const finalVars = {};
       Object.entries(variables).forEach(([varName, originalValue]) => {
-        const computedValue = getComputedValueForPreview(varName, originalValue);
-        finalVars[varName] = computedValue;
+        // const computedValue = getComputedValueForPreview(varName, originalValue);
+        // finalVars[varName] = computedValue;
+        finalVars[varName] = originalValue;
 
-        console.log(`✅ ${varName} = "${computedValue}" (original: "${originalValue}")`);
+        console.log(`✅ ${varName} = "${originalValue}" (valor original del CSS)`);
       });
 
       console.log(`📊 Variables finales para editor: ${Object.keys(finalVars).length}`);
@@ -122,12 +123,13 @@ export function useVariableDetection() {
     }
   }, [themeChangeCounter, detectVariables]);
 
-  // Observer para detectar cambios en las clases del html usando la utilidad
+  // Observer para detectar cambios en las clases del html - mantener valores originales
   useEffect(() => {
     const observer = createThemeObserver(
       originalVars,
       (updatedValues) => {
-        setCssVars(updatedValues);
+        // Solo detectar el cambio, pero mantener valores originales en inputs
+        console.log('🎨 Cambio de tema detectado, manteniendo valores originales en inputs');
         setThemeChangeCounter(prev => prev + 1);
       }
     );

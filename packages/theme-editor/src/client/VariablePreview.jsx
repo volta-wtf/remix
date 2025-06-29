@@ -1,9 +1,10 @@
 import React from 'react';
 import { analyzeVariable } from '../utils/variable-type-detector.js';
+import { getComputedValueForPreview } from '../utils/computed-style-utils.js';
 
 /**
  * VariablePreview - Componente que muestra un preview visual de una variable CSS
- * basándose en su tipo detectado automáticamente
+ * Usa el valor computado para el preview visual, independiente del valor del input
  */
 export function VariablePreview({ varName, value, size = 'normal' }) {
   if (!varName) {
@@ -50,7 +51,11 @@ export function VariablePreview({ varName, value, size = 'normal' }) {
     );
   }
 
-  const analysis = analyzeVariable(varName, value);
+  // CLAVE: Computar el valor visual para el preview (valor computado del DOM)
+  const visualValue = getComputedValueForPreview(varName, value);
+
+  // Usar el valor visual (computado) para el análisis y preview
+  const analysis = analyzeVariable(varName, visualValue);
   const { preview } = analysis;
 
   if (!preview) {
@@ -114,9 +119,14 @@ export function VariablePreview({ varName, value, size = 'normal' }) {
     return null;
   };
 
+  // Crear tooltip que muestre tanto el valor original como el computado
+  const tooltipText = value !== visualValue
+    ? `${preview.tooltip}\nOriginal: ${value}\nComputado: ${visualValue}`
+    : preview.tooltip;
+
   return (
     <div
-      title={preview.tooltip}
+      title={tooltipText}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
@@ -139,7 +149,9 @@ export function VariableTypeIndicator({ varName, value, showLabel = false }) {
     return null;
   }
 
-  const analysis = analyzeVariable(varName, value);
+  // Usar valor computado para detectar el tipo correctamente
+  const visualValue = getComputedValueForPreview(varName, value);
+  const analysis = analyzeVariable(varName, visualValue);
   const { type, metadata } = analysis;
 
   // Mapeo de tipos a colores e iconos
@@ -233,8 +245,13 @@ export function VariableAnalysisPanel({ varName, value, isVisible = false }) {
             Tipo detectado: <strong style={{ color: '#374151' }}>{analysis.type}</strong>
           </div>
           <div style={{ fontSize: '11px', color: '#6b7280' }}>
-            Valor: <code style={{ background: '#f3f4f6', padding: '2px 4px', borderRadius: '2px' }}>{value}</code>
+            Valor original: <code style={{ background: '#f3f4f6', padding: '2px 4px', borderRadius: '2px' }}>{value}</code>
           </div>
+          {value !== visualValue && (
+            <div style={{ fontSize: '11px', color: '#6b7280' }}>
+              Valor computado: <code style={{ background: '#e0f2fe', padding: '2px 4px', borderRadius: '2px' }}>{visualValue}</code>
+            </div>
+          )}
         </div>
       </div>
 
