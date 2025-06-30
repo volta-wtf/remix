@@ -86,6 +86,7 @@ export const styles = {
     color: '#6b7280',
     borderRadius: '4px',
     transition: 'all 0.2s ease',
+    lineHeight: 1,
 
     ':hover:not(:disabled)': {
       background: 'rgba(0, 0, 0, 0.02)',

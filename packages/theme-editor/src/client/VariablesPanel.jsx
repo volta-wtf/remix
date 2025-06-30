@@ -64,7 +64,7 @@ export function VariablesPanel({
         <ThemeSelector />
       </div>
 
-      <div data-slot="property-list" style={styles.propertyList}>
+      <div data-slot="property-list" className={styles.propertyList}>
         {/* Variables principales (:root y otros) - EXCLUYENDO variables de colores */}
         {mainVariables.map(([varName, value]) => (
           <PropertyItem

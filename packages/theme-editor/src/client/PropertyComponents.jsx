@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { styles } from './panel-styles.js';
 import { VariablePreview, VariableTypeIndicator } from './VariablePreview.jsx';
+import { variableClass } from '../utils/class-names.js';
 
 /**
  * PropertyItem - Componente reutilizable para renderizar una variable CSS
@@ -27,15 +28,17 @@ export function PropertyItem({
   return (
     <div
       data-slot="property-item"
-      style={{ ...currentStyle, position: 'relative' }}
+      //style={{ ...currentStyle, position: 'relative' }}
+      className={variableClass(isModified)}
+      style={{ position: 'relative' }}
       onMouseEnter={() => onHover?.(varName)}
       onMouseLeave={() => onHover?.(null)}
     >
-      <div style={styles.property}>
-        <label style={styles.label}>
+      <div className={styles.property}>
+        <label className={styles.label}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span>{labelTransform(varName)}</span>
-            {isModified && <span style={styles.indicator}>●</span>}
+            {isModified && <span className={styles.indicator}>●</span>}
           </div>
         </label>
         <div style={{ position: 'relative', width: '100%' }}>
@@ -59,8 +62,8 @@ export function PropertyItem({
 
           <input
             type="text"
+            className={styles.input}
             style={{
-              ...styles.input,
               borderColor: (isFocused ? 'rgba(0,0,0,0.4)' : (isHovered ? 'rgba(0,0,0,0.1)' : 'transparent')),
               paddingLeft: showPreview ? '36px' : '12px', // Espacio para el preview
               paddingRight: '28px',
@@ -97,7 +100,7 @@ export function PropertyItem({
           )}
         </div>
       </div>
-      <div style={styles.value}>
+      <div className={styles.value}>
         Valor actual: {value}
         {isModified && dropdownProps.originalValue && (
           <span style={{ color: '#ef4444', marginLeft: '12px', fontSize: '12px' }}>
@@ -480,7 +483,7 @@ export function SectionHeader({
 }) {
   return (
     <div
-      style={styles.sectionHeader}
+      className={styles.sectionHeader}
       onClick={onToggle}
       onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.03)'}
       onMouseLeave={(e) => e.target.style.backgroundColor = '#FFFFFF'}

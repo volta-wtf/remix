@@ -383,11 +383,11 @@ export function ThemeEditorApp({ onClose }) {
     }, UI.NOTIFICATION_DURATION);
   };
 
-  // Inyectar estilos dinámicos y para la selección de texto al montar
-  React.useEffect(() => {
+  // Configurar sistema de clases ANTES del primer render
+  React.useLayoutEffect(() => {
+    setClassNames(); // Debe ejecutarse PRIMERO
     injectDynamicStyles();
     injectTextSelectionStyles();
-    setClassNames();
   }, []);
 
   // Pantalla de carga

@@ -155,16 +155,80 @@ export const logGeneratedCSS = () => {
 export { cn, cls } from '../utils/class-names.js';
 
 // Clase especial que funciona como string (para className) y objeto (para style)
-class StyleClass extends String {
+class StyleClass {
   constructor(className, originalStyles) {
-    super(className);
+    // Separar estilos base de pseudo-selectores
+    const { baseStyles, stateStyles } = processStyleObject(originalStyles);
 
-    // Agregar todas las propiedades CSS originales
-    Object.assign(this, originalStyles);
+    // Solo agregar propiedades CSS válidas para estilos inline (sin pseudo-selectores)
+    Object.entries(baseStyles).forEach(([key, value]) => {
+      if (key !== 'toString' && key !== 'valueOf' && typeof key === 'string' && isNaN(key)) {
+        Object.defineProperty(this, key, {
+          value: value,
+          writable: false,
+          enumerable: true,
+          configurable: false
+        });
+      }
+    });
+
+    // Almacenar el className como propiedad especial
+    Object.defineProperty(this, '_className', {
+      value: className,
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
+
+    // Almacenar referencias a los estilos completos para debugging
+    Object.defineProperty(this, '_originalStyles', {
+      value: originalStyles,
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
+
+    Object.defineProperty(this, '_baseStyles', {
+      value: baseStyles,
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
+
+    Object.defineProperty(this, '_stateStyles', {
+      value: stateStyles,
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
 
     // Asegurar que toString() devuelva el className
-    this.toString = () => className;
-    this.valueOf = () => className;
+    Object.defineProperty(this, 'toString', {
+      value: () => className,
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
+
+    Object.defineProperty(this, 'valueOf', {
+      value: () => className,
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
+
+    // Hacer que la instancia se comporte como primitivo cuando se convierte a string
+    Object.defineProperty(this, Symbol.toPrimitive, {
+      value: (hint) => {
+        if (hint === 'string' || hint === 'default') {
+          return className;
+        }
+        return className;
+      },
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
   }
 }
 
@@ -182,3 +246,17 @@ export const setClassNames = () => {
 
   console.log('🔗 Nombres de clases configurados - ahora puedes usar styles.tabBar como className y style');
 };
+
+// ===================================
+// AUTO-CONFIGURACIÓN
+// ===================================
+
+// Ejecutar setClassNames automáticamente al importar el módulo
+// Esto asegura que styles.X funcione desde el primer render
+try {
+  setClassNames();
+  console.log('🔗 Sistema de clases configurado automáticamente');
+} catch (error) {
+  console.warn('⚠️  No se pudo configurar clases automáticamente:', error.message);
+  console.log('💡 Se configurará en useLayoutEffect');
+}

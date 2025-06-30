@@ -15,11 +15,11 @@ export function DebugPanel({
   return (
     <div style={{ padding: '16px' }}>
       {/* Análisis de Variables Section */}
-      <div style={styles.debugSection}>
-        <h3 style={styles.debugSectionTitle}>
+      <div className={styles.debugSection}>
+        <h3 className={styles.debugSectionTitle}>
           🧪 Análisis de Variables
         </h3>
-        <div style={styles.debugContent}>
+        <div className={styles.debugContent}>
           <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '12px' }}>
             Selecciona una variable para ver su análisis detallado:
           </p>
@@ -63,11 +63,11 @@ export function DebugPanel({
       </div>
 
       {/* Debug Info Section */}
-      <div style={styles.debugSection}>
-        <h3 style={styles.debugSectionTitle}>
+      <div className={styles.debugSection}>
+        <h3 className={styles.debugSectionTitle}>
           🔍 Información de Detección
         </h3>
-        <div style={styles.debugContent}>
+        <div className={styles.debugContent}>
           <p style={{ margin: '0 0 16px 0', color: '#6b7280', fontSize: '12px' }}>
             {Object.keys(cssVars).length} variables CSS encontradas
           </p>
@@ -78,9 +78,9 @@ export function DebugPanel({
       </div>
 
       {/* Nueva sección para debug de variables de colores */}
-      <div style={styles.debugSection}>
-        <h3 style={styles.debugSectionTitle}>🎨 Variables de Colores Detectadas</h3>
-        <div style={styles.debugContent}>
+      <div className={styles.debugSection}>
+        <h3 className={styles.debugSectionTitle}>🎨 Variables de Colores Detectadas</h3>
+        <div className={styles.debugContent}>
           {Object.entries(cssVars).filter(([varName]) =>
             varName.startsWith('--color-') || varName.startsWith('--tone-')
           ).length > 0 ? (
@@ -115,8 +115,8 @@ export function DebugPanel({
       </div>
 
       {/* Variables :root y principales */}
-      <div style={styles.debugSection}>
-        <h3 style={styles.debugSectionTitle}>
+      <div className={styles.debugSection}>
+        <h3 className={styles.debugSectionTitle}>
           🎨 Variables Principales (:root y otros)
         </h3>
         {Object.entries(cssVars)
@@ -125,8 +125,8 @@ export function DebugPanel({
             varSources[varName].type !== 'selector-specific'
           )
           .map(([varName, value]) => (
-            <div key={varName} style={styles.debugVariable}>
-              <div style={styles.debugVariableName}>
+            <div key={varName} className={styles.debugVariable}>
+              <div className={styles.debugVariableName}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <VariableTypeIndicator
                     varName={varName}
@@ -136,13 +136,13 @@ export function DebugPanel({
                   <span>{varName}</span>
                 </div>
               </div>
-              <div style={styles.debugVariableValue}>
+              <div className={styles.debugVariableValue}>
                 Valor: {value}
               </div>
-              <div style={styles.debugVariableInfo}>
+              <div className={styles.debugVariableInfo}>
                 Tipo detectado: <strong>{detectVariableType(varName, value)}</strong>
               </div>
-              <div style={styles.debugVariableInfo}>
+              <div className={styles.debugVariableInfo}>
                 Tipo CSS: {value.startsWith('var(') ? 'Referencia a variable' :
                        value.startsWith('#') ? 'Color hexadecimal' :
                        value.includes('px') ? 'Medida en píxeles' :
@@ -153,7 +153,7 @@ export function DebugPanel({
                        'Valor directo'}
               </div>
               {varSources[varName] && (
-                <div style={styles.debugVariableInfo}>
+                <div className={styles.debugVariableInfo}>
                   Archivo: {varSources[varName].file}
                 </div>
               )}
@@ -195,8 +195,8 @@ export function DebugPanel({
       {Object.entries(cssVars).filter(([varName]) =>
         varSources[varName] && varSources[varName].type === 'selector-specific'
       ).length > 0 && (
-        <div style={styles.debugSection}>
-          <h3 style={styles.debugSectionTitle}>
+        <div className={styles.debugSection}>
+          <h3 className={styles.debugSectionTitle}>
             ⚙️ Variables de Reglas Específicas (no :root)
           </h3>
           {Object.entries(cssVars)
@@ -204,8 +204,8 @@ export function DebugPanel({
               varSources[varName] && varSources[varName].type === 'selector-specific'
             )
             .map(([varName, value]) => (
-              <div key={varName} style={styles.debugVariable}>
-                <div style={styles.debugVariableName}>
+              <div key={varName} className={styles.debugVariable}>
+                <div className={styles.debugVariableName}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <VariableTypeIndicator
                       varName={varName}
@@ -215,13 +215,13 @@ export function DebugPanel({
                     <span>{varName}</span>
                   </div>
                 </div>
-                <div style={styles.debugVariableValue}>
+                <div className={styles.debugVariableValue}>
                   Valor: {value}
                 </div>
-                <div style={styles.debugVariableInfo}>
+                <div className={styles.debugVariableInfo}>
                   Tipo detectado: <strong>{detectVariableType(varName, value)}</strong>
                 </div>
-                <div style={styles.debugVariableInfo}>
+                <div className={styles.debugVariableInfo}>
                   Tipo CSS: {value.startsWith('var(') ? 'Referencia a variable' :
                          value.startsWith('#') ? 'Color hexadecimal' :
                          value.includes('px') ? 'Medida en píxeles' :
@@ -232,12 +232,12 @@ export function DebugPanel({
                          'Valor directo'}
                 </div>
                 {varSources[varName] && (
-                  <div style={styles.debugVariableInfo}>
+                  <div className={styles.debugVariableInfo}>
                     Archivo: {varSources[varName].file}
                   </div>
                 )}
                 {varSources[varName] && (
-                  <div style={styles.debugVariableInfo}>
+                  <div className={styles.debugVariableInfo}>
                     Regla: {varSources[varName].rule}
                     {varSources[varName].type !== 'inline' && ` (línea ${varSources[varName].ruleIndex + 1})`}
                   </div>
