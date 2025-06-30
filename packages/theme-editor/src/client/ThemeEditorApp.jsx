@@ -54,7 +54,7 @@ const DebugIcon = () => (
 );
 
 // Componente Tab individual
-const Tab = ({ isActive, onClick, icon, disabled = false }) => (
+const Tab = ({ isActive, onClick, icon, children, disabled = false }) => (
   <button
     style={disabled ?
       { ...styles.tab, opacity: 0.5, cursor: 'not-allowed' } :
@@ -63,7 +63,7 @@ const Tab = ({ isActive, onClick, icon, disabled = false }) => (
     onClick={disabled ? undefined : onClick}
     disabled={disabled}
   >
-    {icon}
+    {icon || children}
   </button>
 );
 
@@ -73,21 +73,27 @@ const AppTabs = ({ activeTab, onTabChange, disabled = false }) => (
     <Tab
       isActive={activeTab === 'variables'}
       onClick={() => onTabChange('variables')}
-      icon={<VariablesIcon />}
+      // icon={<VariablesIcon />}
       disabled={disabled}
-    />
+    >
+      Theme
+    </Tab>
     <Tab
       isActive={activeTab === 'colors'}
       onClick={() => onTabChange('colors')}
-      icon={<ColorsIcon />}
+      // icon={<ColorsIcon />}
       disabled={disabled}
-    />
+    >
+      Palette
+    </Tab>
     <Tab
       isActive={activeTab === 'debug'}
       onClick={() => onTabChange('debug')}
-      icon={<DebugIcon />}
+      // icon={<DebugIcon />}
       disabled={disabled}
-    />
+    >
+      Debug
+    </Tab>
   </div>
 );
 
