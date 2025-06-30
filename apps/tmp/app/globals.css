@@ -6,8 +6,8 @@
 :root {
   --scheme: light dark;
 
-  --hex: red;
-  --hex-alpha: #80000000;
+  --hex: #000000;
+  --hex-alpha: #00000080;
   --rgb: rgb(0 0 0);
   --rgb-alpha: rgb(0 0 0 / 50%);
   --hsl: hsl(120deg 75% 75%);
@@ -28,5 +28,13 @@
 }
 
 .dark {
-  --hex: blue;
+  --hex: red;
+  --hex-alpha: green;
+  --rgb: brown;
+  --rgb-alpha: rgb(0 0 0 / 10%);
+  --hsl: blue;
+  --rgb-legacy: pink;
+  --rgba-legacy-2: orange;
+  --hsla-legacy-1: blue;
+  --hsla-legacy-2: blue;
 }

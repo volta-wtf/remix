@@ -17,6 +17,4 @@
   script.onerror = () => console.warn(`⚠️ Error cargando Theme Editor desde puerto ${port}`);
 
   (document.head || document.documentElement).appendChild(script);
-
-  console.log('▪ Auto-inyeción realizada');
 })();
