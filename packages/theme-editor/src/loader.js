@@ -252,9 +252,76 @@ app.post(API_ENDPOINTS.SAVE_CSS, (req, res) => {
             const beforeBlock = cssContent.substring(0, selectorMatch.index);
             const afterBlock = cssContent.substring(selectorMatch.index + fullMatch.length);
 
-            // Agregar la variable con indentación apropiada al final del contenido
-            const newVariable = `\n  ${varName}: ${newValue};`;
-            const newBlockContent = blockContent + newVariable;
+            // Elimina solo líneas completamente en blanco, pero mantiene la primera línea
+            // (o deja la primer variable al lado del selector)
+            const trimmedBlockContent = blockContent
+              .split('\n')
+              .filter((line, idx) => idx === 0 || line.trim().length > 0 || line.match(/^\s*[\{\}]/))
+              .join('\n');
+
+            // --- Mantener el mismo orden que en :root ----------------------
+            let newBlockContent;
+
+            // Solo intentamos alinear el orden cuando el selector objetivo NO es :root
+            if (targetSelector !== ':root') {
+              try {
+                console.log(`🔄 Intentando mantener orden de :root para variable ${varName} en ${targetSelector}`);
+
+                // 1) Extraer orden de variables en :root
+                const rootSelectorRegex = /:root\s*\{([^}]*)\}/s;
+                const rootSelectorMatch = rootSelectorRegex.exec(cssContent);
+
+                if (rootSelectorMatch) {
+                  // Obtener todos los nombres de variable en el mismo orden
+                  const rootVars = Array.from(rootSelectorMatch[1].matchAll(/--[\w-]+(?=\s*:)/g)).map(m => m[0]);
+                  console.log(`📋 Variables en :root orden:`, rootVars);
+
+                  const indexInRoot = rootVars.indexOf(varName);
+                  console.log(`📍 Índice de ${varName} en :root:`, indexInRoot);
+
+                  if (indexInRoot !== -1) {
+                    // Obtener variables que ya existen en el bloque target (usando trimmedBlockContent)
+                    const existingVarsInTarget = Array.from(trimmedBlockContent.matchAll(/--[\w-]+(?=\s*:)/g)).map(m => m[0]);
+                    console.log(`📋 Variables existentes en ${targetSelector}:`, existingVarsInTarget);
+
+                    // Buscar la siguiente variable que ya exista en el bloque target
+                    let referenceVar = null;
+                    for (let i = indexInRoot + 1; i < rootVars.length; i++) {
+                      const candidate = rootVars[i];
+                      if (existingVarsInTarget.includes(candidate)) {
+                        referenceVar = candidate;
+                        console.log(`🎯 Variable de referencia encontrada: ${referenceVar}`);
+                        break;
+                      }
+                    }
+
+                    if (referenceVar) {
+                      // Insertar justo ANTES de referenceVar para mantener orden
+                      const escapedRef = referenceVar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                      const refRegex = new RegExp(`(\\n\\s*)(${escapedRef}\\s*:)`);
+                      const replacement = `\n  ${varName}: ${newValue};$1$2`;
+                      newBlockContent = trimmedBlockContent.replace(refRegex, replacement);
+                      console.log(`✅ Variable ${varName} insertada antes de ${referenceVar}`);
+                    } else {
+                      console.log(`📌 No se encontró variable de referencia, insertando al final`);
+                    }
+                  } else {
+                    console.log(`⚠️ Variable ${varName} no encontrada en :root`);
+                  }
+                } else {
+                  console.log(`⚠️ No se encontró bloque :root`);
+                }
+              } catch (orderErr) {
+                console.warn('⚠️ Error manteniendo orden de variables:', orderErr.message);
+              }
+            }
+
+            // Si no se pudo insertar respetando el orden, agregar al final (fallback)
+            if (!newBlockContent || newBlockContent === trimmedBlockContent) {
+              const newVariable = `\n  ${varName}: ${newValue};`;
+              newBlockContent = trimmedBlockContent + newVariable;
+            }
+
             const newBlock = `${targetSelector} {${newBlockContent}\n}`;
 
             cssContent = beforeBlock + newBlock + afterBlock;
