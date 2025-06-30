@@ -11,9 +11,13 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "watch": "rollup -c --watch",
-    "prepare": "npm run build",
-    "test:variables": "node test-variables.js"
+    "dev": "rollup -c -w",
+    "test:styles": "node src/test/dynamic-styles-test.js",
+    "test:variables": "node src/test/variables-test.js",
+    "test:cors": "node src/test/cors-test.js",
+    "test": "npm run test:styles && npm run test:variables",
+    "test:all": "npm run test:styles && npm run test:variables && npm run test:cors",
+    "prepare": "npm run build"
   },
   "bin": {
     "theme-editor": "./bin/theme-editor.cjs"

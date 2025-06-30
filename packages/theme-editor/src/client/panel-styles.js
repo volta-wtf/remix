@@ -1,4 +1,4 @@
-// Estilos aislados para el panel del Theme Editor (sin variables CSS)
+// Estilos aislados para el panel del Theme Editor (con estados CSS)
 export const styles = {
   panel: {
     all: 'unset',
@@ -53,6 +53,16 @@ export const styles = {
     lineHeight: 1,
     verticalAlign: 'middle',
     textTransform: 'uppercase',
+    transition: 'all 0.2s ease',
+
+    ':hover': {
+      background: 'rgba(0, 0, 0, 0.05)',
+      color: '#374151',
+    },
+
+    ':active': {
+      background: 'rgba(0, 0, 0, 0.1)',
+    },
   },
   content: {
     flex: 1,
@@ -76,6 +86,21 @@ export const styles = {
     color: '#6b7280',
     borderRadius: '4px',
     transition: 'all 0.2s ease',
+
+    ':hover:not(:disabled)': {
+      background: 'rgba(0, 0, 0, 0.02)',
+      color: '#374151',
+    },
+
+    ':focus': {
+      outline: 'none',
+      boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.2)',
+    },
+
+    ':disabled': {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+    },
   },
   tabActive: {
     flex: 1,
@@ -88,6 +113,10 @@ export const styles = {
     color: '#3b82f6',
     borderRadius: '4px',
     transition: 'all 0.2s ease',
+
+    ':hover:not(:disabled)': {
+      background: 'rgba(59, 130, 246, 0.1)',
+    },
   },
   tabContent: {
     flex: 1,
@@ -100,11 +129,20 @@ export const styles = {
     padding: '2px 8px',
     backgroundColor: '#FFFFFF',
     borderRight: '1px solid transparent',
+    transition: 'all 0.2s ease',
+
+    ':hover': {
+      backgroundColor: '#f9fafb',
+    },
   },
   variableModified: {
     padding: '2px 8px',
     backgroundColor: 'rgba(60, 130, 240, 0.05)',
     borderRight: '1px solid rgba(60, 130, 240, 0.6)',
+
+    ':hover': {
+      backgroundColor: 'rgba(60, 130, 240, 0.1)',
+    },
   },
   property: {
     display: 'flex',
@@ -145,6 +183,17 @@ export const styles = {
     msUserSelect: 'text',
     outline: 'none',
     color: '#111827',
+    transition: 'all 0.2s ease',
+
+    ':focus': {
+      borderColor: '#3b82f6',
+      boxShadow: '0 0 0 1px #3b82f6',
+      backgroundColor: '#ffffff',
+    },
+
+    ':hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    },
   },
   value: {
     display: 'none',
@@ -161,6 +210,16 @@ export const styles = {
     fontSize: '11px',
     cursor: 'pointer',
     color: '#374151',
+    transition: 'all 0.2s ease',
+
+    ':hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)',
+      color: '#111827',
+    },
+
+    ':active': {
+      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    },
   },
   debugButton: {
     display: 'flex',
@@ -174,6 +233,15 @@ export const styles = {
     fontSize: '12px',
     cursor: 'pointer',
     color: '#374151',
+    transition: 'background-color 0.2s ease',
+
+    ':hover': {
+      backgroundColor: '#e5e7eb',
+    },
+
+    ':active': {
+      backgroundColor: '#d1d5db',
+    },
   },
   debugContent: {
     backgroundColor: '#1f2937',
@@ -190,6 +258,12 @@ export const styles = {
     backgroundColor: '#f8f9fa',
     borderRadius: '6px',
     border: '1px solid #e9ecef',
+    transition: 'all 0.2s ease',
+
+    ':hover': {
+      backgroundColor: '#f1f3f4',
+      borderColor: '#dee2e6',
+    },
   },
   debugVariableName: {
     fontWeight: '600',
@@ -231,6 +305,26 @@ export const styles = {
     fontSize: '13px',
     fontWeight: '500',
     cursor: 'pointer',
+    transition: 'all 0.2s ease',
+
+    ':hover:not(:disabled)': {
+      backgroundColor: '#2563eb',
+      transform: 'translateY(-1px)',
+      boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
+    },
+
+    ':active:not(:disabled)': {
+      transform: 'translateY(0)',
+      boxShadow: '0 2px 4px rgba(59, 130, 246, 0.4)',
+    },
+
+    ':disabled': {
+      backgroundColor: '#d1d5db',
+      color: '#9ca3af',
+      cursor: 'not-allowed',
+      transform: 'none',
+      boxShadow: 'none',
+    },
   },
   saveButtonDisabled: {
     backgroundColor: '#d1d5db',
@@ -259,6 +353,10 @@ export const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     transition: 'background-color 0.2s ease',
+
+    ':hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.03)',
+    },
   },
   sectionHeaderHover: {
     backgroundColor: 'rgba(0, 0, 0, 0.03)',

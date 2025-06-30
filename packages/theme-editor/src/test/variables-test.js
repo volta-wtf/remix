@@ -4,8 +4,8 @@
  * Script de conveniencia para ejecutar las pruebas del detector de variables
  *
  * Uso:
- *   node test-variables.js
- *   pnpm test:variables
+ *   node src/test/variables-test.js
+ *   npm run test:variables
  */
 
 import { fileURLToPath } from 'url';
@@ -14,7 +14,7 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const testsPath = join(__dirname, 'src', 'test', 'variable-detection-tests.js');
+const testsPath = join(__dirname, 'variable-detection-tests.js');
 
 console.log('🚀 Ejecutando pruebas del detector de variables...\n');
 

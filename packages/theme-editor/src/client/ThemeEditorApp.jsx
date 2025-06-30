@@ -5,6 +5,7 @@ import { ColorPanel } from './ColorPanel.jsx';
 import { DebugPanel } from './DebugPanel.jsx';
 import { useVariableDetection } from './useVariableDetection.js';
 import { NETWORK, API_ENDPOINTS, UI, CSS, DEV } from '../config/constants.js';
+import { injectDynamicStyles, cn, cls, tabClass, saveButtonClass } from './dynamic-styles.js';
 
 // ========================
 // COMPONENTES INTERNOS
@@ -56,10 +57,7 @@ const DebugIcon = () => (
 // Componente Tab individual
 const Tab = ({ isActive, onClick, icon, children, disabled = false }) => (
   <button
-    style={disabled ?
-      { ...styles.tab, opacity: 0.5, cursor: 'not-allowed' } :
-      isActive ? styles.tabActive : styles.tab
-    }
+    className={tabClass(isActive)}
     onClick={disabled ? undefined : onClick}
     disabled={disabled}
   >
@@ -69,7 +67,7 @@ const Tab = ({ isActive, onClick, icon, children, disabled = false }) => (
 
 // Componente TabBar que contiene todos los tabs
 const AppTabs = ({ activeTab, onTabChange, disabled = false }) => (
-  <div style={styles.tabBar}>
+  <div className={cls('tabBar')}>
     <Tab
       isActive={activeTab === 'variables'}
       onClick={() => onTabChange('variables')}
@@ -99,25 +97,25 @@ const AppTabs = ({ activeTab, onTabChange, disabled = false }) => (
 
 // Componente de contenido del panel
 const AppFrame = ({ children }) => (
-  <div id="theme-editor-panel" style={styles.panel}>
+  <div id="theme-editor-panel" className={cls('panel')}>
     {children}
   </div>
 );
 
 // Componente Header del panel
 const AppHeader = ({ children, onClose }) => (
-  <div style={styles.header}>
-    <div style={styles.headerTop}>
+  <div className={cls('header')}>
+    <div className={cls('headerTop')}>
       {children}
-      <button style={styles.closeButton} onClick={onClose}>✕</button>
+      <button className={cls('closeButton')} onClick={onClose}>✕</button>
     </div>
   </div>
 );
 
 // Componente de contenido del panel
 const AppContent = ({ children }) => (
-  <div style={styles.content}>
-    <div style={styles.tabContent}>
+  <div className={cls('content')}>
+    <div className={cls('tabContent')}>
       {children}
     </div>
   </div>
@@ -133,7 +131,7 @@ const LoadingScreen = ({ onClose }) => (
         disabled={true}
       />
     </AppHeader>
-    <div style={styles.loading}>
+    <div className={cls('loading')}>
       Cargando variables CSS...
     </div>
   </AppFrame>
@@ -384,8 +382,9 @@ export function ThemeEditorApp({ onClose }) {
     }, UI.NOTIFICATION_DURATION);
   };
 
-  // Inyectar estilos para la selección de texto al montar
+  // Inyectar estilos dinámicos y para la selección de texto al montar
   React.useEffect(() => {
+    injectDynamicStyles();
     injectTextSelectionStyles();
   }, []);
 
