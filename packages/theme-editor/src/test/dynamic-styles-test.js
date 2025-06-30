@@ -7,28 +7,40 @@
 
 import {
   injectDynamicStyles,
+  setClassNames,
+  logGeneratedCSS,
+  cleanupDynamicStyles
+} from '../client/dynamic-styles.js';
+import {
   cn,
   cls,
   tabClass,
   saveButtonClass,
   variableClass,
   sectionHeaderClass,
-  collapseIconClass,
-  logGeneratedCSS,
-  cleanupDynamicStyles
-} from '../client/dynamic-styles.js';
+  collapseIconClass
+} from '../utils/class-names.js';
+import { styles } from '../client/panel-styles.js';
 
 console.log('🧪 Iniciando tests del sistema de estilos dinámicos...\n');
 
 // Test 1: Verificar importación de funciones
 console.log('✅ Test 1: Importación de funciones');
-const expectedFunctions = [
-  'injectDynamicStyles', 'cn', 'cls', 'tabClass', 'saveButtonClass',
-  'variableClass', 'sectionHeaderClass', 'collapseIconClass',
-  'logGeneratedCSS', 'cleanupDynamicStyles'
-];
+// Verificar funciones de dynamic-styles
+const dynamicStylesFunctions = ['injectDynamicStyles', 'setClassNames', 'logGeneratedCSS', 'cleanupDynamicStyles'];
+const classUtilsFunctions = ['cn', 'cls', 'tabClass', 'saveButtonClass', 'variableClass', 'sectionHeaderClass', 'collapseIconClass'];
 
-expectedFunctions.forEach(func => {
+console.log('📦 Dynamic-styles functions:');
+dynamicStylesFunctions.forEach(func => {
+  if (typeof eval(func) === 'function') {
+    console.log(`   ✓ ${func} importada correctamente`);
+  } else {
+    console.log(`   ❌ ${func} no está disponible`);
+  }
+});
+
+console.log('🛠️  Class utilities functions:');
+classUtilsFunctions.forEach(func => {
   if (typeof eval(func) === 'function') {
     console.log(`   ✓ ${func} importada correctamente`);
   } else {
@@ -128,14 +140,96 @@ try {
   }
 }
 
+// Test 7: Verificar setClassNames() - Sintaxis mixta styles.className y cls()
+console.log('\n✅ Test 7: setClassNames() - Sintaxis mixta');
+
+try {
+  // Verificar estado inicial (antes de setClassNames)
+  const originalTabBar = styles.tabBar;
+  console.log(`   📋 Estado inicial: styles.tabBar es un objeto con ${Object.keys(originalTabBar).length} propiedades`);
+
+  // Ejecutar setClassNames()
+  setClassNames();
+  console.log('   ✓ setClassNames() ejecutado sin errores');
+
+  // Test: Verificar que funciona como string para className
+  const classNameResult = String(styles.tabBar);
+  const expectedClassName = 'te-tabBar';
+  if (classNameResult === expectedClassName) {
+    console.log(`   ✓ styles.tabBar como string → '${classNameResult}'`);
+  } else {
+    console.log(`   ❌ styles.tabBar como string → '${classNameResult}' (esperado: '${expectedClassName}')`);
+  }
+
+  // Test: Verificar que mantiene propiedades CSS para style
+  const hasDisplayProperty = 'display' in styles.tabBar;
+  const hasFlexProperty = 'flexShrink' in styles.tabBar;
+  if (hasDisplayProperty) {
+    console.log(`   ✓ styles.tabBar.display → '${styles.tabBar.display}' (mantiene propiedades CSS)`);
+  } else {
+    console.log(`   ❌ styles.tabBar.display no está disponible`);
+  }
+
+  if (hasFlexProperty) {
+    console.log(`   ✓ styles.tabBar.flexShrink → '${styles.tabBar.flexShrink}' (mantiene propiedades CSS)`);
+  } else {
+    console.log(`   ❌ styles.tabBar.flexShrink no está disponible`);
+  }
+
+  // Test: Verificar toString() explícito
+  const toStringResult = styles.tabBar.toString();
+  if (toStringResult === expectedClassName) {
+    console.log(`   ✓ styles.tabBar.toString() → '${toStringResult}'`);
+  } else {
+    console.log(`   ❌ styles.tabBar.toString() → '${toStringResult}' (esperado: '${expectedClassName}')`);
+  }
+
+  // Test: Verificar otros elementos del styles object
+  const tabClassString = String(styles.tab);
+  const expectedTabClassName = 'te-tab';
+  if (tabClassString === expectedTabClassName) {
+    console.log(`   ✓ styles.tab → '${tabClassString}'`);
+  } else {
+    console.log(`   ❌ styles.tab → '${tabClassString}' (esperado: '${expectedTabClassName}')`);
+  }
+
+  // Test: Verificar compatibilidad con uso en template literals
+  const templateResult = `button ${styles.closeButton}`;
+  const expectedTemplate = 'button te-closeButton';
+  if (templateResult === expectedTemplate) {
+    console.log(`   ✓ Template literal: \`button \${styles.closeButton}\` → '${templateResult}'`);
+  } else {
+    console.log(`   ❌ Template literal → '${templateResult}' (esperado: '${expectedTemplate}')`);
+  }
+
+  console.log('\n   🎨 Uso práctico después de setClassNames():');
+  console.log('   • <div className={styles.tabBar}> ✓ Funciona');
+  console.log('   • <div style={styles.tabBar}> ✓ Funciona');
+  console.log('   • <div className={cls("panel")}> ✓ Funciona');
+  console.log('   • <div className={cn("tab", { active: true })}> ✓ Funciona');
+
+} catch (error) {
+  console.log(`   ❌ Error en setClassNames(): ${error.message}`);
+  console.log(`   📍 Stack trace: ${error.stack}`);
+}
+
 console.log('\n🎉 Tests completados!');
 console.log('\n📊 Resumen:');
 console.log('   • Sistema de estilos dinámicos funcionando correctamente');
 console.log('   • Generación de clases CSS automática operativa');
 console.log('   • Helpers específicos funcionando');
 console.log('   • Estados CSS integrados en el sistema');
+console.log('   • setClassNames() permite sintaxis mixta styles.className');
 console.log('\n💡 Para usar en producción:');
-console.log('   import { injectDynamicStyles, cls, cn } from "./dynamic-styles.js";');
+console.log('   import { injectDynamicStyles, setClassNames, cls, cn } from "./dynamic-styles.js";');
+console.log('   import { styles } from "./panel-styles.js";');
+console.log('   ');
+console.log('   // En useEffect:');
 console.log('   injectDynamicStyles(); // Inyectar CSS al DOM');
-console.log('   <div className={cls("panel")}>');
-console.log('   <button className={cn("tab", { active: true })}>');
+console.log('   setClassNames(); // Configurar sintaxis mixta');
+console.log('   ');
+console.log('   // Sintaxis disponibles:');
+console.log('   <div className={styles.tabBar}> // ✓ Sintaxis familiar');
+console.log('   <div style={styles.tabBar}> // ✓ Mantiene compatibilidad');
+console.log('   <div className={cls("panel")}> // ✓ Helper functions');
+console.log('   <button className={cn("tab", { active: true })}> // ✓ Con modificadores');

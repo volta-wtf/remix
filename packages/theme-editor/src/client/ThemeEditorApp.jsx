@@ -5,7 +5,8 @@ import { ColorPanel } from './ColorPanel.jsx';
 import { DebugPanel } from './DebugPanel.jsx';
 import { useVariableDetection } from './useVariableDetection.js';
 import { NETWORK, API_ENDPOINTS, UI, CSS, DEV } from '../config/constants.js';
-import { injectDynamicStyles, cn, cls, tabClass, saveButtonClass } from './dynamic-styles.js';
+import { injectDynamicStyles, setClassNames } from './dynamic-styles.js';
+import { cn, cls, tabClass, saveButtonClass } from '../utils/class-names.js';
 
 // ========================
 // COMPONENTES INTERNOS
@@ -67,7 +68,7 @@ const Tab = ({ isActive, onClick, icon, children, disabled = false }) => (
 
 // Componente TabBar que contiene todos los tabs
 const AppTabs = ({ activeTab, onTabChange, disabled = false }) => (
-  <div className={cls('tabBar')}>
+  <div className={styles.tabBar}>
     <Tab
       isActive={activeTab === 'variables'}
       onClick={() => onTabChange('variables')}
@@ -386,6 +387,7 @@ export function ThemeEditorApp({ onClose }) {
   React.useEffect(() => {
     injectDynamicStyles();
     injectTextSelectionStyles();
+    setClassNames();
   }, []);
 
   // Pantalla de carga

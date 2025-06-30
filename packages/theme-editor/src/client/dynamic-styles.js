@@ -120,22 +120,8 @@ export const injectDynamicStyles = () => {
   console.log('🎨 Estilos dinámicos con estados CSS inyectados');
 };
 
-// Función helper para generar nombres de clases
-export const cn = (baseClass, modifiers = {}) => {
-  let className = `te-${baseClass}`;
-
-  // Agregar modificadores activos
-  Object.entries(modifiers).forEach(([modifier, isActive]) => {
-    if (isActive) {
-      className += ` te-${baseClass}--${modifier}`;
-    }
-  });
-
-  return className;
-};
-
-// Función helper simplificada para clases básicas
-export const cls = (className) => `te-${className}`;
+// Importar utilidades de nombres de clases desde utils
+import { cn, cls } from '../utils/class-names.js';
 
 // Función para limpiar estilos (útil para desarrollo)
 export const cleanupDynamicStyles = () => {
@@ -165,26 +151,34 @@ export const logGeneratedCSS = () => {
   return cssRules;
 };
 
-// Helpers específicos
-export const variableClass = (isModified = false) => {
-  return cn('variable', { modified: isModified });
-};
+// Re-exportar utilidades de clases para mantener compatibilidad
+export { cn, cls } from '../utils/class-names.js';
 
-export const saveButtonClass = (disabled = false, saving = false) => {
-  if (disabled || saving) {
-    return cn('saveButton', { saving });
+// Clase especial que funciona como string (para className) y objeto (para style)
+class StyleClass extends String {
+  constructor(className, originalStyles) {
+    super(className);
+
+    // Agregar todas las propiedades CSS originales
+    Object.assign(this, originalStyles);
+
+    // Asegurar que toString() devuelva el className
+    this.toString = () => className;
+    this.valueOf = () => className;
   }
-  return cls('saveButton');
-};
+}
 
-export const tabClass = (isActive = false) => {
-  return cn('tab', { active: isActive });
-};
+// Función para configurar el objeto styles para trabajar con className y style
+export const setClassNames = () => {
+  Object.entries(styles).forEach(([key, styleObj]) => {
+    const className = `te-${key}`;
 
-export const sectionHeaderClass = (isCollapsed = false) => {
-  return cls('sectionHeader');
-};
+    // Crear nueva instancia que funciona como string y objeto
+    const styleClass = new StyleClass(className, styleObj);
 
-export const collapseIconClass = (isCollapsed = false) => {
-  return cn('collapseIcon', { collapsed: isCollapsed });
+    // Reemplazar la propiedad original
+    styles[key] = styleClass;
+  });
+
+  console.log('🔗 Nombres de clases configurados - ahora puedes usar styles.tabBar como className y style');
 };

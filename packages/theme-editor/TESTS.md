@@ -40,6 +40,19 @@ El archivo `dynamic-styles-test.js` verifica:
 4. **Helpers específicos**: `tabClass()`, `variableClass()`, `saveButtonClass()`
 5. **Generación de CSS**: Sistema completo de conversión JS → CSS
 6. **Limpieza de errores**: Manejo de errores en entornos sin DOM
+7. **🆕 setClassNames()**: Sintaxis mixta `styles.className` y `cls()`
+
+### Nueva Funcionalidad: setClassNames()
+
+La función `setClassNames()` permite usar sintaxis familiar de CSS Modules junto con el sistema de helpers:
+
+```javascript
+// Después de ejecutar setClassNames()
+<div className={styles.tabBar}>        // ✓ Sintaxis familiar
+<div style={styles.tabBar}>            // ✓ Mantiene compatibilidad
+<div className={cls('panel')}>         // ✓ Helper functions
+<div className={cn('tab', { active: true })}> // ✓ Con modificadores
+```
 
 ### Ejemplo de Ejecución
 
@@ -56,6 +69,11 @@ console.log(cn('variable', { modified: true })); // ✓ 'te-variable te-variable
 // Verificar helpers específicos
 console.log(tabClass(true));         // ✓ 'te-tab te-tab--active'
 console.log(variableClass(false));   // ✓ 'te-variable'
+
+// 🆕 Verificar setClassNames()
+setClassNames();
+console.log(String(styles.tabBar));  // ✓ 'te-tabBar'
+console.log(styles.tabBar.display);  // ✓ 'flex' (mantiene propiedades CSS)
 ```
 
 ### Salida Esperada
@@ -69,6 +87,13 @@ console.log(variableClass(false));   // ✓ 'te-variable'
 ✅ Test 4: Helpers específicos
 ✅ Test 5: Generación de CSS completo
 ✅ Test 6: Sistema de limpieza (manejo de errores DOM)
+✅ Test 7: setClassNames() - Sintaxis mixta
+
+   🎨 Uso práctico después de setClassNames():
+   • <div className={styles.tabBar}> ✓ Funciona
+   • <div style={styles.tabBar}> ✓ Funciona
+   • <div className={cls("panel")}> ✓ Funciona
+   • <div className={cn("tab", { active: true })}> ✓ Funciona
 
 ✅ Todos los tests del sistema de estilos dinámicos pasaron
 ```

@@ -18,7 +18,8 @@ El theme-editor incluye un innovador sistema que convierte automáticamente obje
 
 ```javascript
 // 1. Importar el sistema
-import { injectDynamicStyles, cls, cn } from './dynamic-styles.js';
+import { injectDynamicStyles } from './dynamic-styles.js';
+import { cls, cn } from '../utils/class-names.js';
 
 // 2. Inyectar estilos al montar la app
 React.useEffect(() => {
@@ -192,7 +193,7 @@ theme-editor/
 │   ├── loader.js                # Detección de framework y auto-registro
 │   ├── client/
 │   │   ├── ThemeEditorApp.jsx   # Componente principal React
-│   │   ├── dynamic-styles.js    # 🆕 Sistema de estilos dinámicos
+│   │   ├── dynamic-styles.js    # 🆕 Sistema de inyección CSS
 │   │   ├── panel-styles.js      # 🆕 Definición de estilos con estados
 │   │   ├── VariablesPanel.jsx   # Panel de variables CSS
 │   │   ├── ColorPanel.jsx       # Panel de colores
@@ -202,10 +203,13 @@ theme-editor/
 │   │   ├── server.js            # Servidor HTTP y WebSocket
 │   │   └── ws.js                # Lógica de WebSocket
 │   ├── utils/
+│   │   ├── class-names.js       # 🆕 Utilidades de nombres de clases
 │   │   ├── variable-type-detector.js # Detección inteligente de tipos
 │   │   ├── variable-preview-generator.js # Generación de previews
 │   │   ├── monorepo-detector.js # Detección de monorepos
 │   │   └── css-parser.js        # Parser de CSS
+│   ├── examples/                # 🆕 Ejemplos de uso práctico
+│   │   └── example-usage.js     # Ejemplo de setClassNames()
 │   ├── test/                    # 🆕 Suite de tests organizada
 │   │   ├── dynamic-styles-test.js
 │   │   ├── variables-test.js
@@ -231,11 +235,14 @@ Inyecta todas las clases CSS generadas dinámicamente al DOM.
 
 **Uso:**
 ```javascript
-import { injectDynamicStyles } from './dynamic-styles.js';
+import { injectDynamicStyles, setClassNames } from './dynamic-styles.js';
 React.useEffect(() => {
+  setClassNames();
   injectDynamicStyles();
 }, []);
 ```
+
+### Utilidades de Nombres de Clases (`utils/class-names.js`)
 
 #### `cls(className: string): string`
 Genera una clase CSS básica con prefijo `te-`.
@@ -247,8 +254,15 @@ Genera una clase CSS básica con prefijo `te-`.
 
 **Ejemplo:**
 ```javascript
+import { cls } from '../utils/class-names.js';
 cls('panel')    // → 'te-panel'
 cls('button')   // → 'te-button'
+
+import { cls, cn } from '../utils/class-names.js';
+cn('tab', { active: true, disabled: false })    // → 'te-tab te-tab--active'
+cn('button', { primary: true, disabled: true }) // → 'te-button te-button--primary te-button--disabled'
+cn('input', { error: false, focused: true })    // → 'te-input te-input--focused'
+
 ```
 
 #### `cn(baseClass: string, modifiers: object): string`
@@ -262,6 +276,7 @@ Genera una clase CSS con modificadores condicionales.
 
 **Ejemplo:**
 ```javascript
+import { cn } from '../utils/class-names.js';
 cn('tab', { active: true, disabled: false })
 // → 'te-tab te-tab--active'
 ```
@@ -276,6 +291,17 @@ Helper para variables CSS.
 
 ##### `saveButtonClass(disabled: boolean, saving: boolean): string`
 Helper para botón de guardar.
+
+##### `THEME_EDITOR_CLASSES`
+Objeto con constantes de clases pre-generadas:
+
+```javascript
+import { THEME_EDITOR_CLASSES } from '../utils/class-names.js';
+
+THEME_EDITOR_CLASSES.PANEL;        // → 'te-panel'
+THEME_EDITOR_CLASSES.TAB_ACTIVE;   // → 'te-tab te-tab--active'
+THEME_EDITOR_CLASSES.SAVE_BUTTON;  // → 'te-saveButton'
+```
 
 ### Detección de Variables
 
