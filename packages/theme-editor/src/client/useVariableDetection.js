@@ -51,6 +51,21 @@ async function fetchVariablesFromServer() {
   }
 }
 
+// Función para detectar el tema actual
+function getCurrentTheme() {
+  const htmlElement = document.documentElement;
+
+  if (htmlElement.classList.contains('dark')) {
+    return 'dark';
+  } else if (htmlElement.classList.contains('light')) {
+    return 'light';
+  } else {
+    // Por defecto, detectar según preferencia del sistema
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+  }
+}
+
 // Función para determinar si una variable es editable
 function isEditableVariable(varName, sourceInfo) {
   // Todas las variables que vienen del servidor son editables
@@ -81,14 +96,35 @@ export function useVariableDetection() {
       debugLog.push(`Variables cargadas desde: ${filePath}`);
       debugLog.push(`Variables encontradas: ${Object.keys(variables).length}`);
 
-      // Usar valores originales del CSS para los inputs
+      // Combinar variables según el tema activo
       const finalVars = {};
-      Object.entries(variables).forEach(([varName, originalValue]) => {
-        // const computedValue = getComputedValueForPreview(varName, originalValue);
-        // finalVars[varName] = computedValue;
-        finalVars[varName] = originalValue;
+      const currentTheme = getCurrentTheme();
 
-        console.log(`✅ ${varName} = "${originalValue}" (valor original del CSS)`);
+      // Procesar variables combinando temas
+      Object.entries(variables).forEach(([varKey, originalValue]) => {
+        const source = sources[varKey];
+
+        if (!source) return;
+
+        // Variables de :root siempre se incluyen
+        if (source.type === 'root') {
+          finalVars[varKey] = originalValue;
+          console.log(`✅ ${varKey} = "${originalValue}" (:root)`);
+        }
+        // Variables específicas de tema solo si coincide con el tema actual
+        else if (source.isThemeSpecific) {
+          const shouldInclude = (
+            (currentTheme === 'dark' && source.type === 'dark-theme') ||
+            (currentTheme === 'light' && source.type === 'light-theme')
+          );
+
+          if (shouldInclude) {
+            // Usar el nombre base sin sufijo para mostrar al usuario
+            const displayName = source.baseName;
+            finalVars[displayName] = originalValue;
+            console.log(`✅ ${displayName} = "${originalValue}" (${source.type})`);
+          }
+        }
       });
 
       console.log(`📊 Variables finales para editor: ${Object.keys(finalVars).length}`);
@@ -123,13 +159,13 @@ export function useVariableDetection() {
     }
   }, [themeChangeCounter, detectVariables]);
 
-  // Observer para detectar cambios en las clases del html - mantener valores originales
+  // Observer para detectar cambios en las clases del html - recargar variables por tema
   useEffect(() => {
     const observer = createThemeObserver(
       originalVars,
       (updatedValues) => {
-        // Solo detectar el cambio, pero mantener valores originales en inputs
-        console.log('🎨 Cambio de tema detectado, manteniendo valores originales en inputs');
+        // Detectar cambio de tema y recargar variables
+        console.log('🎨 Cambio de tema detectado, recargando variables específicas del tema...');
         setThemeChangeCounter(prev => prev + 1);
       }
     );
@@ -241,6 +277,7 @@ export function useVariableDetection() {
   return {
     cssVars,
     originalVars,
+    setOriginalVars,
     varSources,
     debugInfo,
     loading,

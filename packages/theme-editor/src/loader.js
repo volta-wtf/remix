@@ -150,73 +150,128 @@ app.post(API_ENDPOINTS.SAVE_CSS, (req, res) => {
     const targetSelector = activeTheme === 'dark' ? CSS.SELECTORS.DARK : CSS.SELECTORS.ROOT;
     console.log(`${DEV.LOG_PREFIXES.SEARCH} Selector objetivo:`, targetSelector);
 
-    // Procesar cada variable
+    // Procesar cada variable con lógica inteligente de creación/actualización
     Object.entries(variables).forEach(([varName, newValue]) => {
       console.log(`\n🔄 Procesando variable: ${varName} = ${newValue}`);
+      console.log(`🎯 Tema activo: ${activeTheme}, Selector objetivo: ${targetSelector}`);
 
-      // Escapar caracteres especiales
+      // Escapar caracteres especiales para regex
       const escapedVarName = varName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-      // Encontrar todas las ocurrencias de esta variable
+      // Buscar todas las ocurrencias de esta variable en el CSS
       const varRegex = new RegExp(`(\\s*${escapedVarName}\\s*:\\s*)[^;\\n]+`, 'g');
       let match;
       const matches = [];
 
       while ((match = varRegex.exec(cssContent)) !== null) {
-        matches.push({
-          start: match.index,
-          end: match.index + match[0].length,
-          fullMatch: match[0],
-          prefix: match[1]
-        });
+      // Nota: RegExp.exec devuelve la posición de la coincidencia en `match.index`,
+      // mientras que `match.start` solo está disponible cuando se usan índices (`/d`).
+      // Usar `match.index` garantiza que calculemos correctamente el texto previo
+      // y, por ende, identifiquemos el selector más cercano. Esto evita que se
+      // añadan variables duplicadas porque el sistema creía que la variable no
+      // existía en el selector objetivo.
+      const beforeVariable = cssContent.substring(0, match.index);
+      const rootMatch = beforeVariable.lastIndexOf(':root');
+      const darkMatch = beforeVariable.lastIndexOf('.dark');
+      const lightMatch = beforeVariable.lastIndexOf('.light');
+
+      let closestSelector = null;
+      let closestPosition = -1;
+
+      // Encontrar el selector más cercano hacia atrás
+      if (rootMatch !== -1 && rootMatch > closestPosition) {
+        closestSelector = ':root';
+        closestPosition = rootMatch;
+      }
+      if (darkMatch !== -1 && darkMatch > closestPosition) {
+        closestSelector = '.dark';
+        closestPosition = darkMatch;
+      }
+      if (lightMatch !== -1 && lightMatch > closestPosition) {
+        closestSelector = '.light';
+        closestPosition = lightMatch;
       }
 
+      // Si no se encontró ningún selector, asumir :root por defecto
+      if (closestSelector === null) {
+        closestSelector = ':root';
+      }
+
+      matches.push({
+        start: match.index,
+        end: match.index + match[0].length,
+        fullMatch: match[0],
+        prefix: match[1],
+        selector: closestSelector,
+        position: closestPosition
+      });
+    }
+
       console.log(`📍 Encontradas ${matches.length} ocurrencias de ${varName}`);
+      matches.forEach((match, i) => {
+        console.log(`  📌 Ocurrencia ${i + 1}: selector=${match.selector}, posición=${match.start}`);
+      });
 
-      // Procesar las ocurrencias de atrás hacia adelante para mantener posiciones
-      matches.reverse().forEach((match, index) => {
-        console.log(`\n🔍 Analizando ocurrencia ${matches.length - index} en posición ${match.start}`);
+      // Buscar si la variable ya existe en el selector objetivo
+      const existsInTargetSelector = matches.some(match => match.selector === targetSelector);
+      console.log(`🔍 ¿Variable ${varName} existe en ${targetSelector}? ${existsInTargetSelector}`);
 
-        // Buscar hacia atrás para encontrar el selector más cercano
-        const beforeVariable = cssContent.substring(0, match.start);
+      if (existsInTargetSelector) {
+        console.log(`✅ Variable ${varName} existe en ${targetSelector}, actualizando...`);
 
-        // Buscar los selectores hacia atrás
-        const rootMatch = beforeVariable.lastIndexOf(':root');
-        const darkMatch = beforeVariable.lastIndexOf('.dark');
+        // Filtrar solo las coincidencias del selector objetivo y ordenar por posición (desde el final)
+        const targetMatches = matches.filter(match => match.selector === targetSelector)
+                                    .sort((a, b) => b.start - a.start); // Orden descendente para evitar problemas de índices
 
-        // Determinar cuál selector está más cerca
-        let closestSelector = null;
-        let closestPosition = -1;
-
-        if (rootMatch !== -1 && rootMatch > closestPosition) {
-          closestSelector = ':root';
-          closestPosition = rootMatch;
-        }
-
-        if (darkMatch !== -1 && darkMatch > closestPosition) {
-          closestSelector = '.dark';
-          closestPosition = darkMatch;
-        }
-
-        console.log(`📦 Variable en posición ${match.start} pertenece a: ${closestSelector}`);
-
-        // Solo actualizar si coincide con el selector objetivo
-        if (closestSelector === targetSelector) {
-          console.log(`✅ Actualizando variable en ${closestSelector}`);
-
-          // Reemplazar esta ocurrencia específica
+        // Actualizar cada coincidencia desde el final hacia el principio
+        targetMatches.forEach(match => {
           const beforeMatch = cssContent.substring(0, match.start);
           const afterMatch = cssContent.substring(match.end);
           const newVariableDeclaration = match.prefix + newValue;
 
           cssContent = beforeMatch + newVariableDeclaration + afterMatch;
           updatedCount++;
+          console.log(`✅ Variable actualizada: ${varName} = ${newValue} en ${targetSelector} (posición ${match.start})`);
+        });
+              } else {
+          console.log(`🆕 Variable ${varName} NO existe en ${targetSelector}, creando...`);
 
-          console.log(`✅ Variable actualizada: ${varName} = ${newValue} en ${closestSelector}`);
+          // Buscar o crear el bloque del selector objetivo
+          const escapedSelector = targetSelector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const selectorRegex = new RegExp(`${escapedSelector}\\s*\\{([^}]*)\\}`, 'g');
+          console.log(`🔎 Buscando selector con regex: ${selectorRegex.source}`);
+          const selectorMatch = selectorRegex.exec(cssContent);
+          console.log(`📦 ¿Selector ${targetSelector} encontrado?`, !!selectorMatch);
+
+                  if (selectorMatch) {
+            // El selector existe, agregar la variable al final del bloque
+            console.log(`📦 Selector ${targetSelector} existe, agregando variable...`);
+
+            const fullMatch = selectorMatch[0]; // Todo el bloque completo
+            const blockContent = selectorMatch[1]; // Solo el contenido entre {}
+            const beforeBlock = cssContent.substring(0, selectorMatch.index);
+            const afterBlock = cssContent.substring(selectorMatch.index + fullMatch.length);
+
+            // Agregar la variable con indentación apropiada al final del contenido
+            const newVariable = `\n  ${varName}: ${newValue};`;
+            const newBlockContent = blockContent + newVariable;
+            const newBlock = `${targetSelector} {${newBlockContent}\n}`;
+
+            cssContent = beforeBlock + newBlock + afterBlock;
+            updatedCount++;
+
+            console.log(`✅ Variable creada: ${varName} = ${newValue} en ${targetSelector}`);
         } else {
-          console.log(`⏭️ Saltando variable en ${closestSelector} (objetivo: ${targetSelector})`);
+          // El selector no existe, crearlo al final del archivo
+          console.log(`🏗️ Selector ${targetSelector} no existe, creando bloque completo...`);
+
+          const newBlock = `\n\n${targetSelector} {\n  ${varName}: ${newValue};\n}`;
+          cssContent += newBlock;
+          updatedCount++;
+
+          console.log(`✅ Bloque y variable creados: ${varName} = ${newValue} en ${targetSelector}`);
         }
-      });
+      }
     });
 
     // Escribir el archivo actualizado solo si hubo cambios

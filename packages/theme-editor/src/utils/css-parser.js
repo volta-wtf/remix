@@ -3,6 +3,7 @@ import { findGlobalsCss } from './css-finder.js';
 
 /**
  * Parsea variables CSS de un archivo de texto
+ * Detecta variables de múltiples temas y contextos
  * @param {string} cssContent - Contenido del archivo CSS
  * @returns {Object} - { variables: {}, sources: {} }
  */
@@ -10,52 +11,40 @@ export function parseVariablesFromCSS(cssContent) {
   const variables = {};
   const sources = {};
 
-    // Buscar específicamente bloques :root
-  const rootBlockRegex = /:root\s*\{([^{}]*)\}/g;
-  const darkBlockRegex = /\.dark\s*\{([^{}]*)\}/g;
+  // Buscar bloques de diferentes selectores
+  const selectorPatterns = [
+    { regex: /:root\s*\{([^{}]*)\}/g, selector: ':root', type: 'root' },
+    { regex: /\.dark\s*\{([^{}]*)\}/g, selector: '.dark', type: 'dark-theme' },
+    { regex: /\.light\s*\{([^{}]*)\}/g, selector: '.light', type: 'light-theme' }
+  ];
 
-  // Procesar bloque :root
-  let rootMatch;
-  while ((rootMatch = rootBlockRegex.exec(cssContent)) !== null) {
-    const declarations = rootMatch[1];
-    const varRegex = /--([\w-]+)\s*:\s*([^;]+);?/g;
+  selectorPatterns.forEach(({ regex, selector, type }) => {
+    let match;
+    while ((match = regex.exec(cssContent)) !== null) {
+      const declarations = match[1];
+      const varRegex = /--([\w-]+)\s*:\s*([^;]+);?/g;
 
-    let varMatch;
-    while ((varMatch = varRegex.exec(declarations)) !== null) {
-      const varName = `--${varMatch[1]}`;
-      const varValue = varMatch[2].trim();
+      let varMatch;
+      while ((varMatch = varRegex.exec(declarations)) !== null) {
+        const baseName = varMatch[1];
+        const varValue = varMatch[2].trim();
 
-      variables[varName] = varValue;
-      sources[varName] = {
-        selector: ':root',
-        type: 'root',
-        file: 'globals.css'
-      };
-    }
-  }
+        // Crear clave única para cada contexto/tema
+        const varKey = selector === ':root'
+          ? `--${baseName}`
+          : `--${baseName}@${type}`;
 
-  // Procesar bloque .dark (si existe)
-  let darkMatch;
-  while ((darkMatch = darkBlockRegex.exec(cssContent)) !== null) {
-    const declarations = darkMatch[1];
-    const varRegex = /--([\w-]+)\s*:\s*([^;]+);?/g;
-
-    let varMatch;
-    while ((varMatch = varRegex.exec(declarations)) !== null) {
-      const varName = `--${varMatch[1]}`;
-      const varValue = varMatch[2].trim();
-
-      // Solo agregar si no existe ya (prioridad a :root)
-      if (!variables[varName]) {
-        variables[varName] = varValue;
-        sources[varName] = {
-          selector: '.dark',
-          type: 'dark-theme',
-          file: 'globals.css'
+        variables[varKey] = varValue;
+        sources[varKey] = {
+          selector,
+          type,
+          file: 'globals.css',
+          baseName: `--${baseName}`, // Nombre base sin sufijo de tema
+          isThemeSpecific: selector !== ':root'
         };
       }
     }
-  }
+  });
 
   return { variables, sources };
 }
