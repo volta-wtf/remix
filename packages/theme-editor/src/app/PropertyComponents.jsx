@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { styles } from './panel-styles.js';
 import { VariablePreview, VariableTypeIndicator } from './VariablePreview.jsx';
-import { variableClass } from '../utils/class-names.js';
+import { variableClass } from './class-names.js';
 
 /**
  * PropertyItem - Componente reutilizable para renderizar una variable CSS

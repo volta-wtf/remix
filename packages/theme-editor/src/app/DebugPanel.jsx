@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { styles } from './panel-styles.js';
 import { VariableAnalysisPanel, VariableTypeIndicator } from './VariablePreview.jsx';
-import { detectVariableType } from '../utils/variable-type-detector.js';
+import { detectVariableType } from '../client/variable-type-detector.js';
 
 export function DebugPanel({
   cssVars,

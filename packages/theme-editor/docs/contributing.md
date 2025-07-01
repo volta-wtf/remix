@@ -216,11 +216,11 @@ export function detectVariableType(name, value) {
 - Accesibilidad web
 
 **Archivos principales:**
-- `src/client/ThemeEditorApp.jsx`
-- `src/client/VariablesPanel.jsx`
-- `src/client/ColorPanel.jsx`
+- `src/app/ThemeEditorApp.jsx`
+- `src/app/VariablesPanel.jsx`
+- `src/app/ColorPanel.jsx`
 - `src/client/dynamic-styles.js`
-- `src/client/panel-styles.js`
+- `src/app/panel-styles.js`
 
 ### 🔧 **Backend/Utils**
 
@@ -240,7 +240,7 @@ export function detectVariableType(name, value) {
 
 **Archivos principales:**
 - `src/utils/monorepo-detector.js`
-- `src/utils/variable-type-detector.js`
+- `src/client/variable-type-detector.js`
 - `src/utils/css-parser.js`
 - `src/server/server.js`
 - `src/server/ws.js`

@@ -29,7 +29,7 @@
 
 .dark {
   --hex: red;
-  --hex-alpha: green;
+  --hex-alpha: blue;
   --rgb-alpha: rgb(0 0 0 / 10%);
 
   --rgb-legacy: pink;

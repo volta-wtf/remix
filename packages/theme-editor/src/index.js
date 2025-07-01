@@ -4,11 +4,11 @@ import './register.js';
 export {
   detectVariableType,
   analyzeVariable
-} from './utils/variable-type-detector.js';
+} from './client/variable-type-detector.js';
 
 export {
   generateVariablePreview
-} from './utils/variable-preview-generator.js';
+} from './app/variable-preview-generator.js';
 
 // Exportar utilidades de búsqueda CSS
 export {
@@ -22,4 +22,4 @@ export {
   getComputedCSSVariable,
   getComputedCSSVariables,
   getComputedValueForPreview
-} from './utils/computed-style-utils.js';
+} from './client/computed-style-utils.js';

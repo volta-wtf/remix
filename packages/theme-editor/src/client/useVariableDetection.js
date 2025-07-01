@@ -3,7 +3,7 @@ import {
   getComputedValueForPreview,
   updateComputedValuesForPreview,
   createThemeObserver
-} from '../utils/computed-style-utils.js';
+} from './computed-style-utils.js';
 
 
 

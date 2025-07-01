@@ -121,7 +121,7 @@ export const injectDynamicStyles = () => {
 };
 
 // Importar utilidades de nombres de clases desde utils
-import { cn, cls } from '../utils/class-names.js';
+import { cn, cls } from '../app/class-names.js';
 
 // Función para limpiar estilos (útil para desarrollo)
 export const cleanupDynamicStyles = () => {
@@ -152,7 +152,7 @@ export const logGeneratedCSS = () => {
 };
 
 // Re-exportar utilidades de clases para mantener compatibilidad
-export { cn, cls } from '../utils/class-names.js';
+export { cn, cls } from '../app/class-names.js';
 
 // Clase especial que funciona como string (para className) y objeto (para style)
 class StyleClass {

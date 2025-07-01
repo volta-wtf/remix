@@ -1,6 +1,6 @@
 import React from 'react';
 import { styles } from './panel-styles.js';
-import { cn, cls, tabClass, saveButtonClass } from '../utils/class-names.js';
+import { cn, cls, tabClass, saveButtonClass } from './class-names.js';
 
 // ========================
 // COMPONENTES UI PUROS

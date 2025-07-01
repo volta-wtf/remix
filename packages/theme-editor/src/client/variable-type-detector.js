@@ -3,8 +3,8 @@
  * Enfocado únicamente en la detección, sin generación de previews
  */
 
-import { VARIABLE_PATTERNS } from './variable-patterns.js';
-import { generateVariablePreview } from './variable-preview-generator.js';
+import { VARIABLE_PATTERNS } from '../utils/variable-patterns.js';
+import { generateVariablePreview } from '../app/variable-preview-generator.js';
 
 /**
  * Detecta el tipo de variable CSS basándose en su nombre y valor

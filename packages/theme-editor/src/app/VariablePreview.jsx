@@ -1,6 +1,6 @@
 import React from 'react';
-import { analyzeVariable } from '../utils/variable-type-detector.js';
-import { getComputedValueForPreview } from '../utils/computed-style-utils.js';
+import { analyzeVariable } from '../client/variable-type-detector.js';
+import { getComputedValueForPreview } from '../client/computed-style-utils.js';
 
 /**
  * VariablePreview - Componente que muestra un preview visual de una variable CSS

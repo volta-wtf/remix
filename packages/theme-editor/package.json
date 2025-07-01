@@ -15,6 +15,7 @@
     "test:styles": "node src/test/dynamic-styles-test.js",
     "test:variables": "node src/test/variables-test.js",
     "test:cors": "node src/test/cors-test.js",
+    "test:debug-selector": "node src/test/debug-selector.js",
     "test": "npm run test:styles && npm run test:variables",
     "test:all": "npm run test:styles && npm run test:variables && npm run test:cors",
     "prepare": "npm run build"

@@ -1,10 +1,47 @@
 const fs = require('fs');
+const path = require('path');
+
+// Función helper para encontrar el archivo globals.css
+function findGlobalsCSS() {
+  const possiblePaths = [
+    '../../../registry/styles/globals.css',
+    '../../../../registry/styles/globals.css',
+    '../../../apps/web/app/globals.css',
+    '../../../apps/tmp/app/globals.css',
+    '../examples/globals.basic.css',
+    '../examples/globals.shadcn.css'
+  ];
+
+  for (const cssPath of possiblePaths) {
+    const fullPath = path.resolve(__dirname, cssPath);
+    if (fs.existsSync(fullPath)) {
+      console.log(`📁 Encontrado globals.css en: ${cssPath}`);
+      return fullPath;
+    }
+  }
+
+  throw new Error('❌ No se pudo encontrar ningún archivo globals.css');
+}
+
+console.log('🧪 Debug Selector Test - Análisis de detección de selectores CSS\n');
 
 // Leer el CSS
-const css = fs.readFileSync('../ui/src/styles/globals.css', 'utf8');
+let cssPath;
+let css;
+
+try {
+  cssPath = findGlobalsCSS();
+  css = fs.readFileSync(cssPath, 'utf8');
+} catch (error) {
+  console.error(error.message);
+  console.log('💡 Tip: Ejecuta este script desde el directorio packages/theme-editor/');
+  console.log('💡 Comando: node src/test/debug-selector.js');
+  process.exit(1);
+}
 
 console.log('🔍 Debug: Búsqueda de selectores hacia atrás');
-console.log('CSS length:', css.length);
+console.log('📁 Archivo CSS:', path.relative(process.cwd(), cssPath));
+console.log('📊 CSS length:', css.length);
 
 // Buscar todas las ocurrencias de --background
 const varName = '--background';
@@ -24,10 +61,13 @@ while ((match = varRegex.exec(css)) !== null) {
   });
 }
 
-console.log(`\n📍 Encontradas ${matches.length} ocurrencias de ${varName}:`);
+console.log(`\n📍 Test: Encontradas ${matches.length} ocurrencias de ${varName}:`);
+
+let testsPassed = 0;
+let totalTests = matches.length;
 
 matches.forEach((match, index) => {
-  console.log(`\n🔍 Ocurrencia ${index + 1}:`);
+  console.log(`\n🔍 Test ${index + 1}:`);
   console.log(`  Posición: ${match.start}-${match.end}`);
   console.log(`  Línea: ${match.line}`);
   console.log(`  Contenido: "${match.fullMatch.trim()}"`);
@@ -60,6 +100,14 @@ matches.forEach((match, index) => {
 
   console.log(`  Selector más cercano: ${closestSelector} en posición ${closestPosition}`);
 
+  // Test: Verificar que se encontró un selector válido
+  if (closestSelector && closestPosition !== -1) {
+    console.log(`  ✅ Test ${index + 1}: Selector detectado correctamente`);
+    testsPassed++;
+  } else {
+    console.log(`  ❌ Test ${index + 1}: No se pudo detectar selector`);
+  }
+
   // Mostrar contexto alrededor del selector
   if (closestPosition !== -1) {
     const selectorContext = css.substring(closestPosition, closestPosition + 50);
@@ -68,7 +116,7 @@ matches.forEach((match, index) => {
 });
 
 // Verificar si hay algún problema con los selectores
-console.log('\n🔍 Verificando selectores en el archivo:');
+console.log('\n🔍 Verificación completa de selectores en el archivo:');
 const rootPositions = [];
 const darkPositions = [];
 
@@ -86,3 +134,14 @@ while ((pos = css.indexOf('.dark', pos)) !== -1) {
 
 console.log(`Posiciones de ':root': ${rootPositions}`);
 console.log(`Posiciones de '.dark': ${darkPositions}`);
+
+// Resumen del test
+console.log('\n📊 Resumen del Test:');
+console.log(`✅ Tests pasados: ${testsPassed}/${totalTests}`);
+console.log(`📈 Tasa de éxito: ${((testsPassed / totalTests) * 100).toFixed(1)}%`);
+
+if (testsPassed === totalTests) {
+  console.log('🎉 Todos los tests de detección de selectores pasaron!');
+} else {
+  console.log('⚠️  Algunos tests fallaron. Revisar la lógica de detección.');
+}

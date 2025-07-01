@@ -1,7 +1,7 @@
 import React from 'react';
 import { useThemeEditor } from '../client/useThemeEditor.js';
 import { VariablesPanel } from './VariablesPanel.jsx';
-import { ColorPanel } from '../client/ColorPanel.jsx';
+import { ColorPanel } from './ColorPanel.jsx';
 import { DebugPanel } from './DebugPanel.jsx';
 import { injectDynamicStyles, setClassNames } from '../client/dynamic-styles.js';
 import { AppFrame, AppHeader, AppContent, AppTabs, LoadingScreen } from './components.jsx';
