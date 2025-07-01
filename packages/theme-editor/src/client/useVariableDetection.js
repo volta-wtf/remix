@@ -81,14 +81,21 @@ export function useVariableDetection() {
   const [debugInfo, setDebugInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [themeChangeCounter, setThemeChangeCounter] = useState(0);
+  const [isProcessingThemeChange, setIsProcessingThemeChange] = useState(false);
 
   // Función para detectar variables desde el servidor
   const detectVariables = useCallback(async () => {
-    console.log('🎯 Detectando variables desde el sistema de archivos...');
+    // Solo loguear en la carga inicial para evitar spam
+    if (themeChangeCounter === 0) {
+      console.log('🎯 Detectando variables desde el sistema de archivos...');
+    }
     const debugLog = [];
 
     try {
-      setLoading(true);
+      // Solo mostrar loading en la carga inicial, no en cambios de tema
+      if (themeChangeCounter === 0) {
+        setLoading(true);
+      }
 
       // Obtener variables del servidor
       const { variables, sources, filePath } = await fetchVariablesFromServer();
@@ -133,17 +140,53 @@ export function useVariableDetection() {
       setCssVars(finalVars);
       setVarSources(sources);
       setDebugInfo(debugLog);
-      setLoading(false);
+
+      // Solo ocultar loading en la carga inicial
+      if (themeChangeCounter === 0) {
+        setLoading(false);
+      }
 
       return finalVars;
     } catch (error) {
       console.error('❌ Error detectando variables:', error);
       debugLog.push(`Error: ${error.message}`);
       setDebugInfo(debugLog);
-      setLoading(false);
+      if (themeChangeCounter === 0) {
+        setLoading(false);
+      }
       return {};
     }
   }, [themeChangeCounter]);
+
+      // ========================
+  // FUNCIÓN DIRECTA PARA CAMBIO DE TEMA - USA MISMA FUENTE QUE PREVIEWS
+  // ========================
+  const handleThemeChangeOptimistic = useCallback(() => {
+    // Prevenir ejecuciones múltiples
+    if (isProcessingThemeChange) {
+      return;
+    }
+
+    setIsProcessingThemeChange(true);
+
+    // Actualizar inmediatamente - MISMO timing que los previews
+    const currentVars = { ...cssVars };
+    const computedValues = {};
+
+    Object.keys(currentVars).forEach(varName => {
+      // Usar EXACTAMENTE la misma función que los previews
+      const computedValue = getComputedStyle(document.documentElement)
+        .getPropertyValue(varName).trim();
+      computedValues[varName] = computedValue || currentVars[varName];
+    });
+
+    // Variables y previews ahora tienen EXACTAMENTE el mismo timing
+    setCssVars(computedValues);
+
+    // Liberar el flag inmediatamente (ya no necesitamos delay)
+    setIsProcessingThemeChange(false);
+
+  }, [cssVars, isProcessingThemeChange]);
 
   // Effect inicial para detectar variables
   useEffect(() => {
@@ -152,26 +195,28 @@ export function useVariableDetection() {
     });
   }, []);
 
-  // Effect para re-detectar cuando cambie el tema
-  useEffect(() => {
-    if (themeChangeCounter > 0) { // Solo ejecutar en cambios, no en la carga inicial
-      detectVariables();
-    }
-  }, [themeChangeCounter, detectVariables]);
 
-  // Observer para detectar cambios en las clases del html - recargar variables por tema
+
+  // Observer RÁPIDO para cambio de tema
   useEffect(() => {
+    let timeout = null;
+
     const observer = createThemeObserver(
       originalVars,
       (updatedValues) => {
-        // Detectar cambio de tema y recargar variables
-        console.log('🎨 Cambio de tema detectado, recargando variables específicas del tema...');
-        setThemeChangeCounter(prev => prev + 1);
+        // Debounce mínimo para evitar spam
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          handleThemeChangeOptimistic();
+        }, 20); // Delay súper reducido para máxima responsividad
       }
     );
 
-    return () => observer.disconnect();
-  }, [originalVars]);
+    return () => {
+      observer.disconnect();
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [originalVars, handleThemeChangeOptimistic]);
 
   const updateCSSVar = (varName, value) => {
     // Detectar el tema actual

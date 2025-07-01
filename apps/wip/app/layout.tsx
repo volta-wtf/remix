@@ -24,7 +24,12 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
         <Providers>{children}</Providers>
-      </body>
+      
+        {/* Auto-inyección del Theme Editor */}
+        {process.env.NODE_ENV === 'development' && (
+          <script src="/theme-editor-auto.js" async />
+        )}
+        </body>
     </html>
   )
 }

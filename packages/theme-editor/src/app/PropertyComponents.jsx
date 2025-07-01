@@ -2,6 +2,16 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { styles } from './panel-styles.js';
 import { VariablePreview, VariableTypeIndicator } from './VariablePreview.jsx';
 import { variableClass } from './class-names.js';
+import { getComputedValueForPreview } from '../client/computed-style-utils.js';
+
+/**
+ * Hook personalizado para sincronizar valor del input con preview - INMEDIATO
+ */
+function useSynchronizedValue(varName, stateValue) {
+  // CLAVE: Obtener valor inmediatamente durante el render, igual que el preview
+  const computedValue = getComputedValueForPreview(varName, stateValue);
+  return computedValue;
+}
 
 /**
  * PropertyItem - Componente reutilizable para renderizar una variable CSS
@@ -24,6 +34,9 @@ export function PropertyItem({
   const currentStyle = isModified ? styles.variableModified : styles.variable;
   const isHovered = hoveredItem === varName;
   const [isFocused, setIsFocused] = React.useState(false);
+
+  // Usar valor sincronizado para que input y preview tengan la misma fuente
+  const synchronizedValue = useSynchronizedValue(varName, value);
 
   return (
     <div
@@ -55,7 +68,7 @@ export function PropertyItem({
             }}>
               <VariablePreview
                 varName={varName}
-                value={value}
+                value={synchronizedValue}
               />
             </div>
           )}
@@ -70,7 +83,7 @@ export function PropertyItem({
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            value={value}
+            value={synchronizedValue}
             onChange={(e) => onUpdate(varName, e.target.value)}
             placeholder={placeholder}
             autoComplete="off"
@@ -101,7 +114,7 @@ export function PropertyItem({
         </div>
       </div>
       <div className={styles.value}>
-        Valor actual: {value}
+        Valor actual: {synchronizedValue}
         {isModified && dropdownProps.originalValue && (
           <span style={{ color: '#ef4444', marginLeft: '12px', fontSize: '12px' }}>
             Valor anterior: {dropdownProps.originalValue}
@@ -614,9 +627,9 @@ export function ThemeSelector() {
     setThemeVariables(updated);
   }, [getCSSVariable]);
 
-  // Función para cambiar el tema
+  // Función para cambiar el tema - OPTIMIZADA
   const changeTheme = useCallback((theme) => {
-    console.log(`🎨 Cambiando tema a: ${theme}`);
+    console.log(`🎨 Cambiando tema a: ${theme} (OPTIMIZADO)`);
 
     const doc = getTargetDocument();
     const html = doc.documentElement;
@@ -636,13 +649,11 @@ export function ThemeSelector() {
     setCurrentTheme(theme);
     setDropdownOpen(false);
 
-    // Actualizar las variables después de cambiar el tema
-    setTimeout(() => {
-      updateThemeVariables();
-    }, 150); // Dar tiempo para que se apliquen los estilos
-  }, [updateThemeVariables]);
+    // NO usar setTimeout - el observer de useVariableDetection se encargará
+    // de la actualización optimista inmediata
+  }, []);
 
-    // Detectar cambios de tema externos y actualizar variables
+  // Observer simplificado - sin setTimeout conflictivo
   useEffect(() => {
     const doc = getTargetDocument();
 
@@ -652,10 +663,9 @@ export function ThemeSelector() {
             mutation.attributeName === 'class' &&
             mutation.target === doc.documentElement) {
 
-          // Actualizar las variables cuando cambia el tema
-          setTimeout(() => {
-            updateThemeVariables();
-          }, 100);
+          // Solo actualizar variables locales del theme selector
+          // (no interferir con el sistema optimista principal)
+          updateThemeVariables();
         }
       });
     });

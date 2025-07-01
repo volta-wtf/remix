@@ -28,7 +28,7 @@
 }
 
 .dark {
-  --hex: red;
+  --hex: blue;
   --hex-alpha: blue;
   --rgb-alpha: rgb(0 0 0 / 10%);
 
