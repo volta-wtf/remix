@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { ThemeEditorApp } from './ThemeEditorApp.jsx';
+import { ThemeEditorApp } from '../app/ThemeEditorApp.jsx';
 
 // Variables globales para manejar el estado
 let panelRoot = null;

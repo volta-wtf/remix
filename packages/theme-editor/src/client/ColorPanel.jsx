@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { styles } from './panel-styles.js';
-import { PropertyItem, SaveFooter, ColorSectionTabs, EmptyState } from './PropertyComponents.jsx';
+import { styles } from '../app/panel-styles.js';
+import { PropertyItem, SaveFooter, ColorSectionTabs, EmptyState } from '../app/PropertyComponents.jsx';
 
 /**
  * ColorPanel - Panel especializado para variables de colores

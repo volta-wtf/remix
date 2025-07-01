@@ -1,4 +1,4 @@
-import { styles } from './panel-styles.js';
+import { styles } from '../app/panel-styles.js';
 
 // Función para convertir camelCase a kebab-case
 const camelToKebab = (str) => {
