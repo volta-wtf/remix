@@ -151,3 +151,7 @@ export {
   closeThemeEditorPanel,
   removeThemeEditor
 };
+
+// Inicialización automática
+console.log('🎨 Theme Editor cargado');
+setupThemeEditor();

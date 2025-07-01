@@ -21,7 +21,7 @@ export default [
   },
   // Bundle completo del theme editor (botón + panel React)
   {
-    input: 'src/client/ThemeEditorSetup.jsx',
+    input: 'src/client/ThemeEditor.js',
     output: {
       file: 'dist/theme-editor.js',
       format: 'iife',
