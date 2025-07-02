@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "../../registry/styles/globals.css",
+    "css": "@workspace/ui-registry/shadcn.css",
     "baseColor": "neutral",
     "cssVariables": true
   },
@@ -14,6 +14,6 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@/lib/utils"
+    "utils": "@workspace/ui-registry/lib/utils"
   }
 }

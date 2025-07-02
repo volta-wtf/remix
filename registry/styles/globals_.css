@@ -1,0 +1,128 @@
+@layer theme {
+  :root {
+    /* Contrast */
+    --scheme: light dark;
+
+    /* Tint colors */
+    --tint-background: var(--min-contrast); /* All variants */
+    --tint-foreground: var(--max-contrast); /* All variants */
+    --tint-decoration: var(--foreground); /* All variants */
+    --tint-content: var(--tint-foreground); /* All variants */
+    --tint-controls: var(--tint-foreground); /* All variants */
+    --tint-accent: var(--tint-ambient); /* All variants */
+    --tint-active: var(--principal); /* All variants */
+    --tint-ambient: var(--tint-foreground); /* All variants */
+    --tint-state: var(--tint-ambient);
+    --tint-scrim: var(--tint-ambient);
+    --tint-backdrop: var(--tint-ambient);
+    --tint-shadow: var(--tint-ambient);
+
+    /* Surfaces */
+    --canvas: var(--tint-background); /* All variants */
+    --surface: var(--canvas); /* All variants */
+    --card: var(--surface); /* .bg-card */
+    --popover: var(--surface); /* .bg-popover */
+    --modal: var(--surface); /* .bg-modal */
+    --tooltip: var(--tint-foreground); /* .bg-tooltip */
+
+    /* Text */
+    --heading: var(--tint-content); /* .color-heading */
+    --text: --alpha(var(--tint-content)/90%); /* .color-text */
+    --text-muted: --alpha(var(--tint-content)/70%); /* .color-text-muted */
+    --text-subtle: --alpha(var(--tint-content)/40%); /* .color-text-subtle */
+    --text-disabled: --alpha(var(--tint-content)/30%); /* .color-text-disabled */
+    --text-hint: --alpha(var(--tint-content)/30%); /* .color-text-hint */
+    --text-silent: --alpha(var(--tint-content)/10%); /* .color-text-silent */
+
+    /* Icons */
+    --icon: var(--text); /* .color-icon */
+    --icon-muted: var(--text-muted); /* .color-icon-muted */
+    --icon-subtle: var(--text-subtle); /* .color-icon-subtle */
+    --icon-disabled: var(--text-disabled); /* .color-icon-disabled */
+    --icon-hint: var(--text-hint); /* .color-icon-hint */
+    --icon-silent: var(--text-silent); /* .color-icon-silent */
+
+    /* Borders */
+    --border: --alpha(var(--tint-foreground)/10%); /*.border .[type]-as-border */
+    --divider: var(--border); /* .divide .[type]-as-divider */
+    --line: --alpha(var(--tint-foreground)/5%); /* .line .[type]-as-line */
+
+    /* Controls */
+    --outline: --alpha(var(--tint-controls)/10%); /* .outline .[type]-as-outline */
+    --input: --alpha(var(--tint-controls)/5%); /* .bg-input */
+    --button: --alpha(var(--tint-controls)/10%); /* .bg-button */
+    --accented: var(--tint-accent);
+    --tonal: --alpha(var(--tint-accent)/10%);
+    --highlighted: --alpha(var(--tint-accent)/6%);
+    --selected: --alpha(var(--tint-accent)/10%);
+
+    /* Interactivity */
+    --active: var(--tint-active); /* All variants */
+    --ring: var(--active); /* .ring */
+    --link: var(--active); /* .color-link */
+    --visited: var(--link); /* .color-visited */
+    --selection: var(--active); /* ::selection */
+    --mark: var(--cautionary); /* .mark */
+    --caret: var(--tint-accent); /* caret-color: var(--caret) */
+
+    /* States */
+    --state-focused: --alpha(var(--tint-state)/12%);
+    --state-pressed: --alpha(var(--tint-state)/16%);
+    --state-dragging: --alpha(var(--tint-state)/16%);
+
+    /* Backgrounds */
+    --variant: --alpha(var(--tint-ambient)/8%); /* .bg-variant */
+    --muted: --alpha(var(--tint-ambient)/4%); /* .bg-muted */
+    --scrim-soft: --alpha(var(--tint-scrim)/10%); /* .bg-scrim-soft */
+    --scrim-medium: --alpha(var(--tint-scrim)/30%); /* .bg-scrim */
+    --scrim-hard: --alpha(var(--tint-scrim)/50%); /* .bg-scrim-hard */
+    --backdrop-soft: --alpha(var(--tint-backdrop)/20%); /* .bg-backdrop-soft */
+    --backdrop-medium: --alpha(var(--tint-backdrop)/40%); /* .bg-backdrop-soft */
+    --backdrop-hard: --alpha(var(--tint-backdrop)/80%); /* .bg-backdrop-hard */
+
+    /* Shadows */
+    --shadow-soft: --alpha(var(--tint-shadow)/5%); /* --shadow-md: 0 4px 6px -1px var(--shadow), 0 2px 4px -2px var(--shadow); */
+    --shadow-medium: --alpha(var(--tint-shadow)/10%); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+    --shadow-hard: --alpha(var(--tint-shadow)/15%); /* --shadow-2xl: 0 25px 50px -12px var(--shadow-hard); */
+
+    /* Functional colors */
+    --principal: #3b82f6;
+    --destructive: #ef4444;
+    --cautionary: #f59e0b;
+    --affirmative: #10b981;
+    --informative: var(--principal);
+  }
+
+  :root {
+      /* Chart */
+    --chart-axis: var(--border); /* .axis .[type]-as-axis */
+    --chart-grid: var(--line); /* .axis .[type]-as-axis */
+  }
+
+  /* Color scheme */
+  :root {
+    --scheme: light dark;
+    /* Fixed colors */
+    --clear: transparent;
+    --current: currentColor;
+    --black: #000;
+    --white: #fff;
+    /* Contrast colors */
+    --darkest: var(--black);
+    --lightest: var(--white);
+    --min-contrast: var(--lightest);
+    --max-contrast: var(--darkest);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --min-contrast: var(--darkest);
+      --max-contrast: var(--lightest);
+    }
+  }
+
+  :root {
+    --radius: 0.5rem;
+  }
+
+}

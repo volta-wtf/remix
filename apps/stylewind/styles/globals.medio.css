@@ -1,0 +1,93 @@
+@import "stylewindcss";
+
+@source "./**/*.{js,ts,jsx,tsx,mdx}";
+@source "../components/**/*.{js,ts,jsx,tsx,mdx}";
+
+:root {
+  /* Contrast */
+  --scheme: light dark;
+
+  /* Tint colors */
+  --tint-background: var(--min-contrast); /* All variants */
+  --tint-foreground: var(--max-contrast); /* All variants */
+  --tint-decoration: var(--foreground); /* All variants */
+  --tint-content: var(--tint-foreground); /* All variants */
+  --tint-controls: var(--tint-foreground); /* All variants */
+  --tint-accent: var(--tint-ambient); /* All variants */
+  --tint-active: var(--principal); /* All variants */
+  --tint-ambient: var(--tint-foreground); /* All variants */
+  --tint-state: var(--tint-ambient);
+  --tint-scrim: var(--tint-ambient);
+  --tint-backdrop: var(--tint-ambient);
+  --tint-shadow: var(--tint-ambient);
+
+  /* Surfaces */
+  --canvas: var(--background); /* All variants */
+  --surface: var(--canvas); /* All variants */
+  --card: var(--surface); /* .bg-card */
+  --popover: var(--surface); /* .bg-popover */
+  --modal: var(--surface); /* .bg-modal */
+  --tooltip: var(--tint-foreground); /* .bg-tooltip */
+
+  /* Content */
+  --heading: var(--tint-content); /* .color-heading */
+  --text: --alpha(var(--tint-content)/90%); /* .color-text */
+  --icon: var(--text); /* .color-icon */
+  --border: --alpha(var(--tint-foreground)/10%); /*.border .[type]-as-border */
+  --divider: var(--border); /* .divide .[type]-as-divider */
+  --line: --alpha(var(--tint-foreground)/5%); /* .line .[type]-as-line */
+
+  /* Controls */
+  --outline: --alpha(var(--tint-controls)/10%); /* .outline .[type]-as-outline */
+  --input: --alpha(var(--tint-controls)/5%); /* .bg-input */
+  --button: --alpha(var(--tint-controls)/10%); /* .bg-button */
+
+  /* Interactivity */
+  --active: var(--tint-active); /* All variants */
+  --ring: var(--active); /* .ring */
+  --link: var(--active); /* .color-link */
+  --selection: var(--active); /* ::selection */
+
+  /* Backgrounds */
+  --variant: --alpha(var(--tint-ambient)/8%); /* .bg-variant */
+  --muted: --alpha(var(--tint-ambient)/4%); /* .bg-muted */
+
+  /* Functional colors */
+  --principal: #3b82f6;
+  --destructive: #ef4444;
+  --cautionary: #f59e0b;
+  --affirmative: #10b981;
+  --informative: var(--principal);
+}
+
+:root {
+    /* Chart */
+  --chart-axis: var(--border); /* .axis .[type]-as-axis */
+  --chart-grid: var(--line); /* .axis .[type]-as-axis */
+}
+
+/* Color scheme */
+:root {
+  --scheme: light dark;
+  /* Fixed colors */
+  --clear: transparent;
+  --current: currentColor;
+  --black: #000;
+  --white: #fff;
+  /* Contrast colors */
+  --darkest: var(--black);
+  --lightest: var(--white);
+  --min-contrast: var(--lightest);
+  --max-contrast: var(--darkest);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --min-contrast: var(--darkest);
+    --max-contrast: var(--lightest);
+  }
+}
+
+:root {
+  --radius: 0.5rem;
+}

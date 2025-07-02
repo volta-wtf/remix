@@ -2,7 +2,6 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { Providers } from "@/components/providers"
 
 import "./globals.css"
-//import "@workspace/ui-registry/stylewind.css"
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -22,13 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}>
-          <Providers>{children}</Providers>
+        <Providers>{children}</Providers>
 
-          {/* Auto-inyección del Theme Editor */}
-          {process.env.NODE_ENV === 'development' && (
-            <script src="/theme-editor-auto.js" async />
-          )}
-        </body>
+        {/* Theme Editor - Solo en desarrollo */}
+        {process.env.NODE_ENV === 'development' && (
+          <script src="http://localhost:4444/theme-editor.js" async />
+        )}
+      </body>
     </html>
   )
 }

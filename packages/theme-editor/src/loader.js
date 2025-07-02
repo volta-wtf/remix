@@ -3,36 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import { resolve, join } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
-import { promisify } from 'util';
-import net from 'net';
 import { findGlobalsCss } from './utils/css-finder.js';
 import { getVariablesFromFileSystem } from './utils/css-parser.js';
 import { NETWORK, API_ENDPOINTS, CSS, DEV } from './config/constants.js';
 
-// ---- Función para encontrar puerto disponible ----
-async function findAvailablePort(startPort = NETWORK.DEFAULT_PORT) {
-  return new Promise((resolve, reject) => {
-    const server = net.createServer();
-
-    server.listen(startPort, () => {
-      const port = server.address().port;
-      server.close(() => resolve(port));
-    });
-
-    server.on('error', (err) => {
-      if (err.code === 'EADDRINUSE') {
-        // Puerto ocupado, probar el siguiente
-        findAvailablePort(startPort + 1).then(resolve).catch(reject);
-      } else {
-        reject(err);
-      }
-    });
-  });
-}
-
 // ---- Theme Editor UI Server ----
 const app = express();
-let PORT = NETWORK.DEFAULT_PORT; // Puerto por defecto, será actualizado dinámicamente
+const PORT = 4444; // Puerto fijo
 
 // Middleware CORS
 app.use(cors({
@@ -45,8 +22,81 @@ app.use(cors({
 app.use(express.json());
 
 // Servir bundle completo del theme editor
-app.use('/theme-editor.js', (_req, res) => {
+app.get('/theme-editor.js', (_req, res) => {
   res.sendFile(resolve(__dirname, '../dist/theme-editor.js'));
+});
+
+// Endpoint de estado para verificar que el servidor está activo
+app.get(API_ENDPOINTS.STATUS, (_req, res) => {
+  res.json({ status: 'active', message: 'Theme Editor server running', port: PORT });
+});
+
+// Página de información simple
+app.get('/', (_req, res) => {
+  const html = `
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Theme Editor - Servidor Activo</title>
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+          max-width: 600px;
+          margin: 2rem auto;
+          padding: 2rem;
+          line-height: 1.6;
+          color: #333;
+        }
+        .status {
+          background: #d4edda;
+          color: #155724;
+          padding: 1rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+        }
+        .info {
+          background: #e3f2fd;
+          padding: 1.5rem;
+          border-radius: 8px;
+          margin: 1rem 0;
+        }
+        code {
+          background: #f1f1f1;
+          padding: 0.25rem 0.5rem;
+          border-radius: 3px;
+          font-family: 'Monaco', 'Consolas', monospace;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>🎨 Theme Editor</h1>
+
+      <div class="status">
+        ✅ <strong>Servidor activo en puerto ${PORT}</strong><br>
+        El Theme Editor está funcionando correctamente.
+      </div>
+
+      <div class="info">
+        <h3>📋 Información</h3>
+        <p>El Theme Editor se carga automáticamente en las páginas de desarrollo.</p>
+        <p><strong>Endpoints:</strong></p>
+        <ul>
+          <li><code>GET /theme-editor.js</code> - Bundle del Theme Editor</li>
+          <li><code>GET /status</code> - Estado del servidor</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 0.9rem;">
+        <p>💡 El Theme Editor solo funciona en modo desarrollo.</p>
+      </div>
+    </body>
+    </html>
+  `;
+
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
 });
 
 // Endpoint de debug para diagnosticar problemas
@@ -233,101 +283,101 @@ app.post(API_ENDPOINTS.SAVE_CSS, (req, res) => {
           updatedCount++;
           console.log(`✅ Variable actualizada: ${varName} = ${newValue} en ${targetSelector} (posición ${match.start})`);
         });
-              } else {
-          console.log(`🆕 Variable ${varName} NO existe en ${targetSelector}, creando...`);
+      } else {
+        console.log(`🆕 Variable ${varName} NO existe en ${targetSelector}, creando...`);
 
-          // Buscar o crear el bloque del selector objetivo
-          const escapedSelector = targetSelector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const selectorRegex = new RegExp(`${escapedSelector}\\s*\\{([^}]*)\\}`, 'g');
-          console.log(`🔎 Buscando selector con regex: ${selectorRegex.source}`);
-          const selectorMatch = selectorRegex.exec(cssContent);
-          console.log(`📦 ¿Selector ${targetSelector} encontrado?`, !!selectorMatch);
+        // Buscar o crear el bloque del selector objetivo
+        const escapedSelector = targetSelector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const selectorRegex = new RegExp(`${escapedSelector}\\s*\\{([^}]*)\\}`, 'g');
+        console.log(`🔎 Buscando selector con regex: ${selectorRegex.source}`);
+        const selectorMatch = selectorRegex.exec(cssContent);
+        console.log(`📦 ¿Selector ${targetSelector} encontrado?`, !!selectorMatch);
 
-                  if (selectorMatch) {
-            // El selector existe, agregar la variable al final del bloque
-            console.log(`📦 Selector ${targetSelector} existe, agregando variable...`);
+        if (selectorMatch) {
+          // El selector existe, agregar la variable al final del bloque
+          console.log(`📦 Selector ${targetSelector} existe, agregando variable...`);
 
-            const fullMatch = selectorMatch[0]; // Todo el bloque completo
-            const blockContent = selectorMatch[1]; // Solo el contenido entre {}
-            const beforeBlock = cssContent.substring(0, selectorMatch.index);
-            const afterBlock = cssContent.substring(selectorMatch.index + fullMatch.length);
+          const fullMatch = selectorMatch[0]; // Todo el bloque completo
+          const blockContent = selectorMatch[1]; // Solo el contenido entre {}
+          const beforeBlock = cssContent.substring(0, selectorMatch.index);
+          const afterBlock = cssContent.substring(selectorMatch.index + fullMatch.length);
 
-            // Elimina solo líneas completamente en blanco, pero mantiene la primera línea
-            // (o deja la primer variable al lado del selector)
-            const trimmedBlockContent = blockContent
-              .split('\n')
-              .filter((line, idx) => idx === 0 || line.trim().length > 0 || line.match(/^\s*[\{\}]/))
-              .join('\n');
+          // Elimina solo líneas completamente en blanco, pero mantiene la primera línea
+          // (o deja la primer variable al lado del selector)
+          const trimmedBlockContent = blockContent
+            .split('\n')
+            .filter((line, idx) => idx === 0 || line.trim().length > 0 || line.match(/^\s*[\{\}]/))
+            .join('\n');
 
-            // --- Mantener el mismo orden que en :root ----------------------
-            let newBlockContent;
+          // --- Mantener el mismo orden que en :root ----------------------
+          let newBlockContent;
 
-            // Solo intentamos alinear el orden cuando el selector objetivo NO es :root
-            if (targetSelector !== ':root') {
-              try {
-                console.log(`🔄 Intentando mantener orden de :root para variable ${varName} en ${targetSelector}`);
+          // Solo intentamos alinear el orden cuando el selector objetivo NO es :root
+          if (targetSelector !== ':root') {
+            try {
+              console.log(`🔄 Intentando mantener orden de :root para variable ${varName} en ${targetSelector}`);
 
-                // 1) Extraer orden de variables en :root
-                const rootSelectorRegex = /:root\s*\{([^}]*)\}/s;
-                const rootSelectorMatch = rootSelectorRegex.exec(cssContent);
+              // 1) Extraer orden de variables en :root
+              const rootSelectorRegex = /:root\s*\{([^}]*)\}/s;
+              const rootSelectorMatch = rootSelectorRegex.exec(cssContent);
 
-                if (rootSelectorMatch) {
-                  // Obtener todos los nombres de variable en el mismo orden
-                  const rootVars = Array.from(rootSelectorMatch[1].matchAll(/--[\w-]+(?=\s*:)/g)).map(m => m[0]);
-                  console.log(`📋 Variables en :root orden:`, rootVars);
+              if (rootSelectorMatch) {
+                // Obtener todos los nombres de variable en el mismo orden
+                const rootVars = Array.from(rootSelectorMatch[1].matchAll(/--[\w-]+(?=\s*:)/g)).map(m => m[0]);
+                console.log(`📋 Variables en :root orden:`, rootVars);
 
-                  const indexInRoot = rootVars.indexOf(varName);
-                  console.log(`📍 Índice de ${varName} en :root:`, indexInRoot);
+                const indexInRoot = rootVars.indexOf(varName);
+                console.log(`📍 Índice de ${varName} en :root:`, indexInRoot);
 
-                  if (indexInRoot !== -1) {
-                    // Obtener variables que ya existen en el bloque target (usando trimmedBlockContent)
-                    const existingVarsInTarget = Array.from(trimmedBlockContent.matchAll(/--[\w-]+(?=\s*:)/g)).map(m => m[0]);
-                    console.log(`📋 Variables existentes en ${targetSelector}:`, existingVarsInTarget);
+                if (indexInRoot !== -1) {
+                  // Obtener variables que ya existen en el bloque target (usando trimmedBlockContent)
+                  const existingVarsInTarget = Array.from(trimmedBlockContent.matchAll(/--[\w-]+(?=\s*:)/g)).map(m => m[0]);
+                  console.log(`📋 Variables existentes en ${targetSelector}:`, existingVarsInTarget);
 
-                    // Buscar la siguiente variable que ya exista en el bloque target
-                    let referenceVar = null;
-                    for (let i = indexInRoot + 1; i < rootVars.length; i++) {
-                      const candidate = rootVars[i];
-                      if (existingVarsInTarget.includes(candidate)) {
-                        referenceVar = candidate;
-                        console.log(`🎯 Variable de referencia encontrada: ${referenceVar}`);
-                        break;
-                      }
+                  // Buscar la siguiente variable que ya exista en el bloque target
+                  let referenceVar = null;
+                  for (let i = indexInRoot + 1; i < rootVars.length; i++) {
+                    const candidate = rootVars[i];
+                    if (existingVarsInTarget.includes(candidate)) {
+                      referenceVar = candidate;
+                      console.log(`🎯 Variable de referencia encontrada: ${referenceVar}`);
+                      break;
                     }
+                  }
 
-                    if (referenceVar) {
-                      // Insertar justo ANTES de referenceVar para mantener orden
-                      const escapedRef = referenceVar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                      const refRegex = new RegExp(`(\\n\\s*)(${escapedRef}\\s*:)`);
-                      const replacement = `\n  ${varName}: ${newValue};$1$2`;
-                      newBlockContent = trimmedBlockContent.replace(refRegex, replacement);
-                      console.log(`✅ Variable ${varName} insertada antes de ${referenceVar}`);
-                    } else {
-                      console.log(`📌 No se encontró variable de referencia, insertando al final`);
-                    }
+                  if (referenceVar) {
+                    // Insertar justo ANTES de referenceVar para mantener orden
+                    const escapedRef = referenceVar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const refRegex = new RegExp(`(\\n\\s*)(${escapedRef}\\s*:)`);
+                    const replacement = `\n  ${varName}: ${newValue};$1$2`;
+                    newBlockContent = trimmedBlockContent.replace(refRegex, replacement);
+                    console.log(`✅ Variable ${varName} insertada antes de ${referenceVar}`);
                   } else {
-                    console.log(`⚠️ Variable ${varName} no encontrada en :root`);
+                    console.log(`📌 No se encontró variable de referencia, insertando al final`);
                   }
                 } else {
-                  console.log(`⚠️ No se encontró bloque :root`);
+                  console.log(`⚠️ Variable ${varName} no encontrada en :root`);
                 }
-              } catch (orderErr) {
-                console.warn('⚠️ Error manteniendo orden de variables:', orderErr.message);
+              } else {
+                console.log(`⚠️ No se encontró bloque :root`);
               }
+            } catch (orderErr) {
+              console.warn('⚠️ Error manteniendo orden de variables:', orderErr.message);
             }
+          }
 
-            // Si no se pudo insertar respetando el orden, agregar al final (fallback)
-            if (!newBlockContent || newBlockContent === trimmedBlockContent) {
-              const newVariable = `\n  ${varName}: ${newValue};`;
-              newBlockContent = trimmedBlockContent + newVariable;
-            }
+          // Si no se pudo insertar respetando el orden, agregar al final (fallback)
+          if (!newBlockContent || newBlockContent === trimmedBlockContent) {
+            const newVariable = `\n  ${varName}: ${newValue};`;
+            newBlockContent = trimmedBlockContent + newVariable;
+          }
 
-            const newBlock = `${targetSelector} {${newBlockContent}\n}`;
+          const newBlock = `${targetSelector} {${newBlockContent}\n}`;
 
-            cssContent = beforeBlock + newBlock + afterBlock;
-            updatedCount++;
+          cssContent = beforeBlock + newBlock + afterBlock;
+          updatedCount++;
 
-            console.log(`✅ Variable creada: ${varName} = ${newValue} en ${targetSelector}`);
+          console.log(`✅ Variable creada: ${varName} = ${newValue} en ${targetSelector}`);
         } else {
           // El selector no existe, crearlo al final del archivo
           console.log(`🏗️ Selector ${targetSelector} no existe, creando bloque completo...`);
@@ -406,113 +456,13 @@ app.get(API_ENDPOINTS.GET_VARIABLES || '/api/variables', (req, res) => {
   }
 });
 
-// Endpoint de estado para verificar que el servidor está activo
-app.get(API_ENDPOINTS.STATUS, (_req, res) => {
-  res.json({ status: 'active', message: 'Theme Editor server running', port: PORT });
-});
-
-// ---- Auto-inyección del Theme Editor ----
-function setupAutoInjection() {
-  const { writeFileSync, existsSync, readFileSync, mkdirSync } = require('fs');
-  const { join } = require('path');
-
-  // Detectar el directorio de la app actual
-  const appDir = process.cwd();
-
-  // Verificar que es una app Next.js
-  if (!existsSync(join(appDir, 'next.config.js')) && !existsSync(join(appDir, 'next.config.mjs'))) {
-    console.log('⚠️ No se detectó una app Next.js en el directorio actual');
-    return;
-  }
-
-  console.log('🎯 App Next.js detectada, configurando auto-inyección...');
-
-  // Crear script de auto-inyección en public/
-  const autoInjectScript = `// Auto-inyector del Theme Editor
-(function() {
-  if (typeof window === 'undefined') return;
-
-  const port = ${PORT};
-  const scriptUrl = \`http://localhost:\${port}/theme-editor.js\`;
-
-  // Verificar si ya está cargado
-  if (document.querySelector(\`script[src="\${scriptUrl}"]\`)) return;
-
-  console.log(\`🔌 Auto-inyectando Theme Editor desde puerto \${port}...\`);
-
-  const script = document.createElement('script');
-  script.src = scriptUrl;
-  script.async = true;
-  script.onload = () => console.log('✅ Theme Editor cargado automáticamente');
-  script.onerror = () => console.warn(\`⚠️ Error cargando Theme Editor desde puerto \${port}\`);
-
-  (document.head || document.documentElement).appendChild(script);
-})();
-`;
-
+// Función para inicializar el servidor
+function startServer() {
   try {
-    // Crear directorio public si no existe
-    const publicDir = join(appDir, 'public');
-    if (!existsSync(publicDir)) {
-      mkdirSync(publicDir, { recursive: true });
-    }
-
-    // Crear script de auto-inyección
-    writeFileSync(join(publicDir, 'theme-editor-auto.js'), autoInjectScript);
-    console.log('✅ Script de auto-inyección creado en /public');
-
-    // Crear un _document.js temporal si no existe (para App Router)
-    const appLayoutPath = join(appDir, 'app', 'layout.tsx');
-    if (existsSync(appLayoutPath)) {
-      // App Router - modificar layout temporalmente
-      let layoutContent = readFileSync(appLayoutPath, 'utf8');
-
-      // Solo agregar si no existe ya
-      if (!layoutContent.includes('theme-editor-auto.js')) {
-        // Hacer backup
-        writeFileSync(join(appDir, 'layout.theme-editor-backup.tsx'), layoutContent);
-
-        // Agregar script antes de </body>
-        const scriptTag = `
-        {/* Auto-inyección del Theme Editor */}
-        {process.env.NODE_ENV === 'development' && (
-          <script src="/theme-editor-auto.js" async />
-        )}`;
-
-        if (layoutContent.includes('</body>')) {
-          layoutContent = layoutContent.replace('</body>', `${scriptTag}\n        </body>`);
-        } else {
-          layoutContent = layoutContent.replace('</html>', `      </body>\n    </html>`);
-          layoutContent = layoutContent.replace('</body>', `${scriptTag}\n      </body>`);
-        }
-
-        writeFileSync(appLayoutPath, layoutContent);
-        console.log('✅ Layout modificado temporalmente para auto-inyección');
-      }
-    }
-
-    console.log('🚀 Auto-inyección configurada exitosamente');
-    console.log('💡 El Theme Editor se cargará automáticamente');
-    console.log('🧹 Los archivos temporales se limpiarán al cerrar el servidor');
-
-  } catch (error) {
-    console.error('❌ Error configurando auto-inyección:', error.message);
-  }
-}
-
-// Función para inicializar el servidor con puerto dinámico
-async function startServer() {
-  try {
-    PORT = await findAvailablePort(NETWORK.DEFAULT_PORT);
-
-    // ✅ Configurar auto-inyección
-    setupAutoInjection();
-
     app.listen(PORT, () => {
-      console.log(`${DEV.LOG_PREFIXES.THEME} Theme Editor server lista en ${NETWORK.DEFAULT_PROTOCOL}://${NETWORK.DEFAULT_HOST}:${PORT}`);
+      console.log(`${DEV.LOG_PREFIXES.THEME} Theme Editor server activo en http://localhost:${PORT}`);
+      console.log(`${DEV.LOG_PREFIXES.THEME} Bundle disponible en: http://localhost:${PORT}/theme-editor.js`);
     });
-
-    return PORT;
   } catch (error) {
     console.error('❌ Error al iniciar el servidor:', error);
     throw error;
@@ -520,47 +470,4 @@ async function startServer() {
 }
 
 // Inicializar el servidor
-startServer().catch(console.error);
-
-// Función de limpieza automática
-function cleanupAutoInjection() {
-  const { unlinkSync, existsSync, readFileSync, writeFileSync } = require('fs');
-  const { join } = require('path');
-
-  const appDir = process.cwd();
-
-  try {
-    // Limpiar script de public/
-    const scriptFile = join(appDir, 'public', 'theme-editor-auto.js');
-    if (existsSync(scriptFile)) {
-      unlinkSync(scriptFile);
-      console.log('🧹 Script de auto-inyección eliminado');
-    }
-
-    // Restaurar layout original
-    const backupFile = join(appDir, 'layout.theme-editor-backup.tsx');
-    const layoutFile = join(appDir, 'app', 'layout.tsx');
-
-    if (existsSync(backupFile) && existsSync(layoutFile)) {
-      const backupContent = readFileSync(backupFile, 'utf8');
-      writeFileSync(layoutFile, backupContent);
-      unlinkSync(backupFile);
-      console.log('✅ Layout original restaurado');
-    }
-
-  } catch (error) {
-    console.error('❌ Error en limpieza:', error.message);
-  }
-}
-
-// Limpiar al cerrar el proceso
-process.on('SIGINT', () => {
-  console.log('\n🧹 Limpiando archivos temporales...');
-  cleanupAutoInjection();
-  process.exit(0);
-});
-
-process.on('SIGTERM', () => {
-  cleanupAutoInjection();
-  process.exit(0);
-});
+startServer();

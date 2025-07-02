@@ -12,9 +12,9 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
 
     // Mapeo de puertos conocidos
     const portMapping = {
-      3001: 4442, // apps/wip
-      3002: 4443, // apps/web
-      3003: 4444, // apps/tmp
+      3001: 4445, // apps/wip
+      3002: 4446, // apps/web
+      3003: 4447, // apps/tmp
     };
 
     return portMapping[portNum] || NETWORK.DEFAULT_PORT;

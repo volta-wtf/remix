@@ -15,8 +15,8 @@ async function fetchVariablesFromServer() {
     const portNum = parseInt(currentPort);
 
     const portMapping = {
-      3001: 4442, // apps/wip
-      3002: 4443, // apps/web
+      3001: 4444, // apps/wip
+      3002: 4444, // apps/web
       3003: 4444, // apps/tmp
     };
 

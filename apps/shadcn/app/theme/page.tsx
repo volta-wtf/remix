@@ -1,5 +1,4 @@
 import { CardsDemo } from "@/components/cards"
-import "@workspace/ui-registry/shadcn.css"
 
 export default function ThemePage() {
     return (
