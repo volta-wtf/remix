@@ -22,6 +22,7 @@
   --tint-shadow: var(--tint-ambient);
 
   /* Surfaces */
+  --body: var(--tint-background);
   --canvas: var(--background); /* All variants */
   --surface: var(--canvas); /* All variants */
   --card: var(--surface); /* .bg-card */
@@ -33,7 +34,8 @@
   --card: var(--surface); /* .bg-card */
   --popover: var(--surface); /* .bg-popover */
   --modal: var(--surface); /* .bg-modal */
-
+  --tooltip: var(--tint-controls);
+    /* .bg-tooltip */
     /* Backgrounds */
   --variant: --alpha(var(--tint-ambient)/8%); /* .bg-variant */
   --muted: --alpha(var(--tint-ambient)/4%); /* .bg-muted */
@@ -67,7 +69,6 @@
   --line: --alpha(var(--tint-foreground)/5%); /* .line .[type]-as-line */
 
   /* Controls */
-  --tooltip: var(--tint-controls); /* .bg-tooltip */
   --outline: --alpha(var(--tint-controls)/10%); /* .outline .[type]-as-outline */
   --input: --alpha(var(--tint-controls)/5%); /* .bg-input */
   --button: --alpha(var(--tint-controls)/10%); /* .bg-button */

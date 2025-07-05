@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   getComputedValueForPreview,
   updateComputedValuesForPreview,
-  createThemeObserver
+  createThemeObserver,
+  getDualValuesForThemeChange
 } from './computed-style-utils.js';
 
 
@@ -15,9 +16,12 @@ async function fetchVariablesFromServer() {
     const portNum = parseInt(currentPort);
 
     const portMapping = {
-      3001: 4444, // apps/wip
-      3002: 4444, // apps/web
+      3001: 4444, // apps/shadcn
+      3002: 4444, // apps/stylewind
       3003: 4444, // apps/tmp
+      3004: 4444, // apps/tmp-1
+      3005: 4444, // apps/tmp-2
+      3006: 4444, // apps/tmp-3
     };
 
     const themeEditorPort = portMapping[portNum] || 4444;
@@ -75,27 +79,23 @@ function isEditableVariable(varName, sourceInfo) {
 }
 
 export function useVariableDetection() {
-  const [cssVars, setCssVars] = useState({});
+  const [cssVars, setCssVars] = useState({}); // Valores originales para inputs (tema actual)
+  const [computedVars, setComputedVars] = useState({}); // Valores computados para previews (tema actual)
+  const [allThemeVars, setAllThemeVars] = useState({}); // Todos los valores por tema: { light: {}, dark: {} }
+  const [allComputedVars, setAllComputedVars] = useState({}); // Todos los computados por tema
   const [originalVars, setOriginalVars] = useState({});
   const [varSources, setVarSources] = useState({});
   const [debugInfo, setDebugInfo] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [themeChangeCounter, setThemeChangeCounter] = useState(0);
   const [isProcessingThemeChange, setIsProcessingThemeChange] = useState(false);
 
-  // Función para detectar variables desde el servidor
-  const detectVariables = useCallback(async () => {
-    // Solo loguear en la carga inicial para evitar spam
-    if (themeChangeCounter === 0) {
-      console.log('🎯 Detectando variables desde el sistema de archivos...');
-    }
+      // Función para detectar TODAS las variables de TODOS los temas de una vez
+  const detectAllVariables = useCallback(async () => {
     const debugLog = [];
+    console.log('🎯 Cargando TODAS las variables de TODOS los temas...');
 
     try {
-      // Solo mostrar loading en la carga inicial, no en cambios de tema
-      if (themeChangeCounter === 0) {
-        setLoading(true);
-      }
+      setLoading(true);
 
       // Obtener variables del servidor
       const { variables, sources, filePath } = await fetchVariablesFromServer();
@@ -103,120 +103,192 @@ export function useVariableDetection() {
       debugLog.push(`Variables cargadas desde: ${filePath}`);
       debugLog.push(`Variables encontradas: ${Object.keys(variables).length}`);
 
-      // Combinar variables según el tema activo
-      const finalVars = {};
-      const currentTheme = getCurrentTheme();
+      // Organizar variables por tema
+      const themeVars = {
+        root: {},      // Variables :root (base)
+        light: {},     // Variables específicas de tema light
+        dark: {}       // Variables específicas de tema dark
+      };
 
-      // Procesar variables combinando temas
+      // Procesar TODAS las variables por tipo
       Object.entries(variables).forEach(([varKey, originalValue]) => {
         const source = sources[varKey];
-
         if (!source) return;
 
-        // Variables de :root siempre se incluyen
         if (source.type === 'root') {
-          finalVars[varKey] = originalValue;
-          console.log(`✅ ${varKey} = "${originalValue}" (:root)`);
-        }
-        // Variables específicas de tema solo si coincide con el tema actual
-        else if (source.isThemeSpecific) {
-          const shouldInclude = (
-            (currentTheme === 'dark' && source.type === 'dark-theme') ||
-            (currentTheme === 'light' && source.type === 'light-theme')
-          );
-
-          if (shouldInclude) {
-            // Usar el nombre base sin sufijo para mostrar al usuario
-            const displayName = source.baseName;
-            finalVars[displayName] = originalValue;
-            console.log(`✅ ${displayName} = "${originalValue}" (${source.type})`);
-          }
+          themeVars.root[varKey] = originalValue;
+        } else if (source.type === 'light-theme') {
+          themeVars.light[source.baseName] = originalValue;
+        } else if (source.type === 'dark-theme') {
+          themeVars.dark[source.baseName] = originalValue;
         }
       });
 
-      console.log(`📊 Variables finales para editor: ${Object.keys(finalVars).length}`);
-      debugLog.push(`Variables listas para edición: ${Object.keys(finalVars).length}`);
+      // Combinar variables finales para cada tema
+      const finalThemeVars = {
+        light: { ...themeVars.root, ...themeVars.light },
+        dark: { ...themeVars.root, ...themeVars.dark }
+      };
 
-      setCssVars(finalVars);
-      setVarSources(sources);
-      setDebugInfo(debugLog);
+      console.log('📊 Variables por tema:', {
+        light: Object.keys(finalThemeVars.light).length,
+        dark: Object.keys(finalThemeVars.dark).length
+      });
 
-      // Solo ocultar loading en la carga inicial
-      if (themeChangeCounter === 0) {
-        setLoading(false);
+            // Calcular valores computados para cada tema
+      const computedThemeVars = {
+        light: {},
+        dark: {}
+      };
+
+      // Simular cada tema y calcular valores computados SINCRÓNICAMENTE
+      const htmlElement = document.documentElement;
+      const originalClasses = htmlElement.className;
+
+      for (const themeName of Object.keys(finalThemeVars)) {
+        const themeVariables = finalThemeVars[themeName];
+
+        // Limpiar clases de tema
+        htmlElement.classList.remove('light', 'dark');
+
+        // Aplicar el tema específico
+        if (themeName !== 'root') {
+          htmlElement.classList.add(themeName);
+        }
+
+        // Forzar recálculo de estilos
+        htmlElement.offsetHeight; // Trigger reflow
+
+        // Calcular valores computados inmediatamente
+        const dualValues = getDualValuesForThemeChange(themeVariables);
+        computedThemeVars[themeName] = dualValues.computed;
+
+        console.log(`✅ Computados para ${themeName}:`, Object.keys(computedThemeVars[themeName]).length);
       }
 
-      return finalVars;
+      // Restaurar clases originales
+      htmlElement.className = originalClasses;
+
+      // Guardar todos los valores
+      setAllThemeVars(finalThemeVars);
+      setAllComputedVars(computedThemeVars);
+
+      // Establecer valores para el tema actual
+      const currentTheme = getCurrentTheme();
+      const currentVars = finalThemeVars[currentTheme] || finalThemeVars.light;
+      const currentComputed = computedThemeVars[currentTheme] || computedThemeVars.light;
+
+      setCssVars(currentVars);
+      setComputedVars(currentComputed);
+      setOriginalVars(currentVars);
+
+      setVarSources(sources);
+      setDebugInfo(debugLog);
+      setLoading(false);
+
+      console.log(`✅ Todos los temas cargados. Tema activo: ${currentTheme}`);
+
+      return currentVars;
     } catch (error) {
       console.error('❌ Error detectando variables:', error);
       debugLog.push(`Error: ${error.message}`);
       setDebugInfo(debugLog);
-      if (themeChangeCounter === 0) {
-        setLoading(false);
-      }
+      setLoading(false);
       return {};
     }
-  }, [themeChangeCounter]);
+  }, []);
 
-      // ========================
-  // FUNCIÓN DIRECTA PARA CAMBIO DE TEMA - USA MISMA FUENTE QUE PREVIEWS
+            // ========================
+  // FUNCIÓN SUPER RÁPIDA PARA CAMBIO DE TEMA - SOLO CAMBIA ENTRE VALORES PRE-CALCULADOS
   // ========================
-  const handleThemeChangeOptimistic = useCallback(() => {
+  const handleThemeChange = useCallback(() => {
+    console.log('🎯 handleThemeChange llamado');
+
     // Prevenir ejecuciones múltiples
     if (isProcessingThemeChange) {
+      console.log('⚠️ Ya procesando cambio de tema, saltando...');
+      return;
+    }
+
+    console.log('📊 Estado de allThemeVars:', Object.keys(allThemeVars));
+    console.log('📊 Estado de allComputedVars:', Object.keys(allComputedVars));
+
+    // Verificar si tenemos datos cargados
+    if (Object.keys(allThemeVars).length === 0) {
+      console.log('❌ No hay datos de temas cargados aún');
       return;
     }
 
     setIsProcessingThemeChange(true);
 
-    // Actualizar inmediatamente - MISMO timing que los previews
-    const currentVars = { ...cssVars };
-    const computedValues = {};
+    const currentTheme = getCurrentTheme();
+    console.log(`🔄 Cambio de tema detectado: ${currentTheme}`);
 
-    Object.keys(currentVars).forEach(varName => {
-      // Usar EXACTAMENTE la misma función que los previews
-      const computedValue = getComputedStyle(document.documentElement)
-        .getPropertyValue(varName).trim();
-      computedValues[varName] = computedValue || currentVars[varName];
+    // Obtener valores pre-calculados para el nuevo tema
+    const newVars = allThemeVars[currentTheme] || allThemeVars.light || {};
+    const newComputed = allComputedVars[currentTheme] || allComputedVars.light || {};
+
+    console.log(`📋 Valores para tema ${currentTheme}:`, {
+      newVars: Object.keys(newVars).slice(0, 3),
+      newComputed: Object.keys(newComputed).slice(0, 3),
+      totalVars: Object.keys(newVars).length,
+      totalComputed: Object.keys(newComputed).length
     });
 
-    // Variables y previews ahora tienen EXACTAMENTE el mismo timing
-    setCssVars(computedValues);
+    // Verificar algunos valores específicos
+    console.log('🔍 Ejemplos de valores:');
+    console.log('  --background:', newVars['--background'], '→', newComputed['--background']);
+    console.log('  --foreground:', newVars['--foreground'], '→', newComputed['--foreground']);
 
-    // Liberar el flag inmediatamente (ya no necesitamos delay)
+    // Actualizar estados INSTANTÁNEAMENTE
+    setCssVars(newVars);
+    setComputedVars(newComputed);
+    setOriginalVars(newVars);
+
+    console.log(`✅ Estados actualizados para tema ${currentTheme}`);
+
     setIsProcessingThemeChange(false);
 
-  }, [cssVars, isProcessingThemeChange]);
+  }, [allThemeVars, allComputedVars, isProcessingThemeChange]);
 
-  // Effect inicial para detectar variables
+  // Effect inicial para detectar TODAS las variables de TODOS los temas
   useEffect(() => {
-    detectVariables().then(detectedVars => {
-      setOriginalVars({...detectedVars}); // Guardar valores originales solo la primera vez
-    });
-  }, []);
+    detectAllVariables();
+  }, [detectAllVariables]);
 
 
 
-  // Observer RÁPIDO para cambio de tema
+  // Observer super rápido para cambio de tema - Solo cambia entre valores pre-calculados
   useEffect(() => {
+    console.log('🔧 Configurando observer. allThemeVars keys:', Object.keys(allThemeVars));
+
+    // Solo crear observer si ya tenemos todos los valores cargados
+    if (Object.keys(allThemeVars).length === 0) {
+      console.log('⏳ Esperando datos de temas para crear observer...');
+      return;
+    }
+
+    console.log('✅ Creando observer de cambio de tema');
     let timeout = null;
 
     const observer = createThemeObserver(
       originalVars,
-      (updatedValues) => {
-        // Debounce mínimo para evitar spam
+      () => {
+        console.log('🎯 Observer detectó cambio - ejecutando callback');
+        // Debounce mínimo solo para evitar múltiples eventos
         if (timeout) clearTimeout(timeout);
         timeout = setTimeout(() => {
-          handleThemeChangeOptimistic();
-        }, 20); // Delay súper reducido para máxima responsividad
+          handleThemeChange();
+        }, 10); // Delay súper pequeño - solo anti-spam
       }
     );
 
     return () => {
+      console.log('🧹 Limpiando observer');
       observer.disconnect();
       if (timeout) clearTimeout(timeout);
     };
-  }, [originalVars, handleThemeChangeOptimistic]);
+  }, [allThemeVars, originalVars, handleThemeChange]);
 
   const updateCSSVar = (varName, value) => {
     // Detectar el tema actual
@@ -320,7 +392,10 @@ export function useVariableDetection() {
   };
 
   return {
-    cssVars,
+    cssVars,           // Valores originales para inputs (tema actual)
+    computedVars,      // Valores computados para previews (tema actual)
+    allThemeVars,      // Todos los valores por tema
+    allComputedVars,   // Todos los computados por tema
     originalVars,
     setOriginalVars,
     varSources,
@@ -329,7 +404,7 @@ export function useVariableDetection() {
     updateCSSVar,
     resetVar,
     resetAllVars,
-    detectVariables: () => detectVariables(),
+    detectAllVariables,
     isEditableVariable
   };
 }

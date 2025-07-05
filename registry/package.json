@@ -66,14 +66,15 @@
     "typescript": "^5.7.3"
   },
   "exports": {
-    "./test.css": "./styles/test.css",
     "./shadcn.css": "./styles/shadcn.css",
     "./stylewind.css": "./styles/stylewind.css",
+    "./presets.css": "./styles/presets.css",
     "./globals.css": "./styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
-    "./lib/*": "./lib/*.ts",
-    "./components/ui/*": "./ui/*.tsx",
-    "./components/gui/*": "./gui/*.tsx",
-    "./hooks/*": "./hooks/*.ts"
+    "./components/ui_/*": "./ui/*.tsx",
+    "./components/ui/*": "./uis/*.tsx",
+    "./hooks/*": "./hooks/*.ts",
+    "./utils/*": "./utils/*.ts",
+    "./lib/*": "./lib/*.ts"
   }
 }

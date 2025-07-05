@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google"
 import { Providers } from "@/components/providers"
 
+// /stylewind | opción con globals locales y stylewind.css en worspace
 import "@workspace/ui-registry/stylewind.css"
 import "./globals.css"
 

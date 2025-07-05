@@ -172,3 +172,63 @@ export function debugComputedValues(originalVariables, element = document.docume
 
   console.groupEnd();
 }
+
+/**
+ * Obtiene tanto valores originales como computados de variables al mismo tiempo
+ * ESTRATEGIA DUAL: Mantener inputs y previews perfectamente sincronizados
+ * @param {Object} originalVariables - Variables originales del CSS
+ * @param {Element} element - Elemento del que obtener el estilo
+ * @returns {Object} - { original: {}, computed: {} }
+ */
+export function getDualValuesForThemeChange(originalVariables, element = document.documentElement) {
+  const computedStyle = getComputedStyle(element);
+  const originalValues = {};
+  const computedValues = {};
+
+  Object.entries(originalVariables).forEach(([varName, originalValue]) => {
+    // Valor original (para input)
+    originalValues[varName] = originalValue;
+
+    // Valor computado (para preview)
+    const computedValue = computedStyle.getPropertyValue(varName).trim();
+    computedValues[varName] = computedValue || originalValue;
+  });
+
+  return {
+    original: originalValues,
+    computed: computedValues
+  };
+}
+
+/**
+ * Observer optimizado para cambios de tema con valores duales
+ * @param {Object} originalVariables - Variables originales
+ * @param {function} onUpdate - Callback que recibe { original, computed }
+ * @param {Element} element - Elemento a observar
+ * @returns {MutationObserver} - Observer para limpiar después
+ */
+export function createDualThemeObserver(originalVariables, onUpdate, element = document.documentElement) {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' &&
+          mutation.attributeName === 'class' &&
+          mutation.target === element) {
+
+        console.log('🎨 Cambio de tema detectado, actualizando valores duales...');
+
+        // Pequeño delay para asegurar que los estilos se han aplicado
+        setTimeout(() => {
+          const dualValues = getDualValuesForThemeChange(originalVariables, element);
+          onUpdate(dualValues);
+        }, 50); // Delay reducido pero suficiente para sincronización
+      }
+    });
+  });
+
+  observer.observe(element, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+
+  return observer;
+}

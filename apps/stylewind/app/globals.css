@@ -3,36 +3,37 @@
   --scheme: light dark;
 
   /* Tint colors */
-  --tint-background: hsl(0 0% 100%); /* All variants */
-  --tint-foreground: hsl(0 0% 0%); /* All variants */
-  --tint-decoration: var(--tint-foreground); /* All variants */
-  --tint-content: var(--tint-foreground); /* All variants */
-  --tint-controls: var(--tint-foreground); /* All variants */
-  --tint-accent: var(--tint-ambient); /* All variants */
-  --tint-active: var(--principal); /* All variants */
-  --tint-ambient: var(--tint-foreground); /* All variants */
-  --tint-state: var(--tint-ambient);
-  --tint-scrim: var(--tint-ambient);
-  --tint-backdrop: var(--tint-ambient);
-  --tint-shadow: var(--tint-ambient);
+  --tint-background: 150 30% 98%; /* @hsl */
+  --tint-foreground: 222.2 84% 4.9%; /* @hsl */
+  --tint-decoration: var(--tint-foreground); /* @hsl */
+  --tint-content: var(--tint-foreground); /* @hsl */
+  --tint-controls: var(--tint-foreground); /* @hsl */
+  --tint-accent: var(--tint-active); /* @hsl */
+  --tint-active: 240 100% 50%; /* @hsl */
+  --tint-ambient: var(--tint-foreground); /* @hsl */
+  --tint-state: var(--tint-ambient); /* @hsl */
+  --tint-scrim: var(--tint-ambient); /* @hsl */
+  --tint-backdrop: var(--tint-ambient); /* @hsl */
+  --tint-shadow: var(--tint-ambient); /* @hsl */
+  --tint-inverse: 0 0% 100%; /* @hsl */
 
   /* Surfaces */
-  --body: var(--tint-background);
+  --body: hsl(var(--tint-background));
   --canvas: var(--body); /* All variants */
-  --surface: var(--canvas); /* All variants */
+  --surface: var(--min-contrast); /* var(--canvas) All variants */
   --card: var(--surface); /* .bg-card */
   --popover: var(--surface); /* .bg-popover */
   --modal: var(--surface); /* .bg-modal */
-  --tooltip: var(--tint-foreground); /* .bg-tooltip */
+  --tooltip: hsl(var(--tint-foreground)); /* .bg-tooltip */
 
   /* Text */
-  --heading: var(--tint-content); /* .color-heading */
-  --text: --alpha(var(--tint-content)/90%); /* .color-text */
-  --text-muted: --alpha(var(--tint-content)/70%); /* .color-text-muted */
-  --text-subtle: --alpha(var(--tint-content)/40%); /* .color-text-subtle */
-  --text-disabled: --alpha(var(--tint-content)/30%); /* .color-text-disabled */
-  --text-hint: --alpha(var(--tint-content)/30%); /* .color-text-hint */
-  --text-silent: --alpha(var(--tint-content)/10%); /* .color-text-silent */
+  --heading: hsl(var(--tint-content)); /* .color-heading */
+  --text: hsl(var(--tint-content) / 90%); /* .color-text */
+  --text-muted: hsl(var(--tint-content) / 60%); /* .color-text-muted */
+  --text-subtle: hsl(var(--tint-content) / 40%); /* .color-text-subtle */
+  --text-disabled: hsl(var(--tint-content) / 30%); /* .color-text-disabled */
+  --text-hint: hsl(var(--tint-content) / 30%); /* .color-text-hint */
+  --text-silent: hsl(var(--tint-content) / 10%); /* .color-text-silent */
 
   /* Icons */
   --icon: var(--text); /* .color-icon */
@@ -43,47 +44,48 @@
   --icon-silent: var(--text-silent); /* .color-icon-silent */
 
   /* Borders */
-  --border: --alpha(var(--tint-foreground)/10%); /*.border .[type]-as-border */
+  --border: hsl(var(--tint-foreground) / 10%); /*.border .[type]-as-border */
   --divider: var(--border); /* .divide .[type]-as-divider */
-  --line: --alpha(var(--tint-foreground)/5%); /* .line .[type]-as-line */
+  --line: hsl(var(--tint-foreground) / 5%); /* .line .[type]-as-line */
 
   /* Controls */
-  --outline: --alpha(var(--tint-controls)/10%); /* .outline .[type]-as-outline */
-  --input: --alpha(var(--tint-controls)/5%); /* .bg-input */
-  --button: --alpha(var(--tint-controls)/10%); /* .bg-button */
-  --accented: var(--tint-accent);
-  --tonal: --alpha(var(--tint-accent)/10%);
-  --highlighted: --alpha(var(--tint-accent)/6%);
-  --selected: --alpha(var(--tint-accent)/10%);
+  --outline: hsl(var(--tint-controls) / 10%); /* .outline .[type]-as-outline */
+  --input: hsl(var(--tint-controls) / 5%); /* .bg-input */
+  --button: hsl(var(--tint-controls) / 90%); /* .bg-button */
+  --tonal: hsl(var(--tint-controls) / 5%); /* .bg-tonal */
+
+  --accented: hsl(var(--tint-accent));
+  --highlighted: hsl(var(--tint-accent) / 6%);
+  --selected: hsl(var(--tint-accent) / 10%);
 
   /* Interactivity */
-  --active: var(--tint-active); /* All variants */
-  --ring: var(--active); /* .ring */
+  --active: hsl(var(--tint-active)); /* All variants */
+  --ring: hsl(var(--tint-active) / 20%); /* .ring */
   --link: var(--active); /* .color-link */
   --visited: var(--link); /* .color-visited */
   --selection: var(--active); /* ::selection */
   --mark: var(--cautionary); /* .mark */
-  --caret: var(--tint-accent); /* caret-color: var(--caret) */
+  --caret: hsl(var(--tint-accent)); /* caret-color: var(--caret) */
 
   /* States */
-  --state-focused: --alpha(var(--tint-state)/12%);
-  --state-pressed: --alpha(var(--tint-state)/16%);
-  --state-dragging: --alpha(var(--tint-state)/16%);
+  --state-focused: hsl(var(--tint-state) / 12%);
+  --state-pressed: hsl(var(--tint-state) / 16%);
+  --state-dragging: hsl(var(--tint-state) / 16%);
 
   /* Backgrounds */
-  --variant: --alpha(var(--tint-ambient)/8%); /* .bg-variant */
-  --muted: --alpha(var(--tint-ambient)/4%); /* .bg-muted */
-  --scrim-soft: --alpha(var(--tint-scrim)/10%); /* .bg-scrim-soft */
-  --scrim-medium: --alpha(var(--tint-scrim)/30%); /* .bg-scrim */
-  --scrim-hard: --alpha(var(--tint-scrim)/50%); /* .bg-scrim-hard */
-  --backdrop-soft: --alpha(var(--tint-backdrop)/20%); /* .bg-backdrop-soft */
-  --backdrop-medium: --alpha(var(--tint-backdrop)/40%); /* .bg-backdrop-soft */
-  --backdrop-hard: --alpha(var(--tint-backdrop)/80%); /* .bg-backdrop-hard */
+  --variant: hsl(var(--tint-ambient) / 8%); /* .bg-variant */
+  --muted: hsl(var(--tint-ambient) / 4%); /* .bg-muted */
+  --scrim-soft: hsl(var(--tint-scrim) / 10%); /* .bg-scrim-soft */
+  --scrim-medium: hsl(var(--tint-scrim) / 30%); /* .bg-scrim */
+  --scrim-hard: hsl(var(--tint-scrim) / 50%); /* .bg-scrim-hard */
+  --backdrop-soft: hsl(var(--tint-backdrop) / 20%); /* .bg-backdrop-soft */
+  --backdrop-medium: hsl(var(--tint-backdrop) / 40%); /* .bg-backdrop-soft */
+  --backdrop-hard: hsl(var(--tint-backdrop) / 80%); /* .bg-backdrop-hard */
 
   /* Shadows */
-  --shadow-soft: --alpha(var(--tint-shadow)/5%); /* --shadow-md: 0 4px 6px -1px var(--shadow), 0 2px 4px -2px var(--shadow); */
-  --shadow-medium: --alpha(var(--tint-shadow)/10%); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
-  --shadow-hard: --alpha(var(--tint-shadow)/15%); /* --shadow-2xl: 0 25px 50px -12px var(--shadow-hard); */
+  --shadow-soft: hsl(var(--tint-shadow) / 5%); /* --shadow-md: 0 4px 6px -1px var(--shadow), 0 2px 4px -2px var(--shadow); */
+  --shadow-medium: hsl(var(--tint-shadow) / 10%); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+  --shadow-hard: hsl(var(--tint-shadow) / 15%); /* --shadow-2xl: 0 25px 50px -12px var(--shadow-hard); */
 
   /* Functional colors */
   --principal: #3b82f6;
@@ -91,6 +93,31 @@
   --cautionary: #f59e0b;
   --affirmative: #10b981;
   --informative: var(--principal);
+
+  --on-light: hsl(var(--tint-content)); /* .color-on-light */
+  --on-dark: hsl(var(--tint-inverse)); /* .color-on-dark */
+
+  --on-accented: var(--on-light); /* .color-on-accented */
+  --on-highlighted: var(--tint-accent); /* .color-on-highlighted */
+  --on-selected: var(--on-content); /* .color-on-selected */
+  --on-active: var(--on-content); /* .color-on-active */
+  --on-selection: var(--on-content); /* .color-on-selection */
+  --on-mark: var(--on-content); /* .color-on-mark */
+  --on-principal: var(--on-content); /* .color-on-principal */
+  --on-destructive: var(--on-content); /* .color-on-destructive */
+  --on-cautionary: var(--on-content); /* .color-on-cautionary */
+  --on-affirmative: var(--on-content); /* .color-on-affirmative */
+  --on-informative: var(--on-content); /* .color-on-informative */
+}
+
+.dark {
+  --tint-background: 220 84% 10%; /* @hsl */
+  --tint-foreground: 150 30% 98%; /* @hsl */
+  --tint-decoration: var(--tint-foreground);
+  --tint-content: var(--tint-foreground);
+  --tint-controls: var(--tint-foreground);
+  --tint-active: 240 100% 0%; /* @hsl */
+  --surface: hsl(220 64% 10%);/* @hsl */
 }
 
 /* Chart colors */

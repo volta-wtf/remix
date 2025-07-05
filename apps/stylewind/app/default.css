@@ -1,0 +1,145 @@
+:root {
+  /* Contrast */
+  --scheme: light dark;
+
+  /* Tint colors */
+  --tint-background: 150 30% 98%; /* @hsl */
+  --tint-foreground: 120 10% 40%; /* @hsl */
+  --tint-decoration: var(--tint-foreground); /* @hsl */
+  --tint-content: var(--tint-foreground); /* @hsl */
+  --tint-controls: var(--tint-foreground); /* @hsl */
+  --tint-accent: var(--tint-ambient); /* @hsl */
+  --tint-active: var(--tint-accent); /* @hsl */
+  --tint-ambient: var(--tint-foreground); /* @hsl */
+  --tint-state: var(--tint-ambient); /* @hsl */
+  --tint-scrim: var(--tint-ambient); /* @hsl */
+  --tint-backdrop: var(--tint-ambient); /* @hsl */
+  --tint-shadow: var(--tint-ambient); /* @hsl */
+
+  /* Surfaces */
+  --body: hsl(var(--tint-background));
+  --canvas: var(--body); /* All variants */
+  --surface: var(--min-contrast); /* --canvas All variants */
+  --card: var(--surface); /* .bg-card */
+  --popover: var(--surface); /* .bg-popover */
+  --modal: var(--surface); /* .bg-modal */
+  --tooltip: hsl(var(--tint-foreground)); /* .bg-tooltip */
+
+  /* Text */
+  --heading: hsl(var(--tint-content)); /* .heading-color */
+  --text: hsl(var(--tint-content) / 90%); /* .text-color */
+  --text-muted: hsl(var(--tint-content) / 70%); /* .text-color-muted */
+  --text-subtle: hsl(var(--tint-content) / 40%); /* .text-color-subtle */
+  --text-disabled: hsl(var(--tint-content) / 30%); /* .text-color-disabled */
+  --text-hint: hsl(var(--tint-content) / 30%); /* .text-color-hint */
+  --text-silent: hsl(var(--tint-content) / 10%); /* .text-color-silent */
+
+  /* Icons */
+  --icon: var(--text); /* .icon-color */
+  --icon-muted: var(--text-muted); /* .icon-color-muted */
+  --icon-subtle: var(--text-subtle); /* .icon-color-subtle */
+  --icon-disabled: var(--text-disabled); /* .icon-color-disabled */
+  --icon-hint: var(--text-hint); /* .icon-color-hint */
+  --icon-silent: var(--text-silent); /* .icon-color-silent */
+
+  /* Borders */
+  --border: hsl(var(--tint-foreground) / 10%); /*.border .[type]-as-border */
+  --divider: var(--border); /* .divide .[type]-as-divider */
+  --line: hsl(var(--tint-foreground) / 5%); /* .line .[type]-as-line */
+
+  /* Controls */
+  --outline: hsl(var(--tint-controls) / 10%); /* .outline .[type]-as-outline */
+  --input: hsl(var(--tint-controls) / 5%); /* .bg-input */
+  --button: hsl(var(--tint-controls) / 10%); /* .bg-button */
+  --accented: hsl(var(--tint-accent));
+  --highlighted: hsl(var(--tint-accent) / 6%);
+  --selected: hsl(var(--tint-accent) / 10%);
+
+  /* Interactivity */
+  --active: hsl(var(--tint-active)); /* All variants */
+  --ring: var(--active); /* .ring */
+  --link: var(--active); /* .color-link */
+  --visited: var(--link); /* .color-visited */
+  --selection: var(--active); /* ::selection */
+  --mark: var(--cautionary); /* .mark */
+  --caret: hsl(var(--tint-accent)); /* caret-color: var(--caret) */
+
+  /* States */
+  --state-focused: hsl(var(--tint-state) / 12%);
+  --state-pressed: hsl(var(--tint-state) / 16%);
+  --state-dragging: hsl(var(--tint-state) / 16%);
+
+  /* Backgrounds */
+  --variant: hsl(var(--tint-ambient) / 8%); /* .bg-variant */
+  --muted: hsl(var(--tint-ambient) / 4%); /* .bg-muted */
+  --scrim-soft: hsl(var(--tint-scrim) / 10%); /* .bg-scrim-soft */
+  --scrim-medium: hsl(var(--tint-scrim) / 30%); /* .bg-scrim */
+  --scrim-hard: hsl(var(--tint-scrim) / 50%); /* .bg-scrim-hard */
+  --backdrop-soft: hsl(var(--tint-backdrop) / 20%); /* .bg-backdrop-soft */
+  --backdrop-medium: hsl(var(--tint-backdrop) / 40%); /* .bg-backdrop-soft */
+  --backdrop-hard: hsl(var(--tint-backdrop) / 80%); /* .bg-backdrop-hard */
+
+  /* Shadows */
+  --shadow-soft: hsl(var(--tint-shadow) / 5%); /* --shadow-md: 0 4px 6px -1px var(--shadow), 0 2px 4px -2px var(--shadow); */
+  --shadow-medium: hsl(var(--tint-shadow) / 10%); /* --shadow-xs: 0 1px 2px 0 var(--shadow-soft); */
+  --shadow-hard: hsl(var(--tint-shadow) / 15%); /* --shadow-2xl: 0 25px 50px -12px var(--shadow-hard); */
+
+  /* Functional colors */
+  --principal: #3b82f6;
+  --destructive: #ef4444;
+  --cautionary: #f59e0b;
+  --affirmative: #10b981;
+  --informative: var(--principal);
+
+  /* On colors */
+  --on-accented: hsl(var(--tint-content)); /* .on-accented */
+  --on-highlighted: hsl(var(--tint-content)); /* .on-highlighted */
+  --on-selected: hsl(var(--tint-content)); /* .on-selected */
+  --on-active: hsl(var(--tint-content)); /* .on-active */
+  --on-selection: hsl(var(--tint-content)); /* .on-selection */
+  --on-mark: hsl(var(--tint-content)); /* .on-mark */
+  --on-principal: var(--tint-content); /* .on-principal */
+  --on-destructive: var(--tint-content); /* .on-destructive */
+  --on-cautionary: var(--tint-content); /* .on-cautionary */
+  --on-affirmative: var(--tint-content); /* .on-affirmative */
+  --on-informative: var(--tint-content); /* .on-informative */
+}
+
+.dark {
+  --tint-background: 222.2 84% 4.9%;
+  --tint-foreground: 210 40% 98%;
+  --tint-decoration: var(--tint-foreground);
+  --tint-content: var(--tint-foreground);
+  --tint-controls: var(--tint-foreground);
+}
+
+/* Chart colors */
+:root {
+  --chart-axis: var(--border); /* .axis .[type]-as-axis */
+  --chart-grid: var(--line); /* .axis .[type]-as-axis */
+}
+
+/* Color scheme */
+:root {
+  --scheme: light dark;
+  /* Fixed colors */
+  --clear: transparent;
+  --current: currentColor;
+  --black: #000;
+  --white: #fff;
+  /* Contrast colors */
+  --darkest: var(--black);
+  --lightest: var(--white);
+  --min-contrast: var(--lightest);
+  --max-contrast: var(--darkest);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --min-contrast: var(--darkest);
+    --max-contrast: var(--lightest);
+  }
+}
+
+:root {
+  --radius: 0.5rem;
+}

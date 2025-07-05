@@ -49,7 +49,8 @@ export function ThemeEditorApp({ onClose }) {
     setIsSpecificRulesCollapsed,
 
     // Estados de datos
-    cssVars,
+    cssVars,        // Valores originales para inputs
+    computedVars,   // Valores computados para previews
     originalVars,
     varSources,
     debugInfo,
@@ -98,6 +99,7 @@ export function ThemeEditorApp({ onClose }) {
         {activeTab === 'variables' && (
           <VariablesPanel
             cssVars={cssVars}
+            computedVars={computedVars}
             varSources={varSources}
             originalVars={originalVars}
             modifiedVars={modifiedVariables}

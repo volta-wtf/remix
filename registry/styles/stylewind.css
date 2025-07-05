@@ -3,32 +3,220 @@
 
 @custom-variant dark (&:is(.dark *));
 
-.root {
-  color-scheme: lightn dark;
+@theme inline {
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 2000px;
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-body: var(--body);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-popover: var(--popover);
+  --color-modal: var(--modal);
+  --color-tooltip: var(--tooltip);
+
+  --color-active: var(--active);
+  --color-link: var(--link);
+  --color-visited: var(--visited);
+  --color-selection: var(--selection);
+  --color-mark: var(--mark);
+  --color-caret: var(--caret);
+
+  --color-principal: var(--principal);
+  --color-destructive: var(--destructive);
+  --color-cautionary: var(--cautionary);
+  --color-affirmative: var(--affirmative);
+  --color-informative: var(--informative);
+
+  --color-on-accented:      var(--on-accented);
+  --color-on-highlighted:   var(--on-highlighted);
+  --color-on-selected:      var(--on-selected);
+  --color-on-active:        var(--on-active);
+  --color-on-selection:     var(--on-selection);
+  --color-on-mark:          var(--on-mark);
+  --color-on-principal:     var(--on-principal);
+  --color-on-destructive:   var(--on-destructive);
+  --color-on-cautionary:    var(--on-cautionary);
+  --color-on-affirmative:   var(--on-affirmative);
+  --color-on-informative:   var(--on-informative);
+
+  --color-on-light: var(--on-light);
+  --color-on-dark: var(--on-dark);
+
+  --color-clear: var(--clear);
+  --color-current: var(--current);
+  --color-darkest: var(--darkest);
+  --color-lightest: var(--lightest);
+  --color-min-contrast: var(--min-contrast);
+  --color-max-contrast: var(--max-contrast);
 }
 
-.dark {
-  color-scheme: dark;
+/*
+@utility bg-body    { background-color: var(--body); }
+@utility bg-canvas  { background-color: var(--canvas); }
+@utility bg-surface { background-color: var(--surface); }
+@utility bg-card    { background-color: var(--card); }
+@utility bg-popover { background-color: var(--popover); }
+@utility bg-modal   { background-color: var(--modal); }
+@utility bg-tooltip { background-color: var(--tooltip); }
+
+@utility on-accented              { color: var(--on-accented); }
+@utility on-accented              { color: var(--on-accented); }
+@utility on-highlighted           { color: var(--on-highlighted); }
+@utility on-selected              { color: var(--on-selected); }
+@utility on-active                { color: var(--on-active); }
+@utility on-selection             { color: var(--on-selection); }
+@utility on-mark                  { color: var(--on-mark); }
+*/
+
+@utility text-color-heading    { color: var(--heading); }
+@utility text-color            { color: var(--text); }
+@utility text-color-muted      { color: var(--text-muted); }
+@utility text-color-subtle     { color: var(--text-subtle); }
+@utility text-color-disabled   { color: var(--text-disabled); }
+@utility text-color-hint       { color: var(--text-hint); }
+@utility text-color-silent     { color: var(--text-silent); }
+
+@utility text-color-accented   { color: var(--accented); }
+@utility text-color-inverse    { color: var(--surface); }
+
+@utility icon-color            { color: var(--icon); }
+@utility icon-color-muted      { color: var(--icon-muted); }
+@utility icon-color-subtle     { color: var(--icon-subtle); }
+@utility icon-color-disabled   { color: var(--icon-disabled); }
+@utility icon-color-hint       { color: var(--icon-hint); }
+@utility icon-color-silent     { color: var(--icon-silent); }
+
+@utility icon-fill             { fill: var(--icon); }
+@utility icon-fill-muted       { fill: var(--icon-muted); }
+@utility icon-fill-subtle      { fill: var(--icon-subtle); }
+@utility icon-fill-disabled    { fill: var(--icon-disabled); }
+@utility icon-fill-hint        { fill: var(--icon-hint); }
+@utility icon-fill-silent      { fill: var(--icon-silent); }
+
+@utility icon-stroke           { stroke: var(--icon); }
+@utility icon-stroke-muted     { stroke: var(--icon-muted); }
+@utility icon-stroke-subtle    { stroke: var(--icon-subtle); }
+@utility icon-stroke-disabled  { stroke: var(--icon-disabled); }
+@utility icon-stroke-hint      { stroke: var(--icon-hint); }
+@utility icon-stroke-silent    { stroke: var(--icon-silent); }
+
+@utility border-color          { border-color: var(--border); }
+@utility border-as-line        { border-color: var(--line); }
+@utility border-as-divider     { border-color: var(--divider); }
+@utility border-as-outline     { border-color: var(--outline); }
+
+@utility line-color            { border-color: var(--line); }
+@utility line-as-border        { border-color: var(--border); }
+@utility line-as-divider       { border-color: var(--divider); }
+@utility line-as-outline       { border-color: var(--outline); }
+
+@utility divider-color         { :where(& > :not(:last-child)) { border-color: var(--divider); }}
+@utility divider-as-border     { :where(& > :not(:last-child)) { border-color: var(--border); }}
+@utility divider-as-line       { :where(& > :not(:last-child)) { border-color: var(--line); }}
+
+@utility outline-color         { outline-color: var(--outline); }
+@utility outline-as-border     { outline-color: var(--border); }
+@utility outline-as-ring       { outline-color: var(--ring); }
+@utility outline-as-border     { outline-color: var(--border); }
+
+/* @utility ring-color            { --tw-ring-color: hsl(var(--ring) / <alpha-value>); } */
+@utility ring-color {
+  @defaults ring-color;
+
+  --tw-ring-color: var(--ring);
+
+  @modifier {
+    --ring-opacity: <alpha-value>;
+    --tw-ring-color: color-mix(in srgb, var(--ring) var(--ring-opacity, 1), transparent);
+  }
 }
 
-@utility bg-canvas {
-  background-color: var(--canvas);
-}
-@utility text-color {
-  color: var(--text);
-}
-@utility border-color {
-  border-color: var(--border-color);
-}
-@utility outline-ring {
-  outline-color: var(--ring);
+@utility bg-input              { background-color: var(--input); }
+@utility bg-button             { background-color: var(--button); }
+@utility bg-tonal              { background-color: var(--tonal); }
+@utility bg-accented           { background-color: var(--accented); }
+@utility bg-highlighted        { background-color: var(--highlighted); }
+@utility bg-selected           { background-color: var(--selected); }
+
+@utility bg-variant            { background-color: var(--variant); }
+@utility bg-muted              { background-color: var(--muted); }
+
+@utility bg-scrim              { background-color: var(--scrim-medium); }
+@utility bg-scrim-soft         { background-color: var(--scrim-soft); }
+@utility bg-scrim-medium       { background-color: var(--scrim-medium); }
+@utility bg-scrim-hard         { background-color: var(--scrim-hard); }
+
+@utility bg-backdrop           { background-color: var(--backdrop-medium); }
+@utility bg-backdrop-soft      { background-color: var(--backdrop-soft); }
+@utility bg-backdrop-medium    { background-color: var(--backdrop-medium); }
+@utility bg-backdrop-hard      { background-color: var(--backdrop-hard); }
+
+@utility backdrop              { &::backdrop { background-color: var(--backdrop-medium); }}
+@utility backdrop-soft         { &::backdrop { background-color: var(--backdrop-soft); }}
+@utility backdrop-medium       { &::backdrop { background-color: var(--backdrop-medium); }}
+@utility backdrop-hard         { &::backdrop { background-color: var(--backdrop-hard); }}
+
+@utility shadow-color-soft     { --tw-shadow-color: var(--shadow-soft); }
+@utility shadow-color-medium   { --tw-shadow-color: var(--shadow-medium); }
+@utility shadow-color-hard     { --tw-shadow-color: var(--shadow-hard); }
+
+@utility font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer base {
   * {
-    @apply border-color outline-ring;
+    @apply border-color outline-as-ring;
   }
   body {
-    @apply bg-canvas text-color;
+    @apply bg-body text-color font-smoothing;
+  }
+  body {
+    color-scheme: var(--scheme);
+    background: var(--body);
+    color: var(--text);
+    accent-color: var(--accent);
+    caret-color: var(--caret);
+  }
+  body::selection {
+    background: var(--selection);
+    color: var(--on-selection);
+  }
+  mark {
+      background: var(--mark);
+  }
+  hr {
+      border-color: var(--divider);
+  }
+  .divide-y,
+  .divide-x {
+    :where(.divide-y > :not(:last-child)) {
+      border-color: var(--divider, currentColor);
+    }
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--heading);
   }
 }
+
+/*
+svg.icon {
+    fill: var(--default-fill-icon, initial);
+    stroke: var(--default-stroke-icon, initial);
+}
+*/

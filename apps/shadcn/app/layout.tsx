@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google"
 import { Providers } from "@/components/providers"
 
+// /shadcn | Opción con globals locales y shadcn.css en worspace
 import "@workspace/ui-registry/shadcn.css"
 import "./globals.css"
 

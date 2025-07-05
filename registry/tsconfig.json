@@ -5,10 +5,11 @@
     "paths": {
       "@workspace/ui-registry/*": ["./*"],
       "@/components/ui/*": ["./ui/*"],
+      "@/styles/*": ["./styles/*"],
       "@/hooks/*": ["./hooks/*"],
-      "@/lib/*": ["./lib/*"],
       "@/types/*": ["./types/*"],
-      "@/utils/*": ["./utils/*"]
+      "@/utils/*": ["./utils/*"],
+      "@/lib/*": ["./lib/*"],
     }
   },
   "include": ["."],

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Theme Editor Debug</title>
+    <style>
+        :root {
+            --scheme: light dark;
+            --hex: red;
+            --hex-alpha: #00000080;
+            --rgb: rgb(0 0 0);
+            --rgb-alpha: rgb(0 0 0 / 50%);
+            --hsl: hsl(120deg 75% 75%);
+            --hsl-alpha: hsl(120deg 75% 75% / 50%);
+            --oklab: oklab(0.5 0.5 0.5);
+            --rgb-legacy: rgb(0, 0, 0);
+            --rgba-legacy-1: rgba(0, 0, 0, 50%);
+            --rgba-legacy-2: rgba(0, 0, 0, 0.5);
+            --hsl-legacy: hsl(120, 75%, 75%);
+            --hsla-legacy-1: hsla(120deg, 75%, 75%, 0.5);
+            --hsla-legacy-2: hsla(120deg 75% 75% / 50%);
+            --variable: var(--hsl);
+            --variable-deep: var(--variable);
+            --alpha-variable: --alpha(var(--hex)/50%);
+            --variable-color: --alpha(#000000/50%);
+
+            /* Variables adicionales para el debug */
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --border: 214.3 31.8% 91.4%;
+            --muted: 210 40% 98%;
+        }
+
+        .dark {
+            --hex: blue;
+            --hex-alpha: blue;
+            --rgb-alpha: rgb(0 0 0 / 10%);
+            --rgb-legacy: pink;
+
+            /* Variables adicionales para el debug */
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --primary: 217.2 91.2% 59.8%;
+            --border: 217.2 32.6% 17.5%;
+            --muted: 217.2 32.6% 17.5%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            transition: background-color 0.3s, color 0.3s;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid hsl(var(--border));
+            border-radius: 8px;
+            background: hsl(var(--background));
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: hsl(var(--primary));
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--muted));
+            color: hsl(var(--foreground));
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: hsl(var(--primary));
+            color: white;
+        }
+
+        .debug-section {
+            background: hsl(var(--muted));
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .variable-info {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 8px 0;
+            padding: 8px;
+            background: hsl(var(--background));
+            border: 1px solid hsl(var(--border));
+            border-radius: 4px;
+        }
+
+        .theme-indicator {
+            font-weight: bold;
+            color: hsl(var(--primary));
+        }
+
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid hsl(var(--border));
+        }
+
+        .status.success {
+            background: hsl(142 76% 36% / 0.1);
+            border-color: hsl(142 76% 36%);
+            color: hsl(142 76% 36%);
+        }
+
+        .status.error {
+            background: hsl(0 84% 60% / 0.1);
+            border-color: hsl(0 84% 60%);
+            color: hsl(0 84% 60%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Theme Editor Debug Console</h1>
+
+        <div class="controls">
+            <button onclick="setTheme('light')">☀️ Light</button>
+            <button onclick="setTheme('dark')">🌙 Dark</button>
+            <button onclick="toggleTheme()">🔄 Toggle</button>
+            <button onclick="refreshInfo()">♻️ Refresh</button>
+            <button onclick="loadThemeEditor()">🛠️ Load Editor</button>
+        </div>
+
+        <div class="debug-section">
+            <h3>Estado del Sistema</h3>
+            <div class="variable-info">
+                <strong>Tema actual:</strong> <span class="theme-indicator" id="current-theme">light</span>
+            </div>
+            <div class="variable-info">
+                <strong>Theme Editor:</strong> <span id="editor-status">No cargado</span>
+            </div>
+            <div class="variable-info">
+                <strong>Variables detectadas:</strong> <span id="var-count">0</span>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3>Variables CSS - Comparación Original vs Computado</h3>
+            <div id="variables-display">
+                <!-- Variables se llenarán dinámicamente -->
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h3>Logs del Sistema</h3>
+            <div id="logs" style="max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px;">
+                <!-- Logs aparecerán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let themeEditorLoaded = false;
+        let originalConsoleLog = console.log;
+        let logBuffer = [];
+
+        // Interceptar console.log para mostrar en la UI
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            const message = args.map(arg =>
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            addLog(message);
+        };
+
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logBuffer.push(`[${timestamp}] ${message}`);
+            if (logBuffer.length > 50) logBuffer.shift(); // Mantener solo 50 logs
+
+            const logsDiv = document.getElementById('logs');
+            if (logsDiv) {
+                logsDiv.innerHTML = logBuffer.map(log =>
+                    `<div style="margin: 2px 0; padding: 2px 4px; background: hsl(var(--background)); border-radius: 2px;">${log}</div>`
+                ).join('');
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+            }
+        }
+
+        function getCurrentTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) return 'dark';
+            if (html.classList.contains('light')) return 'light';
+            return 'system';
+        }
+
+        function setTheme(theme) {
+            console.log(`🎯 Cambiando tema a: ${theme}`);
+            const html = document.documentElement;
+            html.classList.remove('light', 'dark');
+            if (theme !== 'system') {
+                html.classList.add(theme);
+            }
+            updateUI();
+        }
+
+        function toggleTheme() {
+            const current = getCurrentTheme();
+            const next = current === 'light' ? 'dark' : 'light';
+            setTheme(next);
+        }
+
+        function updateUI() {
+            const theme = getCurrentTheme();
+            document.getElementById('current-theme').textContent = theme;
+
+            // Actualizar variables
+            refreshVariables();
+        }
+
+        function refreshVariables() {
+            // Usar las mismas variables que la app real
+            const testVars = ['--hex', '--rgb', '--hsl', '--variable', '--hex-alpha', '--rgb-alpha', '--background', '--foreground'];
+            const container = document.getElementById('variables-display');
+
+            let html = '';
+            testVars.forEach(varName => {
+                const computed = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+                const original = getOriginalValue(varName);
+
+                html += `
+                    <div class="variable-info">
+                        <strong>${varName}:</strong><br>
+                        &nbsp;&nbsp;Original: <code>${original || '(inherited)'}</code><br>
+                        &nbsp;&nbsp;Computed: <code>${computed || '(none)'}</code>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            console.log(`📊 Variables actualizadas para tema: ${getCurrentTheme()}`);
+        }
+
+        function getOriginalValue(varName) {
+            // Intentar obtener el valor original desde las hojas de estilo
+            for (let sheet of document.styleSheets) {
+                try {
+                    for (let rule of sheet.cssRules || sheet.rules || []) {
+                        if (rule.selectorText && rule.style) {
+                            if (rule.selectorText.includes(':root') ||
+                                rule.selectorText.includes('.light') ||
+                                rule.selectorText.includes('.dark')) {
+                                const value = rule.style.getPropertyValue(varName);
+                                if (value) return value.trim();
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignorar errores de CORS
+                }
+            }
+            return null;
+        }
+
+        function refreshInfo() {
+            console.log('🔄 Refrescando información del sistema...');
+            updateUI();
+        }
+
+        function loadThemeEditor() {
+            if (themeEditorLoaded) {
+                console.log('⚠️ Theme Editor ya está cargado');
+                return;
+            }
+
+            console.log('🛠️ Cargando Theme Editor...');
+            document.getElementById('editor-status').textContent = 'Cargando...';
+
+            const script = document.createElement('script');
+            script.src = 'http://localhost:4444/theme-editor.js';
+
+            script.onload = () => {
+                console.log('✅ Theme Editor cargado exitosamente');
+                document.getElementById('editor-status').textContent = 'Cargado ✅';
+                themeEditorLoaded = true;
+            };
+
+            script.onerror = () => {
+                console.error('❌ Error cargando Theme Editor');
+                document.getElementById('editor-status').textContent = 'Error ❌';
+                addLog('❌ Error: No se pudo cargar el theme editor. ¿Está el servidor corriendo en puerto 4444?');
+            };
+
+            document.head.appendChild(script);
+        }
+
+        // Observador de cambios de tema
+        function setupThemeObserver() {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        console.log('🎯 Cambio de clase detectado en <html>:', document.documentElement.className);
+                        setTimeout(updateUI, 50);
+                    }
+                });
+            });
+
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+
+            console.log('👁️ Observer de tema configurado');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Debug console iniciado');
+            setupThemeObserver();
+            updateUI();
+            addLog('Sistema de debug iniciado correctamente');
+        });
+    </script>
+</body>
+</html>

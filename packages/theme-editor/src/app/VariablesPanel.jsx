@@ -13,6 +13,7 @@ import { PropertyItem, SaveFooter, SectionHeader, ThemeSelector } from './Proper
  */
 export function VariablesPanel({
   cssVars,
+  computedVars, // Valores computados para previews
   varSources,
   originalVars,
   modifiedVars,
@@ -78,6 +79,7 @@ export function VariablesPanel({
             showDropdown={true}
             hoveredItem={hoveredItem}
             onHover={setHoveredItem}
+            computedVars={computedVars}
             dropdownProps={{
               isOpen: dropdownOpen === varName,
               onToggle: (varName) => {
@@ -130,6 +132,7 @@ export function VariablesPanel({
                   showDropdown={true}
                   hoveredItem={hoveredItem}
                   onHover={setHoveredItem}
+                  computedVars={computedVars}
                   dropdownProps={{
                     isOpen: dropdownOpen === varName,
                     onToggle: (varName) => {

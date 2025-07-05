@@ -1,0 +1,1 @@
+export { default } from "@workspace/ui-registry/postcss.config";

@@ -5,7 +5,7 @@
     "paths": {
       "@/*": ["./*"],
       "@workspace/ui-registry/*": ["../../registry/*"],
-      "@/components/ui/*": ["../../registry/ui/*"],
+      "@/components/ui/*": ["../../registry/uis/*"],
       "@/hooks/*": ["../../registry/hooks/*"],
       "@/lib/*": ["../../registry/lib/*"],
       "@/types/*": ["../../registry/types/*"],

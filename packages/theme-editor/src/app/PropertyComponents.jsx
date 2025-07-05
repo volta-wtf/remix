@@ -5,11 +5,18 @@ import { variableClass } from './class-names.js';
 import { getComputedValueForPreview } from '../client/computed-style-utils.js';
 
 /**
- * Hook personalizado para sincronizar valor del input con preview - INMEDIATO
+ * Hook personalizado para obtener el valor computado desde el estado
+ * Ya no necesita calcular - usa valores pre-computados y sincronizados
  */
-function useSynchronizedValue(varName, stateValue) {
-  // CLAVE: Obtener valor inmediatamente durante el render, igual que el preview
-  const computedValue = getComputedValueForPreview(varName, stateValue);
+function useComputedValueForPreview(varName, computedVars) {
+  // Usar valor pre-computado del estado dual sincronizado
+  const computedValue = computedVars[varName] || '';
+
+  // Debug logging para variables específicas
+  if (varName === '--background' || varName === '--foreground') {
+    console.log(`🎨 Preview ${varName}:`, computedValue);
+  }
+
   return computedValue;
 }
 
@@ -29,14 +36,24 @@ export function PropertyItem({
   hoveredItem,
   onHover,
   showPreview = true,
-  showTypeIndicator = true
+  showTypeIndicator = true,
+  computedVars = {} // Valores computados pre-sincronizados
 }) {
   const currentStyle = isModified ? styles.variableModified : styles.variable;
   const isHovered = hoveredItem === varName;
   const [isFocused, setIsFocused] = React.useState(false);
 
-  // Usar valor sincronizado para que input y preview tengan la misma fuente
-  const synchronizedValue = useSynchronizedValue(varName, value);
+  // Obtener valor computado desde el estado dual sincronizado
+  const computedValueForPreview = useComputedValueForPreview(varName, computedVars);
+
+  // Debug logging para variables específicas
+  if (varName === '--background' || varName === '--foreground') {
+    console.log(`🔧 PropertyItem ${varName}:`, {
+      value: value,
+      computedValueForPreview: computedValueForPreview,
+      isModified: isModified
+    });
+  }
 
   return (
     <div
@@ -68,7 +85,7 @@ export function PropertyItem({
             }}>
               <VariablePreview
                 varName={varName}
-                value={synchronizedValue}
+                value={computedValueForPreview}
               />
             </div>
           )}
@@ -83,7 +100,7 @@ export function PropertyItem({
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            value={synchronizedValue}
+            value={value}
             onChange={(e) => onUpdate(varName, e.target.value)}
             placeholder={placeholder}
             autoComplete="off"
@@ -114,7 +131,7 @@ export function PropertyItem({
         </div>
       </div>
       <div className={styles.value}>
-        Valor actual: {synchronizedValue}
+        Valor actual: {computedValueForPreview}
         {isModified && dropdownProps.originalValue && (
           <span style={{ color: '#ef4444', marginLeft: '12px', fontSize: '12px' }}>
             Valor anterior: {dropdownProps.originalValue}

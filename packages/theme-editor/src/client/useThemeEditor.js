@@ -18,7 +18,10 @@ export function useThemeEditor() {
 
   // Hook de detección de variables
   const {
-    cssVars,
+    cssVars,        // Valores originales para inputs (tema actual)
+    computedVars,   // Valores computados para previews (tema actual)
+    allThemeVars,   // Todos los valores por tema
+    allComputedVars, // Todos los computados por tema
     originalVars,
     setOriginalVars,
     varSources,
@@ -253,7 +256,10 @@ export function useThemeEditor() {
     setIsSpecificRulesCollapsed,
 
     // Estados de datos
-    cssVars,
+    cssVars,        // Valores originales para inputs (tema actual)
+    computedVars,   // Valores computados para previews (tema actual)
+    allThemeVars,   // Todos los valores por tema
+    allComputedVars, // Todos los computados por tema
     originalVars,
     varSources,
     debugInfo,
