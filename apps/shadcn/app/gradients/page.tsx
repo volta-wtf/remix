@@ -1,5 +1,5 @@
-import { Toaster } from "@/components/ui/sonner";
-import { GradientGallery } from "./interface/GradientGallery";
+import { Toaster } from "sonner";
+import { GradientGallery } from "./partials/GradientGallery";
 import { AuthProvider } from "./contexts/AuthContext";
 
 export default function GradientsPage() {
