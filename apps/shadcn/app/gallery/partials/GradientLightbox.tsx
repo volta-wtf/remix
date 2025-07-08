@@ -163,25 +163,7 @@ export function GradientLightbox({ gradient, onClose, onDuplicate, onUpdate }: G
   const showDuplicateButton = !isEditing && onDuplicate && !gradient.isCustom;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{
-          duration: 0.4,
-          ease: [0.16, 1, 0.3, 1]
-        }}
-        onClick={(e) => e.stopPropagation()}
-        className="bg-card rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto"
-      >
+      <div className="flex flex-col">
         {/* Header with gradient preview */}
         <div
           className="h-48 relative"
@@ -637,7 +619,6 @@ export function GradientLightbox({ gradient, onClose, onDuplicate, onUpdate }: G
             </Tabs>
           )}
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
   );
 }

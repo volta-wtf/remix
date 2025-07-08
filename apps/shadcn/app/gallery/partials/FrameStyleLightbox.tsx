@@ -219,472 +219,453 @@ ${cssProperties}
   const showDuplicateButton = !isEditing && onDuplicate && !frameStyle.isCustom;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{
-          duration: 0.4,
-          ease: [0.16, 1, 0.3, 1]
-        }}
-        onClick={(e) => e.stopPropagation()}
-        className="bg-card rounded-3xl max-w-4xl w-full overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto"
-      >
-        {/* Header with frame preview */}
-        <div className="h-48 relative bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors z-10"
-            type="button"
-          >
-            <X className="w-5 h-5 text-foreground" />
-          </button>
+    <div>
+      {/* Header with frame preview */}
+      <div className="h-48 relative bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors z-10"
+          type="button"
+        >
+          <X className="w-5 h-5 text-foreground" />
+        </button>
 
-          {/* Status badges */}
-          <div className="absolute top-4 left-4 flex gap-2">
-            <Badge variant="secondary" className="bg-white/50 backdrop-blur-sm">
-              {currentFrameStyle.category}
+        {/* Status badges */}
+        <div className="absolute top-4 left-4 flex gap-2">
+          <Badge variant="secondary" className="bg-white/50 backdrop-blur-sm">
+            {currentFrameStyle.category}
+          </Badge>
+          {currentFrameStyle.isCustom && (
+            <Badge variant="outline" className="bg-white/50 backdrop-blur-sm">
+              Custom
             </Badge>
-            {currentFrameStyle.isCustom && (
-              <Badge variant="outline" className="bg-white/50 backdrop-blur-sm">
-                Custom
-              </Badge>
-            )}
-            {currentFrameStyle.isModified && (
-              <Badge variant="outline" className="bg-yellow-500/20 backdrop-blur-sm border-yellow-400/40">
-                Modified
-              </Badge>
-            )}
-          </div>
-
-          {/* Action buttons */}
-          <div className="absolute bottom-4 right-4 flex gap-2">
-            {showDuplicateButton && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleDuplicate}
-                className="bg-white/50 backdrop-blur-sm hover:bg-white/70"
-                type="button"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Duplicate
-              </Button>
-            )}
-
-            {canEdit && (
-              <div className="flex gap-2">
-                {isEditing ? (
-                  <>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={handleCancel}
-                      className="bg-white/50 backdrop-blur-sm hover:bg-white/70"
-                      type="button"
-                    >
-                      <RotateCcw className="w-4 h-4 mr-2" />
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={handleSave}
-                      className="bg-green-500/20 backdrop-blur-sm border-green-400/40 hover:bg-green-500/30"
-                      type="button"
-                    >
-                      Save Changes
-                    </Button>
-                  </>
-                ) : (
-                  showEditButton && (
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={handleEdit}
-                      className="bg-white/50 backdrop-blur-sm hover:bg-white/70"
-                      type="button"
-                    >
-                      <Edit2 className="w-4 h-4 mr-2" />
-                      Edit
-                    </Button>
-                  )
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Large frame preview */}
-          <div
-            className="w-32 h-32 rounded-lg relative"
-            style={currentFrameStyle.style}
-          >
-            <div className="absolute inset-4 bg-white/20 rounded flex items-center justify-center">
-              <div className="w-8 h-8 bg-white/40 rounded-full" />
-            </div>
-          </div>
+          )}
+          {currentFrameStyle.isModified && (
+            <Badge variant="outline" className="bg-yellow-500/20 backdrop-blur-sm border-yellow-400/40">
+              Modified
+            </Badge>
+          )}
         </div>
 
-        {/* Content */}
-        <div className="p-8">
-          {!isEditing ? (
-            /* View Mode */
-            <>
-              <div className="flex items-center gap-3 mb-4">
-                <Frame className="w-6 h-6 text-muted-foreground" />
-                <h2 className="text-2xl font-semibold">{currentFrameStyle.name}</h2>
+        {/* Action buttons */}
+        <div className="absolute bottom-4 right-4 flex gap-2">
+          {showDuplicateButton && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleDuplicate}
+              className="bg-white/50 backdrop-blur-sm hover:bg-white/70"
+              type="button"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Duplicate
+            </Button>
+          )}
+
+          {canEdit && (
+            <div className="flex gap-2">
+              {isEditing ? (
+                <>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleCancel}
+                    className="bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                    type="button"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleSave}
+                    className="bg-green-500/20 backdrop-blur-sm border-green-400/40 hover:bg-green-500/30"
+                    type="button"
+                  >
+                    Save Changes
+                  </Button>
+                </>
+              ) : (
+                showEditButton && (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleEdit}
+                    className="bg-white/50 backdrop-blur-sm hover:bg-white/70"
+                    type="button"
+                  >
+                    <Edit2 className="w-4 h-4 mr-2" />
+                    Edit
+                  </Button>
+                )
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Large frame preview */}
+        <div
+          className="w-32 h-32 rounded-lg relative"
+          style={currentFrameStyle.style}
+        >
+          <div className="absolute inset-4 bg-white/20 rounded flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/40 rounded-full" />
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-8">
+        {!isEditing ? (
+          /* View Mode */
+          <>
+            <div className="flex items-center gap-3 mb-4">
+              <Frame className="w-6 h-6 text-muted-foreground" />
+              <h2 className="text-2xl font-semibold">{currentFrameStyle.name}</h2>
+            </div>
+
+            <p className="text-muted-foreground mb-6">{currentFrameStyle.description}</p>
+
+            {/* Material Type */}
+            <div className="mb-6">
+              <h3 className="font-medium mb-3">Material</h3>
+              <Badge variant="outline" className="text-sm">
+                {currentFrameStyle.material}
+              </Badge>
+            </div>
+
+            {/* Tags */}
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Tag className="w-4 h-4 text-muted-foreground" />
+                <h3 className="font-medium">Tags</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {currentFrameStyle.tags.map((tag, index) => (
+                  <Badge key={index} variant="outline" className="text-xs">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* CSS Class */}
+            <div className="mb-6">
+              <h3 className="font-medium mb-3">CSS Class</h3>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => copyToClipboard(currentFrameStyle.cssClass, 'CSS class')}
+                className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+                type="button"
+              >
+                <code className="text-sm break-all">{currentFrameStyle.cssClass}</code>
+                <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.button>
+            </div>
+
+            {/* CSS Properties */}
+            <div className="mb-6">
+              <h3 className="font-medium mb-3">CSS Properties</h3>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => copyToClipboard(JSON.stringify(currentFrameStyle.style, null, 2), 'CSS properties')}
+                className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+                type="button"
+              >
+                <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
+                  {JSON.stringify(currentFrameStyle.style, null, 2)}
+                </pre>
+                <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.button>
+            </div>
+
+            <Separator className="my-6" />
+
+            {/* CSS Output */}
+            <div className="mb-6">
+              <h3 className="font-medium mb-3">CSS Output</h3>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleCopyCSS}
+                className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+                type="button"
+              >
+                <pre className="text-sm font-mono whitespace-pre-wrap">{generateCSSOutput()}</pre>
+                <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.button>
+            </div>
+
+            {/* Usage Examples */}
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-medium mb-2">Examples</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 flex items-center justify-center">
+                    <div
+                      className="w-full h-full rounded"
+                      style={currentFrameStyle.style}
+                    >
+                      <div className="w-full h-full bg-white/20 rounded flex items-center justify-center">
+                        <div className="text-white/60 text-xs">Content</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="aspect-square bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 flex items-center justify-center">
+                    <div
+                      className="w-full h-full rounded"
+                      style={currentFrameStyle.style}
+                    >
+                      <div className="w-full h-full bg-white/20 rounded flex items-center justify-center">
+                        <div className="text-white/60 text-xs">Image</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          /* Edit Mode */
+          <Tabs defaultValue="basic" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="basic">Basic Info</TabsTrigger>
+              <TabsTrigger value="shadows">Box Shadows</TabsTrigger>
+              <TabsTrigger value="properties">CSS Properties</TabsTrigger>
+              <TabsTrigger value="details">Details</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="basic" className="space-y-6">
+              {/* Name */}
+              <div className="space-y-2">
+                <Label className="text-sm">Name</Label>
+                <Input
+                  value={editedFrameStyle.name}
+                  onChange={(e) => setEditedFrameStyle(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="Enter frame style name..."
+                />
               </div>
 
-              <p className="text-muted-foreground mb-6">{currentFrameStyle.description}</p>
-
-              {/* Material Type */}
-              <div className="mb-6">
-                <h3 className="font-medium mb-3">Material</h3>
-                <Badge variant="outline" className="text-sm">
-                  {currentFrameStyle.material}
-                </Badge>
+              {/* Description */}
+              <div className="space-y-2">
+                <Label className="text-sm">Description</Label>
+                <Textarea
+                  value={editedFrameStyle.description}
+                  onChange={(e) => setEditedFrameStyle(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="Enter frame style description..."
+                  rows={3}
+                />
               </div>
 
-              {/* Tags */}
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <Tag className="w-4 h-4 text-muted-foreground" />
-                  <h3 className="font-medium">Tags</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {currentFrameStyle.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
+              {/* Category */}
+              <div className="space-y-2">
+                <Label className="text-sm">Category</Label>
+                <Select
+                  value={editedFrameStyle.category}
+                  onValueChange={(value) => setEditedFrameStyle(prev => ({ ...prev, category: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {frameStyleCategories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Material */}
+              <div className="space-y-2">
+                <Label className="text-sm">Material Type</Label>
+                <Select
+                  value={editedFrameStyle.material}
+                  onValueChange={(value) => setEditedFrameStyle(prev => ({ ...prev, material: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select material" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {materialTypes.map((material) => (
+                      <SelectItem key={material} value={material}>
+                        {material}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* CSS Class */}
-              <div className="mb-6">
-                <h3 className="font-medium mb-3">CSS Class</h3>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => copyToClipboard(currentFrameStyle.cssClass, 'CSS class')}
-                  className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
-                  type="button"
-                >
-                  <code className="text-sm break-all">{currentFrameStyle.cssClass}</code>
-                  <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.button>
+              <div className="space-y-2">
+                <Label className="text-sm">CSS Class</Label>
+                <Input
+                  value={editedFrameStyle.cssClass}
+                  onChange={(e) => setEditedFrameStyle(prev => ({ ...prev, cssClass: e.target.value }))}
+                  placeholder="Enter CSS class name..."
+                />
               </div>
 
-              {/* CSS Properties */}
-              <div className="mb-6">
-                <h3 className="font-medium mb-3">CSS Properties</h3>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => copyToClipboard(JSON.stringify(currentFrameStyle.style, null, 2), 'CSS properties')}
-                  className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
-                  type="button"
-                >
-                  <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
-                    {JSON.stringify(currentFrameStyle.style, null, 2)}
-                  </pre>
-                  <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.button>
-              </div>
+              {/* Tags Editor */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Tag className="w-4 h-4 text-muted-foreground" />
+                  <Label className="text-sm">Tags</Label>
+                </div>
 
-              <Separator className="my-6" />
-
-              {/* CSS Output */}
-              <div className="mb-6">
-                <h3 className="font-medium mb-3">CSS Output</h3>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleCopyCSS}
-                  className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
-                  type="button"
-                >
-                  <pre className="text-sm font-mono whitespace-pre-wrap">{generateCSSOutput()}</pre>
-                  <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.button>
-              </div>
-
-              {/* Usage Examples */}
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-medium mb-2">Examples</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 flex items-center justify-center">
-                      <div
-                        className="w-full h-full rounded"
-                        style={currentFrameStyle.style}
+                <div className="flex flex-wrap gap-2">
+                  <AnimatePresence>
+                    {editedFrameStyle.tags.map((tag, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="flex items-center"
                       >
-                        <div className="w-full h-full bg-white/20 rounded flex items-center justify-center">
-                          <div className="text-white/60 text-xs">Content</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="aspect-square bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 flex items-center justify-center">
-                      <div
-                        className="w-full h-full rounded"
-                        style={currentFrameStyle.style}
-                      >
-                        <div className="w-full h-full bg-white/20 rounded flex items-center justify-center">
-                          <div className="text-white/60 text-xs">Image</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            /* Edit Mode */
-            <Tabs defaultValue="basic" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="basic">Basic Info</TabsTrigger>
-                <TabsTrigger value="shadows">Box Shadows</TabsTrigger>
-                <TabsTrigger value="properties">CSS Properties</TabsTrigger>
-                <TabsTrigger value="details">Details</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="basic" className="space-y-6">
-                {/* Name */}
-                <div className="space-y-2">
-                  <Label className="text-sm">Name</Label>
-                  <Input
-                    value={editedFrameStyle.name}
-                    onChange={(e) => setEditedFrameStyle(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="Enter frame style name..."
-                  />
-                </div>
-
-                {/* Description */}
-                <div className="space-y-2">
-                  <Label className="text-sm">Description</Label>
-                  <Textarea
-                    value={editedFrameStyle.description}
-                    onChange={(e) => setEditedFrameStyle(prev => ({ ...prev, description: e.target.value }))}
-                    placeholder="Enter frame style description..."
-                    rows={3}
-                  />
-                </div>
-
-                {/* Category */}
-                <div className="space-y-2">
-                  <Label className="text-sm">Category</Label>
-                  <Select
-                    value={editedFrameStyle.category}
-                    onValueChange={(value) => setEditedFrameStyle(prev => ({ ...prev, category: value }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {frameStyleCategories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Material */}
-                <div className="space-y-2">
-                  <Label className="text-sm">Material Type</Label>
-                  <Select
-                    value={editedFrameStyle.material}
-                    onValueChange={(value) => setEditedFrameStyle(prev => ({ ...prev, material: value }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select material" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {materialTypes.map((material) => (
-                        <SelectItem key={material} value={material}>
-                          {material}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* CSS Class */}
-                <div className="space-y-2">
-                  <Label className="text-sm">CSS Class</Label>
-                  <Input
-                    value={editedFrameStyle.cssClass}
-                    onChange={(e) => setEditedFrameStyle(prev => ({ ...prev, cssClass: e.target.value }))}
-                    placeholder="Enter CSS class name..."
-                  />
-                </div>
-
-                {/* Tags Editor */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Tag className="w-4 h-4 text-muted-foreground" />
-                    <Label className="text-sm">Tags</Label>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    <AnimatePresence>
-                      {editedFrameStyle.tags.map((tag, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.8 }}
-                          className="flex items-center"
-                        >
-                          {editingTag?.index === index ? (
-                            <div className="flex items-center gap-1 bg-muted rounded-full px-2 py-1">
-                              <Input
-                                value={editingTag.value}
-                                onChange={(e) => setEditingTag({ ...editingTag, value: e.target.value })}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') saveEditingTag();
-                                  if (e.key === 'Escape') cancelEditingTag();
-                                }}
-                                className="text-xs h-auto border-none bg-transparent p-0 focus-visible:ring-0 min-w-16"
-                                autoFocus
-                              />
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={saveEditingTag}
-                                className="h-auto p-0.5"
-                                type="button"
-                              >
-                                ✓
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={cancelEditingTag}
-                                className="h-auto p-0.5"
-                                type="button"
-                              >
-                                <X className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          ) : (
-                            <Badge
-                              variant="outline"
-                              className="text-xs cursor-pointer hover:bg-muted/50 group"
-                              onClick={() => startEditingTag(index)}
+                        {editingTag?.index === index ? (
+                          <div className="flex items-center gap-1 bg-muted rounded-full px-2 py-1">
+                            <Input
+                              value={editingTag.value}
+                              onChange={(e) => setEditingTag({ ...editingTag, value: e.target.value })}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') saveEditingTag();
+                                if (e.key === 'Escape') cancelEditingTag();
+                              }}
+                              className="text-xs h-auto border-none bg-transparent p-0 focus-visible:ring-0 min-w-16"
+                              autoFocus
+                            />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={saveEditingTag}
+                              className="h-auto p-0.5"
+                              type="button"
                             >
-                              {tag}
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeTag(index);
-                                }}
-                                className="h-auto p-0 ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                type="button"
-                              >
-                                <X className="w-3 h-3" />
-                              </Button>
-                            </Badge>
-                          )}
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Input
-                      value={newTag}
-                      onChange={(e) => setNewTag(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && addTag()}
-                      placeholder="Add new tag..."
-                      className="text-sm"
-                    />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={addTag}
-                      disabled={!newTag.trim()}
-                      type="button"
-                    >
-                      <Plus className="w-3 h-3" />
-                    </Button>
-                  </div>
+                              ✓
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={cancelEditingTag}
+                              className="h-auto p-0.5"
+                              type="button"
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <Badge
+                            variant="outline"
+                            className="text-xs cursor-pointer hover:bg-muted/50 group"
+                            onClick={() => startEditingTag(index)}
+                          >
+                            {tag}
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeTag(index);
+                              }}
+                              className="h-auto p-0 ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              type="button"
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </Badge>
+                        )}
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
-              </TabsContent>
 
-              <TabsContent value="shadows" className="space-y-6">
-                <ShadowEditor
-                  name={editedFrameStyle.name}
-                  onNameChange={(name) => setEditedFrameStyle(prev => ({ ...prev, name }))}
-                  cssClass={editedFrameStyle.cssClass}
-                  onCssClassChange={(cssClass) => setEditedFrameStyle(prev => ({ ...prev, cssClass }))}
-                  tags={editedFrameStyle.tags}
-                  onTagsChange={(tags) => setEditedFrameStyle(prev => ({ ...prev, tags }))}
-                  shadows={shadows}
-                  onShadowsChange={handleShadowsChange}
-                  shadowType="box"
-                  previewElement={
-                    <div
-                      className="w-24 h-24 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200"
-                      style={{ ...currentFrameStyle.style }}
-                    >
-                      <div className="w-full h-full bg-white/20 rounded flex items-center justify-center">
-                        <div className="w-4 h-4 bg-white/60 rounded-full" />
-                      </div>
-                    </div>
-                  }
-                />
-              </TabsContent>
+                <div className="flex gap-2">
+                  <Input
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && addTag()}
+                    placeholder="Add new tag..."
+                    className="text-sm"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={addTag}
+                    disabled={!newTag.trim()}
+                    type="button"
+                  >
+                    <Plus className="w-3 h-3" />
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
 
-              <TabsContent value="properties" className="space-y-6">
-                <CSSPropertyEditor
-                  properties={editedFrameStyle.style}
-                  onPropertiesChange={handleStyleChange}
-                  onCopyCSS={handleCopyCSS}
-                />
-              </TabsContent>
-
-              <TabsContent value="details" className="space-y-6">
-                {/* Frame Preview */}
-                <div className="space-y-2">
-                  <Label className="text-sm">Frame Preview</Label>
-                  <div className="flex justify-center p-6 bg-muted/30 rounded-lg">
-                    <div
-                      className="w-32 h-32 rounded-lg relative"
-                      style={editedFrameStyle.style}
-                    >
-                      <div className="absolute inset-4 bg-white/20 rounded flex items-center justify-center">
-                        <div className="w-8 h-8 bg-white/40 rounded-full" />
-                      </div>
+            <TabsContent value="shadows" className="space-y-6">
+              <ShadowEditor
+                name={editedFrameStyle.name}
+                onNameChange={(name) => setEditedFrameStyle(prev => ({ ...prev, name }))}
+                cssClass={editedFrameStyle.cssClass}
+                onCssClassChange={(cssClass) => setEditedFrameStyle(prev => ({ ...prev, cssClass }))}
+                tags={editedFrameStyle.tags}
+                onTagsChange={(tags) => setEditedFrameStyle(prev => ({ ...prev, tags }))}
+                shadows={shadows}
+                onShadowsChange={handleShadowsChange}
+                shadowType="box"
+                previewElement={
+                  <div
+                    className="w-24 h-24 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200"
+                    style={{ ...currentFrameStyle.style }}
+                  >
+                    <div className="w-full h-full bg-white/20 rounded flex items-center justify-center">
+                      <div className="w-4 h-4 bg-white/60 rounded-full" />
                     </div>
                   </div>
-                </div>
+                }
+              />
+            </TabsContent>
 
-                {/* CSS Output Preview */}
-                <div className="space-y-2">
-                  <Label className="text-sm">CSS Output Preview</Label>
-                  <div className="p-4 bg-muted rounded-lg border">
-                    <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-mono">
-                      {generateCSSOutput()}
-                    </pre>
+            <TabsContent value="properties" className="space-y-6">
+              <CSSPropertyEditor
+                properties={editedFrameStyle.style}
+                onPropertiesChange={handleStyleChange}
+                onCopyCSS={handleCopyCSS}
+              />
+            </TabsContent>
+
+            <TabsContent value="details" className="space-y-6">
+              {/* Frame Preview */}
+              <div className="space-y-2">
+                <Label className="text-sm">Frame Preview</Label>
+                <div className="flex justify-center p-6 bg-muted/30 rounded-lg">
+                  <div
+                    className="w-32 h-32 rounded-lg relative"
+                    style={editedFrameStyle.style}
+                  >
+                    <div className="absolute inset-4 bg-white/20 rounded flex items-center justify-center">
+                      <div className="w-8 h-8 bg-white/40 rounded-full" />
+                    </div>
                   </div>
                 </div>
-              </TabsContent>
-            </Tabs>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
+              </div>
+
+              {/* CSS Output Preview */}
+              <div className="space-y-2">
+                <Label className="text-sm">CSS Output Preview</Label>
+                <div className="p-4 bg-muted rounded-lg border">
+                  <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-mono">
+                    {generateCSSOutput()}
+                  </pre>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        )}
+      </div>
+    </div>
   );
 }
