@@ -1,0 +1,14 @@
+/*
+// Outside gradient strokes
+*/
+.text-gradient-stroke {
+    --text-image: var(--gradient-multicolor);
+    --text-color: inherit;
+    --stroke-color: transparent;
+    --stroke-width: .06em;
+    padding: calc(var(--stroke-width) / 2);
+    @apply stroke-gradient;
+    @apply text-fill;
+    @apply text-clip;
+    @apply text-stroke;
+}

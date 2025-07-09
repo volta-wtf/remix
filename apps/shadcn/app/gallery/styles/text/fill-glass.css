@@ -1,0 +1,19 @@
+/*
+// Inside alpha stroke and alpha color fill
+*/
+.text-fill-glass {
+    --text-color: rgba(255, 255, 255, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --stroke-color: rgba(255, 255, 255, 0.3);
+    --stroke-width: 1px;
+    filter: drop-shadow(0em 0.01em 0.02em var(--shadow-color));
+    mix-blend-mode: plus-lighter;
+    @apply text-fill;
+    @apply text-stroke;
+
+    /* @apply filter-shadow; */
+    /* text-shadow: 0em 0em 0.02em var(--text-color); */
+    &.small {
+        --stroke-width: 0.5px;
+    }
+}

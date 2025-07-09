@@ -1,0 +1,12 @@
+/*
+// https://codepen.io/creatz/pen/pooBeev
+*/
+.text-pop-art {
+    --text-color: transparent;
+    --stroke-color: white;
+    --stroke-width: .03em;
+    letter-spacing: 0.1em;
+    text-shadow: var(--shadow-double);
+    @apply text-fill;
+    @apply text-stroke;
+}

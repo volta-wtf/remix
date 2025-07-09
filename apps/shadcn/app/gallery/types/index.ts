@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export type Section = 'gradients' | 'text-styles' | 'frame-styles';
+export type Section = 'text-styles' | 'text-classes' | 'frame-styles' | 'gradients';
 
 export interface BaseStyle {
   id: string;
@@ -15,18 +15,34 @@ export interface BaseStyle {
 export interface Gradient extends BaseStyle {
   gradient: string;
   colors: string[];
-  inspiration: string;
   usage: string;
+  inspiration: string;
+}
+
+export interface TextClass extends BaseStyle {
+  cssFile: string;
+  previewText: string;
+  usesData?: boolean;
+  background?: string;
 }
 
 export interface TextStyle extends BaseStyle {
   previewText: string;
-  style: CSSProperties;
   cssClass: string;
+  style: CSSProperties;
+  usesDataText?: boolean;
+  before?: {
+    content?: string;
+    [key: string]: any;
+  };
+  after?: {
+    content?: string;
+    [key: string]: any;
+  };
 }
 
 export interface FrameStyle extends BaseStyle {
-  style: CSSProperties;
-  cssClass: string;
   material: string;
+  cssClass: string;
+  style: CSSProperties;
 }

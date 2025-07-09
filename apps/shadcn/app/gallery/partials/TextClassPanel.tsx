@@ -1,0 +1,297 @@
+import { useState, useEffect, CSSProperties } from 'react';
+import { motion } from '@/lib/motion';
+import { X, Copy, Type, Tag, FileText } from 'lucide-react';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import type { TextClass } from '../types';
+
+interface TextClassPanelProps {
+  textClass: TextClass;
+  onClose: () => void;
+}
+
+export function TextClassPanel({ textClass, onClose }: TextClassPanelProps) {
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`${label} copied to clipboard!`);
+  };
+
+  const generateCSSClass = () => {
+    return `.text-${textClass.id}`;
+  };
+
+  const generateUsageHTML = () => {
+    const dataAttr = textClass.usesData ? ` data-text="${textClass.previewText}"` : '';
+    return `<span class="text-${textClass.id}"${dataAttr}>${textClass.previewText}</span>`;
+  };
+
+      // Function to clean CSS comments and unnecessary whitespace
+  const cleanCSS = (css: string): string => {
+    return css
+      // Remove /* */ comments
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      // Remove // comments (though rare in CSS)
+      .replace(/\/\/.*$/gm, '')
+      // Remove empty lines
+      .replace(/^\s*[\r\n]/gm, '')
+      // Normalize whitespace
+      .replace(/\s+/g, ' ')
+      // Clean up spaces around braces and semicolons
+      .replace(/\s*{\s*/g, ' {\n  ')
+      .replace(/;\s*/g, ';\n  ')
+      .replace(/\s*}\s*/g, '\n}\n')
+      // Fix indentation
+      .replace(/^  /gm, '  ')
+      .trim();
+  };
+
+  // Function to read and process CSS file
+  const readCSSFile = async (filename: string): Promise<string> => {
+    try {
+      const response = await fetch(`/app/gallery/styles/text/${filename}`);
+      if (!response.ok) {
+        throw new Error(`Failed to load ${filename}`);
+      }
+      const cssContent = await response.text();
+      return cleanCSS(cssContent);
+    } catch (error) {
+      console.error('Error reading CSS file:', error);
+      return '';
+    }
+  };
+
+  const [cssContent, setCssContent] = useState<string>('');
+  const [isLoadingCSS, setIsLoadingCSS] = useState<boolean>(true);
+
+  // Load CSS content when component mounts or textClass changes
+  useEffect(() => {
+    const loadCSS = async () => {
+      setIsLoadingCSS(true);
+      const content = await readCSSFile(textClass.cssFile);
+      if (content) {
+        setCssContent(content);
+      } else {
+        // Fallback content
+        const className = `.text-${textClass.id}`;
+        let fallbackCSS = `${className} {
+  /* CSS properties defined in ${textClass.cssFile} */
+  /* Could not load the CSS file */
+}`;
+        if (textClass.usesData) {
+          fallbackCSS += `
+
+${className}::before,
+${className}::after {
+  /* May use content: attr(data-text); */
+  /* Check ${textClass.cssFile} for complete pseudo-element styles */
+}`;
+        }
+        setCssContent(fallbackCSS);
+      }
+      setIsLoadingCSS(false);
+    };
+
+    loadCSS();
+  }, [textClass.cssFile, textClass.id, textClass.usesData]);
+
+  const generateCSSOutput = () => {
+    if (isLoadingCSS) {
+      return 'Loading CSS content...';
+    }
+    return cssContent;
+  };
+
+    // Handle background styling like in TextClassCard
+  const getBackgroundStyle = (): CSSProperties & { [key: string]: any } => {
+    if (!textClass.background) return {};
+
+    if (textClass.background.startsWith('#')) {
+      return { '--bloc-color': textClass.background };
+    }
+    return {};
+  };
+
+  const getBackgroundClass = () => {
+    if (!textClass.background) return '';
+
+    if (textClass.background.startsWith('#')) {
+      return 'bloc';
+    }
+    return `bloc bg-${textClass.background}`;
+  };
+
+  return (
+    <div className="w-full">
+      {/* Header with text preview */}
+      <div
+        className={`relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden ${getBackgroundClass()}`}
+        style={getBackgroundStyle()}
+      >
+        {/* Close button */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onClose}
+          className="absolute top-4 right-4 bg-white/50 backdrop-blur-sm hover:bg-white/70"
+          type="button"
+        >
+          <X className="w-4 h-4" />
+        </Button>
+
+        {/* Large text preview */}
+        <div className="absolute inset-0 flex items-center justify-center p-4">
+          <h2 className="type-demo">
+            <span
+              className={`text-${textClass.id} text-8xl select-none pointer-events-none`}
+              {...(textClass.usesData ? { 'data-text': textClass.previewText } : {})}
+            >
+              {textClass.previewText}
+            </span>
+          </h2>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="py-8">
+        <div className="flex items-center gap-3 mb-4">
+          <Type className="w-6 h-6 text-muted-foreground" />
+          <h2 className="text-2xl font-semibold">{textClass.name}</h2>
+        </div>
+
+        <p className="text-muted-foreground mb-6">{textClass.description}</p>
+
+        {/* Tags */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-3">
+            <Tag className="w-4 h-4 text-muted-foreground" />
+            <h3 className="font-medium">Tags</h3>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {textClass.tags.map((tag: string, index: number) => (
+              <Badge key={index} variant="outline" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        {/* Category */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-3">
+            <h3 className="font-medium">Category</h3>
+          </div>
+          <Badge variant="secondary" className="text-sm">
+            {textClass.category}
+          </Badge>
+        </div>
+
+        {/* CSS Class */}
+        <div className="mb-6">
+          <h3 className="font-medium mb-3">CSS Class</h3>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => copyToClipboard(generateCSSClass(), 'CSS class')}
+            className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+            type="button"
+          >
+            <code className="text-sm break-all">{generateCSSClass()}</code>
+            <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </motion.button>
+        </div>
+
+        {/* CSS File */}
+        <div className="mb-6">
+          <h3 className="font-medium mb-3">CSS File</h3>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => copyToClipboard(`@/text/${textClass.cssFile}`, 'CSS file path')}
+            className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+            type="button"
+          >
+            <div className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-muted-foreground" />
+              <code className="text-sm">@/text/{textClass.cssFile}</code>
+            </div>
+            <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </motion.button>
+        </div>
+
+        {/* CSS Output */}
+        <div className="mb-6">
+          <h3 className="font-medium mb-3">CSS Output</h3>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => copyToClipboard(generateCSSOutput(), 'CSS output')}
+            className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+            type="button"
+          >
+            <pre className="text-sm font-mono whitespace-pre-wrap">{generateCSSOutput()}</pre>
+            <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </motion.button>
+        </div>
+
+        <Separator className="my-6" />
+
+        {/* HTML Usage */}
+        <div className="mb-6">
+          <h3 className="font-medium mb-3">HTML Usage</h3>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => copyToClipboard(generateUsageHTML(), 'HTML usage')}
+            className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+            type="button"
+          >
+            <pre className="text-sm font-mono whitespace-pre-wrap">{generateUsageHTML()}</pre>
+            <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </motion.button>
+        </div>
+
+        {/* Usage Examples */}
+        <div className="space-y-4">
+          <div>
+            <h3 className="font-medium mb-2">Examples</h3>
+            <div className="space-y-2">
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <h2 className="type-demo">
+                  <span
+                    className={`text-${textClass.id} text-center`}
+                    {...(textClass.usesData ? { 'data-text': 'HELLO WORLD' } : {})}
+                  >
+                    HELLO WORLD
+                  </span>
+                </h2>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <h2 className="type-demo">
+                  <span
+                    className={`text-${textClass.id} text-center`}
+                    {...(textClass.usesData ? { 'data-text': 'Design Gallery' } : {})}
+                  >
+                    Design Gallery
+                  </span>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Special note for data attributes */}
+        {textClass.usesData && (
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h4 className="font-medium text-blue-800 mb-2">📝 Note</h4>
+            <p className="text-sm text-blue-700">
+              This effect requires the <code className="bg-blue-100 px-1 rounded">data-text</code> attribute
+              with the same content as the element text for proper rendering.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

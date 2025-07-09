@@ -5,8 +5,8 @@ import type { Gradient } from '../page';
 interface GradientGridProps {
   gradients: Gradient[];
   onSelectGradient: (gradient: Gradient) => void;
-  searchQuery: string;
   isPreviewOpen: boolean;
+  searchQuery: string;
 }
 
 export function GradientGrid({ gradients, onSelectGradient, isPreviewOpen, searchQuery }: GradientGridProps) {
@@ -65,7 +65,7 @@ export function GradientGrid({ gradients, onSelectGradient, isPreviewOpen, searc
               }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onSelectGradient(gradient)}
-              className="group relative aspect-square rounded-md cursor-pointer hover:border hover:border-primary/40 transition-border duration-300 overflow-hidden"
+              className="group relative bg-origin-border! bg-cover! aspect-square rounded-md cursor-pointer hover:border hover:border-primary/40 transition-border duration-300 overflow-hidden"
               style={{background: gradient.gradient}}
             >
             </motion.button>

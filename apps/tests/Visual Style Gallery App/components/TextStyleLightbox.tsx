@@ -11,22 +11,22 @@ import { Copy, X, Plus, Minus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { TextStyle, TextShadow } from './TextStyleSection';
 
-interface TextStyleLightboxProps {
+interface TextStylePanelProps {
   textStyle: TextStyle;
   onClose: () => void;
   onUpdate: (style: TextStyle) => void;
   onDuplicate: (style: TextStyle) => void;
 }
 
-export function TextStyleLightbox({ textStyle, onClose, onUpdate, onDuplicate }: TextStyleLightboxProps) {
+export function TextStylePanel({ textStyle, onClose, onUpdate, onDuplicate }: TextStylePanelProps) {
   const [editedStyle, setEditedStyle] = useState<TextStyle>(textStyle);
   const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
-    const textShadowCSS = editedStyle.shadows.map(shadow => 
+    const textShadowCSS = editedStyle.shadows.map(shadow =>
       `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.color}`
     ).join(', ');
-    
+
     const css = `color: ${editedStyle.color}; font-size: ${editedStyle.fontSize}; font-weight: ${editedStyle.fontWeight}; text-shadow: ${textShadowCSS};`;
     setEditedStyle(prev => ({ ...prev, css }));
   }, [editedStyle.shadows, editedStyle.color, editedStyle.fontSize, editedStyle.fontWeight]);
@@ -125,7 +125,7 @@ export function TextStyleLightbox({ textStyle, onClose, onUpdate, onDuplicate }:
                     color: editedStyle.color,
                     fontSize: editedStyle.fontSize,
                     fontWeight: editedStyle.fontWeight,
-                    textShadow: editedStyle.shadows.map(shadow => 
+                    textShadow: editedStyle.shadows.map(shadow =>
                       `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.color}`
                     ).join(', ')
                   }}
@@ -248,7 +248,7 @@ export function TextStyleLightbox({ textStyle, onClose, onUpdate, onDuplicate }:
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <Label className="text-xs">X Offset</Label>

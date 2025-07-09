@@ -7,15 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Toaster } from 'sonner';
 import { MainNavigation } from './partials/MainNavigation';
 import { GradientGrid } from './partials/GradientGrid';
-import { GradientLightbox } from './partials/GradientLightbox';
+import { GradientPanel } from './partials/GradientPanel';
 import { TextStylesGrid } from './partials/TextStylesGrid';
-import { TextStyleLightbox } from './partials/TextStyleLightbox';
+import { TextStylePanel } from './partials/TextStylePanel';
+import TextClassGrid from './partials/TextClassGrid';
+import { TextClassPanel } from './partials/TextClassPanel';
 import { FrameStylesGrid } from './partials/FrameStylesGrid';
-import { FrameStyleLightbox } from './partials/FrameStyleLightbox';
+import { FrameStylePanel } from './partials/FrameStylePanel';
 import { SearchAndFilter } from './partials/SearchAndFilter';
 
 // Types
-import { Gradient, TextStyle, FrameStyle, Section } from './types';
+import { Gradient, TextStyle, FrameStyle, TextClass, Section } from './types';
 
 // Data
 import {
@@ -26,6 +28,9 @@ import {
   frameStyles,
   frameStyleCategories
 } from './data';
+import { textClasses, textClassesCategories } from './data/textClasses';
+
+import "./styles/index.css";
 
 const styles = {
   name: "Style 1",
@@ -37,6 +42,7 @@ const styles = {
   main: "flex-1",
   content: "w-2/5 px-8 gap-4",
   preview: "px-12 gap-4",
+  scroll: "h-svh py-24 overflow-y-auto overscroll-contain scroll-auto"
 }
 
 const changeTheme = () => {
@@ -60,7 +66,7 @@ const ScrollProgress = ({ className }: { className?: string }) => {
 
 function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: boolean; togglePreview: () => void, children: React.ReactNode }) {
   return (
-    <div className={cn("fixed top-0 z-10 bg-background h-24 w-full ", styles.container)}>
+    <header className={cn("fixed top-0 z-10 bg-background/80 backdrop-blur-lg h-24 w-full ", styles.container)}>
       <div className={cn("flex flex-row items-center gap-4 pr-0!", styles.aside)}>
         <div className="text-2xl">styles</div>
         <Icon.Select sm className="shrink-0 text-black/60" />
@@ -98,7 +104,7 @@ function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: 
         </div>
 
       </div>
-    </div>
+    </header>
   )
 }
 
@@ -110,46 +116,42 @@ function StyleCard({ className }: { className?: string }) {
   )
 }
 
-function StylesGrid({ isPreviewOpen }: { isPreviewOpen: boolean }) {
-  return (
-    <div className={`grid ${isPreviewOpen ? "grid-cols-2" : "grid-cols-5"} gap-2`}>
-      {Array.from({ length: 30 }).map((_, i) => (
-        <StyleCard key={i} className="col-span-1" />
-      ))}
-    </div>
-  )
-}
-
-function Preview() {
-  return (
-    <div>
-      preview
-    </div>
-  )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export default function GalleryPage() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(true)
 
-  const [activeSection, setActiveSection] = useState<Section>('gradients');
+  const [activeSection, setActiveSection] = useState<Section>('text-classes');
   const [selectedGradient, setSelectedGradient] = useState<Gradient | null>(null);
   const [selectedTextStyle, setSelectedTextStyle] = useState<TextStyle | null>(null);
+  const [selectedTextClass, setSelectedTextClass] = useState<TextClass | null>(null);
   const [selectedFrameStyle, setSelectedFrameStyle] = useState<FrameStyle | null>(null);
+
+  // Handlers that auto-close other panels
+  const handleSelectGradient = (gradient: Gradient | null) => {
+    setSelectedGradient(gradient);
+    setSelectedTextStyle(null);
+    setSelectedFrameStyle(null);
+  };
+
+  const handleSelectTextStyle = (textStyle: TextStyle | null) => {
+    setSelectedTextStyle(textStyle);
+    setSelectedGradient(null);
+    setSelectedTextClass(null);
+    setSelectedFrameStyle(null);
+  };
+
+  const handleSelectTextClass = (textClass: TextClass | null) => {
+    setSelectedTextClass(textClass);
+    setSelectedGradient(null);
+    setSelectedTextStyle(null);
+    setSelectedFrameStyle(null);
+  };
+
+  const handleSelectFrameStyle = (frameStyle: FrameStyle | null) => {
+    setSelectedFrameStyle(frameStyle);
+    setSelectedGradient(null);
+    setSelectedTextStyle(null);
+    setSelectedTextClass(null);
+  };
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -175,6 +177,11 @@ export default function GalleryPage() {
         return {
           data: [...textStyles, ...modifiedTextStyles, ...customTextStyles],
           categories: textStyleCategories
+        };
+      case 'text-classes':
+        return {
+          data: textClasses,
+          categories: textClassesCategories
         };
       case 'frame-styles':
         return {
@@ -222,7 +229,7 @@ export default function GalleryPage() {
       isCustom: true
     };
     setCustomGradients(prev => [...prev, newGradient]);
-    setSelectedGradient(newGradient);
+    handleSelectGradient(newGradient);
   };
 
   const handleDuplicateTextStyle = (textStyle: TextStyle) => {
@@ -234,7 +241,7 @@ export default function GalleryPage() {
       isCustom: true
     };
     setCustomTextStyles(prev => [...prev, newTextStyle]);
-    setSelectedTextStyle(newTextStyle);
+    handleSelectTextStyle(newTextStyle);
   };
 
   const handleDuplicateFrameStyle = (frameStyle: FrameStyle) => {
@@ -246,7 +253,7 @@ export default function GalleryPage() {
       isCustom: true
     };
     setCustomFrameStyles(prev => [...prev, newFrameStyle]);
-    setSelectedFrameStyle(newFrameStyle);
+    handleSelectFrameStyle(newFrameStyle);
   };
 
   // Update handlers (now handle all items)
@@ -282,7 +289,7 @@ export default function GalleryPage() {
         );
       }
     }
-    setSelectedGradient(updatedGradient);
+            handleSelectGradient(updatedGradient);
   };
 
   const handleUpdateTextStyle = (updatedTextStyle: TextStyle) => {
@@ -312,7 +319,7 @@ export default function GalleryPage() {
         );
       }
     }
-    setSelectedTextStyle(updatedTextStyle);
+            handleSelectTextStyle(updatedTextStyle);
   };
 
   const handleUpdateFrameStyle = (updatedFrameStyle: FrameStyle) => {
@@ -342,17 +349,17 @@ export default function GalleryPage() {
         );
       }
     }
-    setSelectedFrameStyle(updatedFrameStyle);
+            handleSelectFrameStyle(updatedFrameStyle);
   };
 
   const togglePreview = () => {
     setIsPreviewOpen(!isPreviewOpen)
   }
 
-  const isLightboxOpen = selectedGradient || selectedTextStyle || selectedFrameStyle;
+  const isLightboxOpen = selectedGradient || selectedTextStyle || selectedTextClass || selectedFrameStyle;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-svh bg-background">
 
       <AppHeader isPreviewOpen={isPreviewOpen} togglePreview={togglePreview}>
         <SearchAndFilter
@@ -367,23 +374,21 @@ export default function GalleryPage() {
         />
       </AppHeader>
 
-      <div className={cn("min-h-svh pt-24", styles.container)}>
-        <aside className={cn("flex flex-col", styles.aside)}>
-          <div className="h-svh py-24">
-            <MainNavigation
-              activeSection={activeSection}
-              onSectionChange={handleSectionChange}
-            />
-          </div>
+      <div className={cn("h-svh", styles.container)}>
+        <aside className={cn("flex flex-col", styles.aside, styles.scroll)}>
+          <MainNavigation
+            activeSection={activeSection}
+            onSectionChange={handleSectionChange}
+          />
         </aside>
         <main className={cn("flex flex-row", styles.main)}>
 
-          <section className={cn("flex flex-col", styles.content, isPreviewOpen ? "" : "flex-1 pr-12")}>
+          <section className={cn("flex flex-col", styles.content, styles.scroll, isPreviewOpen ? "" : "flex-1 pr-12")}>
             {activeSection === 'gradients' && (
               <GradientGrid
                 key="gradients-grid"
                 gradients={filteredData as Gradient[]}
-                onSelectGradient={setSelectedGradient}
+                onSelectGradient={handleSelectGradient}
                 isPreviewOpen={isPreviewOpen}
                 searchQuery={searchQuery}
               />
@@ -392,7 +397,16 @@ export default function GalleryPage() {
               <TextStylesGrid
                 key="text-styles-grid"
                 textStyles={filteredData as TextStyle[]}
-                onSelectTextStyle={setSelectedTextStyle}
+                onSelectTextStyle={handleSelectTextStyle}
+                isPreviewOpen={isPreviewOpen}
+                searchQuery={searchQuery}
+              />
+            )}
+            {activeSection === 'text-classes' && (
+              <TextClassGrid
+                key="text-classes-grid"
+                textClasses={filteredData as TextClass[]}
+                onSelectTextClass={handleSelectTextClass}
                 isPreviewOpen={isPreviewOpen}
                 searchQuery={searchQuery}
               />
@@ -401,7 +415,7 @@ export default function GalleryPage() {
               <FrameStylesGrid
                 key="frame-styles-grid"
                 frameStyles={filteredData as FrameStyle[]}
-                onSelectFrameStyle={setSelectedFrameStyle}
+                onSelectFrameStyle={handleSelectFrameStyle}
                 isPreviewOpen={isPreviewOpen}
                 searchQuery={searchQuery}
               />
@@ -409,30 +423,37 @@ export default function GalleryPage() {
           </section>
 
           {isPreviewOpen && (
-            <section className={cn("flex flex-1", styles.preview)}>
+            <section className={cn("flex flex-1", styles.preview, styles.scroll)}>
               {selectedGradient && (
-                <GradientLightbox
+                <GradientPanel
                   key="gradient-lightbox"
                   gradient={selectedGradient}
-                  onClose={() => setSelectedGradient(null)}
+                  onClose={() => handleSelectGradient(null)}
                   onDuplicate={handleDuplicateGradient}
                   onUpdate={handleUpdateGradient}
                 />
               )}
               {selectedTextStyle && (
-                <TextStyleLightbox
+                <TextStylePanel
                   key="text-style-lightbox"
                   textStyle={selectedTextStyle}
-                  onClose={() => setSelectedTextStyle(null)}
+                  onClose={() => handleSelectTextStyle(null)}
                   onDuplicate={handleDuplicateTextStyle}
                   onUpdate={handleUpdateTextStyle}
                 />
               )}
+              {selectedTextClass && (
+                <TextClassPanel
+                  key="text-class-lightbox"
+                  textClass={selectedTextClass}
+                  onClose={() => handleSelectTextClass(null)}
+                />
+              )}
               {selectedFrameStyle && (
-                <FrameStyleLightbox
+                <FrameStylePanel
                   key="frame-style-lightbox"
                   frameStyle={selectedFrameStyle}
-                  onClose={() => setSelectedFrameStyle(null)}
+                  onClose={() => handleSelectFrameStyle(null)}
                   onDuplicate={handleDuplicateFrameStyle}
                   onUpdate={handleUpdateFrameStyle}
                 />

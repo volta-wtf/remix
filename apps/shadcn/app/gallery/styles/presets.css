@@ -1,0 +1,329 @@
+/* Colors */
+:root {
+  --color-1: #186cb8;
+  --color-2: #2a9a9f;
+  --color-3: #f1b211;
+  --color-4: #e83611;
+  --color-5: #f9002f;
+
+  --gold: #ffb338;
+  --light-shadow: #77571d;
+  --dark-shadow: #3e2904;
+}
+
+/* Images */
+:root {
+  --image-2: url('https://images.pexels.com/photos/2382325/pexels-photo-2382325.jpeg');
+  --image-leafs: url('/images/pexels-photo-2382325.jpg');
+  --image-dots: url('/images/bernard-hermant-Jlh7u4NjNAQ-unsplash.jpg');
+  --image-gradient: url('/images/gradienta-coj7UZ7iN60-unsplash.jpg');
+  --image-dark: url('/images/kamran-abdullayev-LLS74TRAseM-unsplash.jpg');
+  --image-colors: url('/images/li-zhang-K-DwbsTXliY-unsplash.jpg');
+  --image-lights: url('/images/mahdi-bafande-DAA3aD4nKZc-unsplash.jpg');
+  --image-reflect: url('/images/maxim-berg-ENIaPZytqzE-unsplash.jpg');
+  --image-reflect2: url('/images/sean-sinclair-1xZ0SqLPE4E-unsplash.jpg');
+  --image-reflect3: url('/images/sean-sinclair-cZgVpseeazg-unsplash.jpg');
+  --image-reflect4: url('/images/sean-sinclair-gai1YB3UmDA-unsplash.jpg');
+  --image-reflect5: url('/images/sean-sinclair-k0JNJRbrJAs-unsplash.jpg');
+  --image-waves: url('/images/milad-fakurian-iFu2HILEng8-unsplash.jpg');
+  --image-waves2: url('/images/milad-fakurian-nY14Fs8pxT8-unsplash.jpg');
+  --image-waves3: url('/images/richard-horvath-_nWaeTF6qo0-unsplash.jpg');
+  --image-waves4: url('/images/richard-horvath-is8jWT-mvng-unsplash.jpg');
+  --image-waves5: url('/images/richard-horvath-RAZU_R66vUc-unsplash.jpg');
+  --image-3d: url('/images/milad-fakurian-PjG_SXDkpwQ-unsplash.jpg');
+  --image-abstract: url('/images/orfeas-green-G5A5ZNjS2tE-unsplash.jpg');
+  --image-abstract2: url('/images/pawel-czerwinski-prMn9KINLtI-unsplash.jpg');
+  --image-abstract3: url('/images/valentin-beauvais-4YrVF0gVdjk-unsplash.jpg');
+  --image-escene: url('/images/pramod-tiwari-Br0F5xMArxI-unsplash.jpg');
+  --image-escene2: url('/images/pramod-tiwari-WHdC7jqTRlQ-unsplash.jpg');
+  --image-fabric: url('/images/zac-ong-v2UYbS3EfXA-unsplash.jpg');
+  --image-dots: url('/images/bernard-hermant-Jlh7u4NjNAQ-unsplash.jpg');
+}
+
+/* Gradients */
+:root {
+
+  --gradient-to-right: linear-gradient(to right, #84ff3d, #2eabff);
+  --gradient-to-bottom: linear-gradient(#fee140, #fa709a);
+  --gradient-solid: linear-gradient(#09f1b8, #09f1b8);
+  --gradient-sweet: linear-gradient(142deg, #3fa1fb 0%, #fc46a8 100%);
+
+  --gradient-animated: linear-gradient(-45deg, #09f1b8, #00a2ff, #ff00d2, #54B2C7);
+  --gradient-multicolor: linear-gradient(to right, #09f1b8, #00a2ff, #ff00d2, #fed90f);
+
+  --gradient-glass-stroke: linear-gradient(0deg,
+      transparent 5%,
+      rgba(255, 255, 255, .4));
+  --gradient-glass-fill: linear-gradient(0deg,
+      rgba(255, 255, 255, .1) 25%,
+      rgba(255, 255, 255, .0) 30%,
+      rgba(255, 255, 255, .0) 30%,
+      rgba(255, 255, 255, .4) 70%,
+      rgba(255, 255, 255, .6));
+
+  --gradient-gold-light: repeating-linear-gradient(5deg, var(--gold) 0%, var(--light-shadow) 23%, var(--gold) 31%);
+  --gradient-gold-dark: repeating-linear-gradient(105deg, var(--gold) 0%, var(--dark-shadow) 5%, var(--gold) 12%);
+
+  --gradient-rainbow: linear-gradient(#fd004c 16.7%,
+      #fe9000 16.7%,
+      #fe9000 33.4%,
+      #fff020 33.4%,
+      #fff020 50.1%,
+      #3edf4b 50.1%,
+      #3edf4b 66.8%,
+      #3363ff 66.8%,
+      #3363ff 83.5%,
+      #b102b7 83.5%);
+
+  --gradient-multistripes: linear-gradient(219deg,
+      var(--color-1) 0%, var(--color-1) 19%, transparent 19%, transparent 20%,
+      var(--color-2) 20%, var(--color-2) 39%, transparent 39%, transparent 40%,
+      var(--color-3) 40%, var(--color-3) 59%, transparent 59%, transparent 60%,
+      var(--color-4) 60%, var(--color-4) 79%, transparent 79%, transparent 80%,
+      var(--color-5) 80%);
+
+}
+
+/* Shadows */
+:root {
+
+  --shadow-rainbow:
+    0.03em 0.03em #fc0049,
+    0.06em 0.06em #fe8f01,
+    0.09em 0.09em #fdf21f,
+    0.12em 0.12em #3fdf4b,
+    0.15em 0.15em #3462fe;
+
+  --shadow-multicolor:
+    0.03em 0.03em 0em #eb452b,
+    0.06em 0.06em 0em #efa032,
+    0.09em 0.09em 0em #46b59b,
+    0.12em 0.12em 0em #017e7f,
+    0.15em 0.15em 0em #052939,
+    0.18em 0.18em 0em #c11a2b,
+    0.21em 0.21em 0em #c11a2b,
+    0.24em 0.24em 0em #c11a2b,
+    0.27em 0.27em 0em #c11a2b;
+
+  --shadow-top-right: 0.04em -0.04em 0.05em var(--shadow-color);
+  --shadow-simple: 0em 0.021em 0.012em var(--shadow-color);
+  --shadow-double: .1em .1em #ff1f8f, .2em .2em #000000;
+
+  --shadow-3D:
+    0.005em 0.03em 0.040em rgba(16, 16, 16, 0.15),
+    0.005em 0.01em 1px color-mix(in srgb, #b4b4b4 100%, #000 0%),
+    0.005em 0.02em 1px color-mix(in srgb, #b4b4b4 100%, #000 1%),
+    0.005em 0.03em 1px color-mix(in srgb, #b4b4b4 100%, #000 1%),
+    0.005em 0.04em 1px color-mix(in srgb, #b4b4b4 100%, #000 2%),
+    0.005em 0.05em 1px color-mix(in srgb, #b4b4b4 100%, #000 3%),
+    0.005em 0.06em 1px color-mix(in srgb, #b4b4b4 100%, #000 5%),
+    0.005em 0.07em 1px color-mix(in srgb, #b4b4b4 100%, #000 8%),
+    0.005em 0.08em 1px color-mix(in srgb, #b4b4b4 100%, #000 13%),
+    0.005em 0.09em 1px color-mix(in srgb, #b4b4b4 100%, #000 21%),
+    0.005em 0.10em 1px color-mix(in srgb, #b4b4b4 100%, #000 34%);
+
+  --shadow-ambient:
+    0.01em 0.12em 0.024em rgba(16, 16, 16, 0.4),
+    0.01em 0.18em 0.040em rgba(16, 16, 16, 0.2),
+    0.01em 0.22em 0.142em rgba(16, 16, 16, 0.2),
+    0.01em 0.26em 0.244em rgba(16, 16, 16, 0.4);
+
+  --shadow-3D-thin:
+    0 0.005em 0 #ccc,
+    0 0.010em 0 #c9c9c9,
+    0 0.015em 0 #bbb,
+    0 0.020em 0 #b9b9b9,
+    0 0.025em 0 #aaa;
+
+  --shadow-medium:
+    0 0.025em 0.005em rgba(0, 0, 0, .1),
+    0 0 0.025em rgba(0, 0, 0, .1),
+    0 0.005em 0.015em rgba(0, 0, 0, .3),
+    0 0.015em 0.025em rgba(0, 0, 0, .2),
+    0 0.025em 0.050em rgba(0, 0, 0, .2),
+    0 0.050em 0.050em rgba(0, 0, 0, .2),
+    0 0.100em 0.100em rgba(0, 0, 0, .15);
+
+
+  --shadow-long-hard:
+    0.01em 0.01em 0 #ef6209,
+    0.02em 0.02em 0 #ef6209,
+    0.03em 0.03em 0 #ef6209,
+    0.04em 0.04em 0 #ef6209,
+    0.05em 0.05em 0 #ef6209,
+    0.06em 0.06em 0 #ef6209,
+    0.07em 0.07em 0 #ef6209,
+    0.08em 0.08em 0 #ef6209,
+    0.09em 0.09em 0 #ef6209,
+    0.10em 0.10em 0 #ef6209,
+    0.11em 0.11em 0 #ef6209,
+    0.12em 0.12em 0 #ef6209,
+    0.13em 0.13em 0 #ef6209,
+    0.14em 0.14em 0 #ef6209,
+    0.15em 0.15em 0 #ef6209,
+    0.16em 0.16em 0 #ef6209,
+    0.17em 0.17em 0 #ef6209,
+    0.18em 0.18em 0 #ef6209,
+    0.19em 0.19em 0 #ef6209,
+    0.20em 0.20em 0 #ef6209,
+    0.21em 0.21em 0 #ef6209,
+    0.22em 0.22em 0 #ef6209;
+
+  --shadow-faded-hard:
+    0.01em 0.01em 0 rgba(239, 98, 9, 1),
+    0.02em 0.02em 0 rgba(239, 98, 9, 1),
+    0.03em 0.03em 0 rgba(239, 98, 9, 1),
+    0.04em 0.04em 0 rgba(239, 98, 9, .95),
+    0.05em 0.05em 0 rgba(239, 98, 9, .90),
+    0.06em 0.06em 0 rgba(239, 98, 9, .85),
+    0.07em 0.07em 0 rgba(239, 98, 9, .80),
+    0.08em 0.08em 0 rgba(239, 98, 9, .75),
+    0.09em 0.09em 0 rgba(239, 98, 9, .70),
+    0.10em 0.10em 0 rgba(239, 98, 9, .65),
+    0.11em 0.11em 0 rgba(239, 98, 9, .60),
+    0.12em 0.12em 0 rgba(239, 98, 9, .55),
+    0.13em 0.13em 0 rgba(239, 98, 9, .50),
+    0.14em 0.14em 0 rgba(239, 98, 9, .45),
+    0.15em 0.15em 0 rgba(239, 98, 9, .40),
+    0.16em 0.16em 0 rgba(239, 98, 9, .35),
+    0.17em 0.17em 0 rgba(239, 98, 9, .30),
+    0.18em 0.18em 0 rgba(239, 98, 9, .25),
+    0.19em 0.19em 0 rgba(239, 98, 9, .20),
+    0.20em 0.20em 0 rgba(239, 98, 9, .15),
+    0.21em 0.21em 0 rgba(239, 98, 9, .10),
+    0.22em 0.22em 0 rgba(239, 98, 9, .05);
+
+  --shadow-faded-medium:
+    0.01em 0.01em 0.01em rgba(153, 50, 9, .30),
+    0.02em 0.02em 0.01em rgba(153, 50, 9, .30),
+    0.03em 0.03em 0.01em rgba(153, 50, 9, .30),
+    0.04em 0.04em 0.01em rgba(153, 50, 9, .30),
+    0.05em 0.05em 0.01em rgba(153, 50, 9, .20),
+    0.06em 0.06em 0.01em rgba(153, 50, 9, .20),
+    0.07em 0.07em 0.01em rgba(153, 50, 9, .20),
+    0.08em 0.08em 0.01em rgba(153, 50, 9, .20),
+    0.09em 0.09em 0.01em rgba(153, 50, 9, .15),
+    0.10em 0.10em 0.01em rgba(153, 50, 9, .15),
+    0.11em 0.11em 0.01em rgba(153, 50, 9, .15),
+    0.12em 0.12em 0.01em rgba(153, 50, 9, .15),
+    0.13em 0.13em 0.01em rgba(153, 50, 9, .15),
+    0.14em 0.14em 0.01em rgba(153, 50, 9, .10),
+    0.15em 0.15em 0.01em rgba(153, 50, 9, .10),
+    0.16em 0.16em 0.01em rgba(153, 50, 9, .10),
+    0.17em 0.17em 0.01em rgba(153, 50, 9, .10),
+    0.18em 0.18em 0.01em rgba(153, 50, 9, .05),
+    0.19em 0.19em 0.01em rgba(153, 50, 9, .05),
+    0.20em 0.20em 0.01em rgba(153, 50, 9, .05),
+    0.21em 0.21em 0.01em rgba(153, 50, 9, .05),
+    0.22em 0.22em 0.01em rgba(153, 50, 9, .05);
+
+  --shadow-faded-soft:
+    0.01em 0.01em 0.01em rgba(239, 98, 9, .08),
+    0.02em 0.02em 0.01em rgba(239, 98, 9, .08),
+    0.03em 0.03em 0.01em rgba(239, 98, 9, .08),
+    0.04em 0.04em 0.01em rgba(239, 98, 9, .08),
+    0.05em 0.05em 0.01em rgba(239, 98, 9, .08),
+    0.06em 0.06em 0.01em rgba(239, 98, 9, .02),
+    0.07em 0.07em 0.01em rgba(239, 98, 9, .02),
+    0.08em 0.08em 0.01em rgba(239, 98, 9, .02),
+    0.09em 0.09em 0.01em rgba(239, 98, 9, .02),
+    0.10em 0.10em 0.01em rgba(239, 98, 9, .02),
+    0.11em 0.11em 0.01em rgba(239, 98, 9, .02),
+    0.12em 0.12em 0.02em rgba(239, 98, 9, .02),
+    0.13em 0.13em 0.02em rgba(239, 98, 9, .02),
+    0.14em 0.14em 0.02em rgba(239, 98, 9, .02),
+    0.15em 0.15em 0.02em rgba(239, 98, 9, .01),
+    0.16em 0.16em 0.03em rgba(239, 98, 9, .01),
+    0.17em 0.17em 0.03em rgba(239, 98, 9, .01),
+    0.18em 0.18em 0.03em rgba(239, 98, 9, .01),
+    0.19em 0.19em 0.03em rgba(239, 98, 9, .01),
+    0.20em 0.20em 0.03em rgba(239, 98, 9, .01),
+    0.21em 0.21em 0.03em rgba(239, 98, 9, .01),
+    0.22em 0.22em 0.03em rgba(239, 98, 9, .01);
+
+
+  --shadow-3D-light:
+    0 0 1px,
+    0 0 1px rgba(0, 0, 0, .7),
+    0 1px 1px rgba(0, 0, 0, .7),
+    1px 0 1px,
+    1px 1px 1px rgba(0, 0, 0, .7),
+    2px 0 1px,
+    2px 1px 1px rgba(0, 0, 0, .7),
+    3px 0 1px,
+    3px 1px 1px rgba(0, 0, 0, .7),
+    4px 0 1px,
+    4px 1px 1px rgba(0, 0, 0, .7),
+    5px 0 1px,
+    5px 1px 1px rgba(0, 0, 0, .7),
+    6px 0 1px,
+    6px 1px 1px rgba(0, 0, 0, .7),
+    7px 0 1px,
+    7px 1px 1px rgba(0, 0, 0, .7),
+    8px 0 1px,
+    8px 1px 1px rgba(0, 0, 0, .7),
+    9px 0 1px,
+    9px 1px 1px rgba(0, 0, 0, .7),
+    10px 0 1px,
+    10px 1px 1px rgba(0, 0, 0, .4),
+    1px 0 1px rgba(0, 0, 0, .7),
+    2px 0 1px rgba(0, 0, 0, .7),
+    3px 0 1px rgba(0, 0, 0, .7),
+    4px 0 1px rgba(0, 0, 0, .7),
+    5px 0 1px rgba(0, 0, 0, .7),
+    6px 0 1px rgba(0, 0, 0, .7),
+    7px 0 1px rgba(0, 0, 0, .7),
+    8px 0 1px rgba(0, 0, 0, .7),
+    9px 0 1px rgba(0, 0, 0, .7),
+    10px 0 1px rgba(0, 0, 0, .4);
+
+  --shadow-3D-glow:
+    /* 3D layers */
+    0em 0em 0.01em rgb(167, 167, 167),
+    0em 0.01em 0.01em rgb(167, 167, 167),
+    0em 0.02em 0.01em rgb(167, 167, 167),
+
+    0.01em 0.01em 0.01em rgb(167, 167, 167),
+    0.01em 0.02em 0.01em rgb(167, 167, 167),
+    0.01em 0.03em 0.01em rgb(167, 167, 167),
+
+    0.02em 0.02em 0.01em rgb(167, 167, 167),
+    0.02em 0.03em 0.01em rgb(167, 167, 167),
+    0.02em 0.04em 0.01em rgb(167, 167, 167),
+
+    /* long soft bottom */
+    0.01em 0.1em 0.3em rgba(0, 0, 0, 0.3),
+    0.01em 0.1em 0.7em rgba(0, 0, 0, 0.3),
+
+    /* short soft bottom */
+    0.02em 0.04em 0.05em rgba(0, 0, 0, 0.4),
+    /* left shadow */
+    0.00em 0.04em 0.05em rgba(0, 0, 0, 0.4),
+    /* right shadow */
+    0.04em 0.04em 0.05em rgba(0, 0, 0, 0.4),
+
+    /*white light*/
+    0.01em 0.01em 0.12em rgba(255, 255, 255, 0.5);
+
+  --shadow-sweet-back:
+    3px 1px 1px #4af7ff,
+    2px 2px 1px #165bfb,
+    4px 2px 1px #4af7ff,
+    3px 3px 1px #165bfb,
+    5px 3px 1px #4af7ff,
+    4px 4px 1px #165bfb,
+    6px 4px 1px #4af7ff,
+    5px 5px 1px #165bfb,
+    7px 5px 1px #4af7ff,
+    6px 6px 1px #165bfb,
+    8px 6px 1px #4af7ff,
+    7px 7px 1px #165bfb,
+    9px 7px 1px #4af7ff;
+
+  --shadow-sweet-front:
+    2px 2px 1px #e94aa1,
+    -1px -1px 1px #c736f9,
+    -2px 2px 1px #e94aa1,
+    1px -1px 1px #f736f9;
+
+}

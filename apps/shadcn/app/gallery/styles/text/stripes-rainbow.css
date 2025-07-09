@@ -1,0 +1,17 @@
+/*
+// Rainbow gradient fill
+*/
+.text-stripes-rainbow {
+    --text-image: var(--gradient-rainbow);
+    --image-size: 100% 70%;
+    @apply text-gradient;
+    @apply text-clip;
+    @apply text-fill;
+    /* animation: rainbow 50s linear infinite; */
+}
+
+@keyframes rainbow {
+    100% {
+        background-position: 0 30em;
+    }
+}

@@ -1,0 +1,14 @@
+/*
+// Inside stroke and solid or alpha color fill
+// Layers:     1
+// Usage:      body, heading, display
+// Properties: text-fill, text-stroke
+// Tags:       simple, solid, border
+*/
+.text-fill-stroke {
+    --text-color: white;
+    --stroke-color: black;
+    --stroke-width: .03em;
+    @apply text-fill;
+    @apply text-stroke;
+}

@@ -1,0 +1,14 @@
+.text-image-light {
+    --text-image: var(--image-leafs);
+    --image-size: 100% auto;
+    --light-color: #9aff98;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --stroke-width: 0.03em;
+    --text-shadow: var(--shadow-simple);
+    text-shadow: 0 0 0.1em var(--light-color);
+    @apply filter-shadow;
+    @apply text-image;
+    @apply text-clip;
+    @apply text-fill;
+    @apply text-stroke;
+}

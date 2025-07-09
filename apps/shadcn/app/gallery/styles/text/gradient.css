@@ -1,0 +1,21 @@
+/*
+// Vertical gradient fill
+// https://codepen.io/ryandsouza13/pen/NVjQBp
+*/
+.text-gradient-v {
+    --text-image: var(--gradient-to-bottom);
+    @apply text-gradient;
+    @apply text-clip;
+    @apply text-fill;
+}
+
+/*
+// Horizontal gradient fill
+// https://codepen.io/argyleink/pen/OJMEpGp
+*/
+.text-gradient-h {
+    --text-image: var(--gradient-to-right);
+    @apply text-gradient;
+    @apply text-clip;
+    @apply text-fill;
+}

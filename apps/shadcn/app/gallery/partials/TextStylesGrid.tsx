@@ -1,16 +1,71 @@
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Search, Type } from 'lucide-react';
+import { useEffect } from 'react';
+import type { TextStyle } from '../types';
 
-export interface TextStyle {
-  id: string;
-  name: string;
-  description: string;
-  previewText: string;
-  style: React.CSSProperties;
-  category: string;
-  tags: string[];
-  cssClass: string;
-  isCustom?: boolean;
+// Utility function to inject CSS for pseudo-elements
+function injectTextStyleCSS(textStyle: TextStyle) {
+  const { id, style, before, after } = textStyle;
+  const className = `text-style-${id.replace(/[^a-zA-Z0-9]/g, '-')}`;
+
+  // Check if style already exists
+  const existingStyle = document.getElementById(`text-style-${id}`);
+  if (existingStyle) {
+    existingStyle.remove();
+  }
+
+  // Generate CSS
+  const cssProperties = Object.entries(style)
+    .map(([key, value]) => {
+      const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      return `  ${cssKey}: ${value};`;
+    })
+    .join('\n');
+
+  let cssText = `.${className} {
+${cssProperties}
+}`;
+
+  // Add pseudo-elements if they exist
+  if (before) {
+    const { content, ...beforeStyles } = before;
+    const beforeProperties = Object.entries(beforeStyles)
+      .map(([key, value]) => {
+        const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+        return `  ${cssKey}: ${value};`;
+      })
+      .join('\n');
+
+    const beforeContentValue = content?.startsWith('attr(') ? content : `"${content || ''}"`;
+    cssText += `\n\n.${className}::before {
+  content: ${beforeContentValue};
+${beforeProperties}
+}`;
+  }
+
+  if (after) {
+    const { content, ...afterStyles } = after;
+    const afterProperties = Object.entries(afterStyles)
+      .map(([key, value]) => {
+        const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+        return `  ${cssKey}: ${value};`;
+      })
+      .join('\n');
+
+    const afterContentValue = content?.startsWith('attr(') ? content : `"${content || ''}"`;
+    cssText += `\n\n.${className}::after {
+  content: ${afterContentValue};
+${afterProperties}
+}`;
+  }
+
+  // Inject CSS
+  const styleElement = document.createElement('style');
+  styleElement.id = `text-style-${id}`;
+  styleElement.textContent = cssText;
+  document.head.appendChild(styleElement);
+
+  return className;
 }
 
 interface TextStylesGridProps {
@@ -21,6 +76,23 @@ interface TextStylesGridProps {
 }
 
 export function TextStylesGrid({ textStyles, onSelectTextStyle, searchQuery, isPreviewOpen }: TextStylesGridProps) {
+  // Inject CSS for all text styles with pseudo-elements on mount
+  useEffect(() => {
+    textStyles.forEach(textStyle => {
+      if (textStyle.before || textStyle.after) {
+        injectTextStyleCSS(textStyle);
+      }
+    });
+  }, [textStyles]);
+
+  const handleTextStyleClick = (textStyle: TextStyle) => {
+    // Inject CSS for pseudo-elements if they exist
+    if (textStyle.before || textStyle.after) {
+      injectTextStyleCSS(textStyle);
+    }
+    onSelectTextStyle(textStyle);
+  };
+
   if (textStyles.length === 0) {
     return (
       <motion.div
@@ -75,14 +147,17 @@ export function TextStylesGrid({ textStyles, onSelectTextStyle, searchQuery, isP
                 layout: { duration: 0.3 }
               }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => onSelectTextStyle(textStyle)}
+              onClick={() => handleTextStyleClick(textStyle)}
               className="group relative aspect-4/3 rounded-md cursor-pointer bg-primary/3 border border-transparent hover:border-primary/20 transition-border duration-300 overflow-hidden "
             >
               {/* Text preview */}
               <div className="absolute inset-0 flex items-center justify-center p-4">
                 <div
-                  className="text-center select-none pointer-events-none"
-                  style={textStyle.style}
+                  className={`text-center text-3xl select-none pointer-events-none ${
+                    (textStyle.before || textStyle.after) ? `text-style-${textStyle.id.replace(/[^a-zA-Z0-9]/g, '-')}` : ''
+                  }`}
+                  style={(textStyle.before || textStyle.after) ? {} : textStyle.style}
+                  {...(textStyle.usesDataText ? { 'data-text': textStyle.previewText } : {})}
                 >
                   {textStyle.previewText}
                 </div>
@@ -90,6 +165,7 @@ export function TextStylesGrid({ textStyles, onSelectTextStyle, searchQuery, isP
 
             </motion.button>
           ))}
+
         </AnimatePresence>
       </div>
     </motion.div>

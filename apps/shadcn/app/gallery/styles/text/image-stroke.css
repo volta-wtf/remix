@@ -1,0 +1,11 @@
+.text-image-stroke {
+    --text-image: var(--image-leafs);
+    --image-size: 100% auto;
+    --text-color: #d6fad9;
+    --stroke-color: transparent;
+    --stroke-width: .06em;
+    @apply stroke-image;
+    @apply text-clip;
+    @apply text-fill;
+    @apply text-stroke;
+}

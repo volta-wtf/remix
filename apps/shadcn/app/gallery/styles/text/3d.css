@@ -1,0 +1,32 @@
+/*
+// https://codepen.io/ryandsouza13/pen/yEBJQV
+*/
+.text-3D {
+    color: #f5f5f5;
+    text-shadow: var(--shadow-3D), var(--shadow-ambient);
+}
+
+.text-3D.thin {
+    color: #fff;
+    text-shadow: var(--shadow-3D-thin), var(--shadow-medium);
+}
+
+.text-3D.plain {
+    color: mix(#fff, #ef6209, 85%);
+    text-shadow: var(--shadow-long-hard);
+}
+
+.text-3D.faded-hard {
+    color: mix(#fff, #ef6209, 85%);
+    text-shadow: var(--shadow-faded-hard);
+}
+
+.text-3D.faded-medium {
+    color: #ff9f00;
+    text-shadow: var(--shadow-faded-medium);
+}
+
+.text-3D.faded-soft {
+    color: mix(#fff, #ef6209, 85%);
+    text-shadow: var(--shadow-faded-soft);
+}

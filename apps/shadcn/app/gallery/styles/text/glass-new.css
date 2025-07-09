@@ -1,0 +1,22 @@
+.text-glass-new {
+    --text-image: var(--gradient-glass-stroke);
+    --text-color: rgba(255, 255, 255, 0.25);
+    --stroke-color: transparent;
+    --stroke-width: .02em;
+    padding: calc(var(--stroke-width) / 2);
+    mix-blend-mode: plus-lighter;
+    @apply stroke-gradient;
+    @apply text-fill;
+    @apply text-clip;
+    @apply text-stroke;
+
+    &::before {
+        content: attr(data-text);
+        position: absolute;
+        color: transparent;
+        transition: 1s;
+        background-image: var(--gradient-glass-fill);
+        background-clip: text;
+    }
+
+}

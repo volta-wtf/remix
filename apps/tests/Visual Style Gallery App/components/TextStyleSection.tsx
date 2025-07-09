@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
-import { TextStyleLightbox } from './TextStyleLightbox';
+import { TextStylePanel } from './TextStylePanel';
 
 export interface TextShadow {
   id: string;
@@ -540,7 +540,7 @@ export function TextStyleSection({ searchQuery }: TextStyleSectionProps) {
     const baseStyle = {
       fontSize: '24px',
       fontWeight: style.fontWeight,
-      textShadow: style.shadows.map(shadow => 
+      textShadow: style.shadows.map(shadow =>
         `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.color}`
       ).join(', ')
     };
@@ -548,7 +548,7 @@ export function TextStyleSection({ searchQuery }: TextStyleSectionProps) {
     if (style.customStyles) {
       return {
         ...baseStyle,
-        background: style.customStyles.includes('background:') ? 
+        background: style.customStyles.includes('background:') ?
           style.customStyles.match(/background:\s*([^;]+)/)?.[1] : undefined,
         WebkitBackgroundClip: style.customStyles.includes('background-clip:') ? 'text' : undefined,
         WebkitTextFillColor: style.customStyles.includes('text-fill-color:') ? 'transparent' : style.color,
@@ -580,7 +580,7 @@ export function TextStyleSection({ searchQuery }: TextStyleSectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card 
+            <Card
               className="cursor-pointer group hover:shadow-lg transition-all duration-200 overflow-hidden"
               onClick={() => setSelectedStyle(style)}
             >
@@ -619,7 +619,7 @@ export function TextStyleSection({ searchQuery }: TextStyleSectionProps) {
       </div>
 
       {selectedStyle && (
-        <TextStyleLightbox
+        <TextStylePanel
           textStyle={selectedStyle}
           onClose={() => setSelectedStyle(null)}
           onUpdate={handleStyleUpdate}

@@ -1,0 +1,10 @@
+/*
+// Color stripes gradient fill
+// https://codepen.io/TajShireen/pen/YzZmbep
+*/
+.text-stripes-colors {
+    --text-image: var(--gradient-multistripes);
+    @apply text-gradient;
+    @apply text-clip;
+    @apply text-fill;
+}

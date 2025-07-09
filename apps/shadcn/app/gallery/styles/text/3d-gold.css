@@ -1,0 +1,38 @@
+/*
+// https://codepen.io/TajShireen/pen/LYyOzJL?editors=1100
+*/
+.text-3D-gold {
+    & {
+        position: relative;
+        z-index: 0;
+        color: transparent;
+    }
+
+    &::after {
+        z-index: 0;
+        background-image: var(--gradient-gold-light);
+        color: #1e2127;
+        transform: scale(1);
+    }
+
+    &::before {
+        z-index: -1;
+        background-image: var(--gradient-gold-dark);
+        color: transparent;
+        filter: drop-shadow(5px 15px 15px black);
+        transform: scaleY(1.05);
+        transform-origin: top;
+    }
+
+    &::after,
+    &::before {
+        --stroke-color: transparent;
+        --stroke-width: .02em;
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0.075em;
+        @apply text-clip;
+        @apply text-stroke;
+    }
+}

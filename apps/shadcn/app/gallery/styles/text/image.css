@@ -1,0 +1,25 @@
+/*
+// Background image fill
+*/
+.text-image {
+    --text-image: var(--image-leafs);
+    --image-size: 100% auto;
+    @apply text-image;
+    @apply text-clip;
+    @apply text-fill;
+}
+
+.text-image.shado {
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --text-shadow: var(--shadow-top-right);
+    @apply filter-shadow;
+}
+
+.text-image.stroke {
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --stroke-color: white;
+    --stroke-width: 0.03em;
+    --text-shadow: var(--shadow-simple);
+    @apply filter-shadow;
+    @apply text-stroke;
+}

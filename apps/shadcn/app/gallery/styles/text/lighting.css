@@ -1,0 +1,40 @@
+/*
+// https://codepen.io/comehope/pen/GBwvxw
+*/
+.text-lighting {
+    /*
+  //&, &:before, &:after {
+  //@apply text-stroke;
+  //--color-background: #000000;
+  //}
+  */
+
+    & {
+        position: relative;
+        z-index: 0;
+        background: black;
+        filter: brightness(150%) contrast(1.7);
+        mix-blend-mode: lighten;
+    }
+
+    &:after {
+        content: attr(data-text);
+        position: absolute;
+        z-index: 2;
+        background: radial-gradient(circle, white, transparent 25%) center / 25% 25%, radial-gradient(circle, white, black 25%) center / 12.5% 12.5%;
+        animation: light 5s linear infinite;
+        mix-blend-mode: color-dodge;
+        top: 0.075em;
+        left: 0;
+        color: transparent;
+    }
+
+    &:before {
+        content: attr(data-text);
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        color: white;
+        filter: blur(0.01em);
+    }
+}

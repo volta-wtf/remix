@@ -12,27 +12,27 @@ import { Copy, X, Plus, Minus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { FrameStyle, BoxShadow } from './FrameStyleSection';
 
-interface FrameStyleLightboxProps {
+interface FrameStylePanelProps {
   frameStyle: FrameStyle;
   onClose: () => void;
   onUpdate: (style: FrameStyle) => void;
   onDuplicate: (style: FrameStyle) => void;
 }
 
-export function FrameStyleLightbox({ frameStyle, onClose, onUpdate, onDuplicate }: FrameStyleLightboxProps) {
+export function FrameStylePanel({ frameStyle, onClose, onUpdate, onDuplicate }: FrameStylePanelProps) {
   const [editedStyle, setEditedStyle] = useState<FrameStyle>(frameStyle);
   const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
-    const boxShadowCSS = editedStyle.shadows.map(shadow => 
+    const boxShadowCSS = editedStyle.shadows.map(shadow =>
       `${shadow.inset ? 'inset ' : ''}${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${shadow.color}`
     ).join(', ');
-    
+
     let css = `background: ${editedStyle.background}; border-radius: ${editedStyle.borderRadius};`;
     if (editedStyle.border !== 'none') css += ` border: ${editedStyle.border};`;
     if (boxShadowCSS) css += ` box-shadow: ${boxShadowCSS};`;
     if (editedStyle.backdrop !== 'none') css += ` backdrop-filter: ${editedStyle.backdrop};`;
-    
+
     setEditedStyle(prev => ({ ...prev, css }));
   }, [editedStyle.shadows, editedStyle.background, editedStyle.border, editedStyle.borderRadius, editedStyle.backdrop]);
 
@@ -132,7 +132,7 @@ export function FrameStyleLightbox({ frameStyle, onClose, onUpdate, onDuplicate 
                     background: editedStyle.background,
                     borderRadius: editedStyle.borderRadius,
                     border: editedStyle.border !== 'none' ? editedStyle.border : undefined,
-                    boxShadow: editedStyle.shadows.map(shadow => 
+                    boxShadow: editedStyle.shadows.map(shadow =>
                       `${shadow.inset ? 'inset ' : ''}${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${shadow.color}`
                     ).join(', '),
                     backdropFilter: editedStyle.backdrop !== 'none' ? editedStyle.backdrop : undefined
@@ -280,7 +280,7 @@ export function FrameStyleLightbox({ frameStyle, onClose, onUpdate, onDuplicate 
                         </Button>
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <Label className="text-xs">X Offset</Label>

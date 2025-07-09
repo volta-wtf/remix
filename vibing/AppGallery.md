@@ -17,11 +17,11 @@ apps/shadcn/app/gallery/
     ├── MainNavigation.tsx      # Navegación entre secciones
     ├── SearchAndFilter.tsx     # Sistema de búsqueda y filtros
     ├── GradientGrid.tsx        # Grid de gradientes
-    ├── GradientLightbox.tsx    # Modal de edición de gradientes
+    ├── GradientPanel.tsx    # Modal de edición de gradientes
     ├── TextStylesGrid.tsx      # Grid de estilos de texto
-    ├── TextStyleLightbox.tsx   # Modal de edición de texto
+    ├── TextStylePanel.tsx   # Modal de edición de texto
     ├── FrameStylesGrid.tsx     # Grid de estilos de marco
-    ├── FrameStyleLightbox.tsx  # Modal de edición de marcos
+    ├── FrameStylePanel.tsx  # Modal de edición de marcos
     ├── CSSPropertyEditor.tsx   # Editor genérico de propiedades CSS
     ├── ShadowEditor.tsx        # Editor específico de sombras
     ├── ImageWithFallback.tsx   # Componente de imagen con fallback
@@ -137,15 +137,15 @@ export interface Gradient {
 Los lightboxes utilizan el patrón de compound components para composición flexible:
 
 ```typescript
-<GradientLightbox
+<GradientPanel
   gradient={selectedGradient}
   onUpdate={handleUpdate}
   onClose={handleClose}
 >
-  <GradientLightbox.Header />
-  <GradientLightbox.Editor />
-  <GradientLightbox.Preview />
-</GradientLightbox>
+  <GradientPanel.Header />
+  <GradientPanel.Editor />
+  <GradientPanel.Preview />
+</GradientPanel>
 ```
 
 ### Render Props

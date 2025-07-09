@@ -1,0 +1,45 @@
+.text-glitch {
+    --shadow-color-1: hsla(0, 100%, 50%, .8);
+    --shadow-color-2: hsla(180, 100%, 50%, .8);
+    color: hsla(0, 0%, 0%, .9);
+    animation: shadow-glitch .5s cubic-bezier(.25, .46, .45, .94) reverse both infinite;
+    /* animation: shadow-glitch linear 2000ms infinite; */
+}
+
+@keyframes shadow-glitch {
+    0% {
+        text-shadow:
+            0.00em 0.00em 0 var(--shadow-color-1),
+            0.00em 0.00em 0 var(--shadow-color-2);
+    }
+
+    20% {
+        text-shadow:
+            -0.03em 0.03em 0 var(--shadow-color-1),
+            0.03em -0.03em 0 var(--shadow-color-2);
+    }
+
+    40% {
+        text-shadow:
+            -0.03em -0.03em 0 var(--shadow-color-1),
+            0.03em 0.03em 0 var(--shadow-color-2);
+    }
+
+    60% {
+        text-shadow:
+            0.03em 0.03em 0 var(--shadow-color-1),
+            -0.03em -0.03em 0 var(--shadow-color-2);
+    }
+
+    80% {
+        text-shadow:
+            0.03em -0.03em 0 var(--shadow-color-1),
+            -0.03em 0.03em 0 var(--shadow-color-2);
+    }
+
+    to {
+        text-shadow:
+            0.00em 0.00em 0 var(--shadow-color-1),
+            0.00em 0.00em 0 var(--shadow-color-2);
+    }
+}

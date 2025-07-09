@@ -1,0 +1,50 @@
+/*
+// https://codepen.io/prathkum/pen/dyMPErw
+*/
+.text-striped-layers {
+    position: relative;
+    display: inline-block;
+    color: #cf1b1b;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    z-index: 0;
+
+    &::after,
+    &::before {
+        content: attr(data-text);
+        position: absolute;
+        color: transparent;
+        top: 0px;
+        left: 0px;
+        transition: 1s;
+    }
+
+    &::before {
+        background-image: repeating-linear-gradient(45deg,
+                transparent 0,
+                transparent 2px,
+                white 2px,
+                white 4px);
+        background-clip: text;
+    }
+
+    &::after {
+        background-image: repeating-linear-gradient(135deg,
+                transparent 0,
+                transparent 2px,
+                white 2px,
+                white 4px);
+        background-clip: text;
+        z-index: -1;
+    }
+
+    &:hover:before {
+        top: 10px;
+        left: 10px;
+    }
+
+    &:hover:after {
+        top: -10px;
+        left: -10px;
+    }
+}

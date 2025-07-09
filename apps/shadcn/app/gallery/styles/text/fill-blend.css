@@ -1,0 +1,11 @@
+/*
+// Layers:     1
+// Usage:      heading, display
+// Properties: color
+// Tags:       simple, blend
+*/
+.text-fill-blend {
+    --text-color: red;
+    @apply text-fill;
+    mix-blend-mode: difference;
+}

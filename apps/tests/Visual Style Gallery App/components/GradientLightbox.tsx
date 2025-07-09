@@ -11,7 +11,7 @@ import { Copy, X, Plus, Minus } from 'lucide-react';
 import { toast } from 'sonner';
 import { Gradient } from './GradientSection';
 
-interface GradientLightboxProps {
+interface GradientPanelProps {
   gradient: Gradient;
   onClose: () => void;
   onUpdate: (gradient: Gradient) => void;
@@ -33,7 +33,7 @@ const directions = [
   { value: '180deg', label: '180 Degrees' }
 ];
 
-export function GradientLightbox({ gradient, onClose, onUpdate, onDuplicate }: GradientLightboxProps) {
+export function GradientPanel({ gradient, onClose, onUpdate, onDuplicate }: GradientPanelProps) {
   const [editedGradient, setEditedGradient] = useState<Gradient>(gradient);
   const [newTag, setNewTag] = useState('');
 

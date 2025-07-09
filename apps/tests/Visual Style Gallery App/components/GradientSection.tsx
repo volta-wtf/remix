@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
-import { GradientLightbox } from './GradientLightbox';
+import { GradientPanel } from './GradientPanel';
 
 export interface Gradient {
   id: string;
@@ -242,11 +242,11 @@ export function GradientSection({ searchQuery }: GradientSectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card 
+            <Card
               className="cursor-pointer group hover:shadow-lg transition-all duration-200 overflow-hidden"
               onClick={() => setSelectedGradient(gradient)}
             >
-              <div 
+              <div
                 className="h-32 w-full relative"
                 style={{ background: gradient.css }}
               >
@@ -275,7 +275,7 @@ export function GradientSection({ searchQuery }: GradientSectionProps) {
       </div>
 
       {selectedGradient && (
-        <GradientLightbox
+        <GradientPanel
           gradient={selectedGradient}
           onClose={() => setSelectedGradient(null)}
           onUpdate={handleGradientUpdate}

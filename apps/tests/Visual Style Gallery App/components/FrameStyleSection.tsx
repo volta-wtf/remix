@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { FrameStyleLightbox } from "./FrameStyleLightbox";
+import { FrameStylePanel } from "./FrameStylePanel";
 
 export interface BoxShadow {
   id: string;
@@ -780,7 +780,7 @@ export function FrameStyleSection({
       </div>
 
       {selectedStyle && (
-        <FrameStyleLightbox
+        <FrameStylePanel
           frameStyle={selectedStyle}
           onClose={() => setSelectedStyle(null)}
           onUpdate={handleStyleUpdate}
