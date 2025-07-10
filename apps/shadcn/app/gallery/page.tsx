@@ -67,10 +67,10 @@ const ScrollProgress = ({ className }: { className?: string }) => {
 
 function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: boolean; togglePreview: () => void, children: React.ReactNode }) {
   return (
-    <header className={cn("fixed top-0 z-10 bg-background/80 backdrop-blur-lg h-24 w-full ", styles.container)}>
+    <header className={cn("fixed top-0 z-10 text-muted-foreground bg-background/80 backdrop-blur-lg h-24 w-full ", styles.container)}>
       <div className={cn("flex flex-row items-center gap-4 pr-0!", styles.aside)}>
-        <div className="text-2xl">styles</div>
-        <Icon.Select sm className="shrink-0 text-black/60" />
+        <div className="text-2xl text-foreground">styles</div>
+        <Icon.Select sm className="shrink-0 text-current" />
         <ScrollProgress />
       </div>
       <div className={cn("flex flex-row", styles.main)}>
@@ -89,7 +89,7 @@ function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: 
             className="-ml-2"
             onClick={togglePreview}
           >
-            <Icon.RightPanel className={cn("shrink-0 text-black/60 transition-transform",
+            <Icon.RightPanel className={cn("shrink-0 text-current transition-transform",
               isPreviewOpen ? "" : "rotate-180"
             )} />
           </Button>
@@ -100,20 +100,12 @@ function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: 
             className="-mr-2"
             onClick={changeTheme}
           >
-            <Icon.ThemeDark className="shrink-0 text-black/60" />
+            <Icon.ThemeDark className="shrink-0 text-current" />
           </Button>
         </div>
 
       </div>
     </header>
-  )
-}
-
-function StyleCard({ className }: { className?: string }) {
-  return (
-    <div className={cn("flex items-center justify-center min-w-20 bg-black/3 p-10", className)}>
-      <p className="text-4xl font-bold">Aa</p>
-    </div>
   )
 }
 
@@ -384,7 +376,7 @@ export default function GalleryPage() {
         <MainSearchInput
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
-          placeholder="Search by name, description, or tags..."
+          placeholder="Search..."
         />
       </AppHeader>
 

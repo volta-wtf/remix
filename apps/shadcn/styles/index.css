@@ -35,3 +35,31 @@
         text-wrap: balance;
     }
 }
+
+body {
+    font-family: sans-serif;
+}
+
+.bg-preview-muted     { background-color: rgb(0 0 0 / 5%); }
+.bg-preview-subtle    { background-color: rgb(0 0 0 / 15%); }
+.bg-preview-color-1   { background-color: #fb923c; }
+.bg-preview-color-2   { background-color: #bfdbfe; }
+.bg-preview-color-3   { background-color: #a5f296; }
+.bg-preview-gradient  { background: linear-gradient(113.96deg, #F5F9EF 0%, #B6DCE2 100%), #FCFCFC; }
+.bg-preview-image     { background-image: url("/images/background-light.jpg"); }
+
+.dark .bg-preview-muted     { background-color: rgb(255 255 255 / 5%); }
+.dark .bg-preview-subtle    { background-color: rgb(255 255 255 / 15%); }
+.dark .bg-preview-color-1   { background-color: #8e4305; }
+.dark .bg-preview-color-2   { background-color: #114c95; }
+.dark .bg-preview-color-3   { background-color: #217211; }
+.dark .bg-preview-gradient  { background: linear-gradient(113.96deg, #9AA4B2 0%, #121926 100%),#FCFCFC; }
+.dark .bg-preview-image     { background-image: url("/images/background-dark.jpg"); }
+
+.bg-preview-default {
+    background-color: transparent;
+}
+.bg-preview-image {
+    background-size: cover;
+    background-position: center;
+}

@@ -36,3 +36,7 @@
     --text-shadow: var(--shadow-multicolor);
     @apply text-shadow;
 }
+
+.dark .text-shadow-rainbow {
+    --text-color: #fcedd8;
+}

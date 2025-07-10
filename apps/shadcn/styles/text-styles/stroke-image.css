@@ -13,13 +13,18 @@
 */
 
 .text-stroke-image {
-    --text-image: var(--image-leafs);
+    --text-image: var(--image-color);
     --image-size: 100% auto;
-    --text-color: #d6fad9;
+    --text-color: white;
     --stroke-color: transparent;
-    --stroke-width: .06em;
+    --stroke-width: .1em;
+    padding: .05em;
     @apply stroke-image;
     @apply text-clip;
     @apply text-fill;
     @apply text-stroke;
+}
+
+.dark .text-stroke-image {
+    --text-color: black;
 }

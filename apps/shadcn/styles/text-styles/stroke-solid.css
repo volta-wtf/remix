@@ -14,7 +14,7 @@
 
 .text-stroke-solid {
     --text-image: var(--gradient-solid);
-    --text-color: inherit;
+    --text-color: var(--foreground);
     --stroke-color: transparent;
     --stroke-width: .06em;
     padding: calc(var(--stroke-width) / 2);

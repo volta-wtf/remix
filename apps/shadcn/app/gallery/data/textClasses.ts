@@ -37,37 +37,15 @@ export const textClasses: TextClass[] = [
     background: 'waves2'
   },
   {
-    id: 'fill-solid',
-    name: 'Solid Fill',
-    description: 'Simple solid color text fill',
-    category: 'Basics',
-    tags: ['fill'],
-    cssFile: 'fill-solid.css',
-    previewText: 'Solid',
+    id: 'fill-glossy',
+    name: 'Glossy Fill',
+    description: 'Glossy-like transparent text effect',
+    category: 'Materials',
+    tags: ['glass', 'alpha'],
+    cssFile: 'fill-glossy.css',
+    previewText: 'Glossy',
     bestFor: ['body', 'heading', 'display'],
-    background: '#f1fbae'
-  },
-  {
-    id: 'fill-alpha',
-    name: 'Alpha Fill',
-    description: 'Semi-transparent text fill with background',
-    category: 'Basics',
-    tags: ['alpha', 'fill'],
-    cssFile: 'fill-alpha.css',
-    previewText: 'Alpha',
-    bestFor: ['body', 'heading', 'display'],
-    background: 'waves'
-  },
-  {
-    id: 'fill-blend',
-    name: 'Blend Fill',
-    description: 'Text with blend mode effects',
-    category: 'Basics',
-    tags: ['blend'],
-    cssFile: 'fill-blend.css',
-    previewText: 'Blend',
-    bestFor: ['body', 'heading', 'display'],
-    background: 'waves3'
+    background: 'waves2'
   },
   {
     id: 'stroke-only',
@@ -697,5 +675,38 @@ export const textClasses: TextClass[] = [
     bestFor: ['body', 'heading', 'display'],
     reference: ['https://codepen.io/TajShireen/pen/LYyOzJL?editors=1100'],
     background: 'radial'
+  },
+  {
+    id: 'fill-alpha',
+    name: 'Alpha Fill',
+    description: 'Semi-transparent text fill with background',
+    category: 'Basics',
+    tags: ['alpha', 'fill'],
+    cssFile: 'fill-alpha.css',
+    previewText: 'Alpha',
+    bestFor: ['body', 'heading', 'display'],
+    background: 'waves'
+  },
+  {
+    id: 'fill-blend',
+    name: 'Blend Fill',
+    description: 'Text with blend mode effects',
+    category: 'Basics',
+    tags: ['blend'],
+    cssFile: 'fill-blend.css',
+    previewText: 'Blend',
+    bestFor: ['body', 'heading', 'display'],
+    background: 'waves3'
+  },
+  {
+    id: 'fill-solid',
+    name: 'Solid Fill',
+    description: 'Simple solid color text fill',
+    category: 'Basics',
+    tags: ['fill'],
+    cssFile: 'fill-solid.css',
+    previewText: 'Solid',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#f1fbae'
   }
 ];

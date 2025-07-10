@@ -10,16 +10,16 @@ interface SearchInputProps {
 export function MainSearchInput({
   searchQuery,
   onSearchChange,
-  placeholder = "Search by name, description, or tags..."
+  placeholder = "Search..."
 }: SearchInputProps) {
   return (
     <div className="relative">
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
       <Input
         placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="pl-10 pr-10 h-12 bg-input-background border-0 focus-visible:ring-2 focus-visible:ring-ring"
+        className="pl-10 pr-10 h-10 bg-input-background hover:not-focus:bg-accent focus:w-100 shadow-none border-0 focus-visible:ring-2 focus-visible:ring-ring will-change-width transition-all"
       />
       {searchQuery && (
         <button

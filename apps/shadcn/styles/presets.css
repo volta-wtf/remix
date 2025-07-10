@@ -15,6 +15,7 @@
 :root {
   --image-2: url('https://images.pexels.com/photos/2382325/pexels-photo-2382325.jpeg');
   --image-leafs: url('/images/pexels-photo-2382325.jpg');
+  --image-color: url('/images/background-color.jpg');
   --image-dots: url('/images/bernard-hermant-Jlh7u4NjNAQ-unsplash.jpg');
   --image-gradient: url('/images/gradienta-coj7UZ7iN60-unsplash.jpg');
   --image-dark: url('/images/kamran-abdullayev-LLS74TRAseM-unsplash.jpg');
@@ -243,39 +244,40 @@
 
 
   --shadow-3D-light:
-    0 0 1px,
-    0 0 1px rgba(0, 0, 0, .7),
-    0 1px 1px rgba(0, 0, 0, .7),
-    1px 0 1px,
-    1px 1px 1px rgba(0, 0, 0, .7),
-    2px 0 1px,
-    2px 1px 1px rgba(0, 0, 0, .7),
-    3px 0 1px,
-    3px 1px 1px rgba(0, 0, 0, .7),
-    4px 0 1px,
-    4px 1px 1px rgba(0, 0, 0, .7),
-    5px 0 1px,
-    5px 1px 1px rgba(0, 0, 0, .7),
-    6px 0 1px,
-    6px 1px 1px rgba(0, 0, 0, .7),
-    7px 0 1px,
-    7px 1px 1px rgba(0, 0, 0, .7),
-    8px 0 1px,
-    8px 1px 1px rgba(0, 0, 0, .7),
-    9px 0 1px,
-    9px 1px 1px rgba(0, 0, 0, .7),
-    10px 0 1px,
-    10px 1px 1px rgba(0, 0, 0, .4),
-    1px 0 1px rgba(0, 0, 0, .7),
-    2px 0 1px rgba(0, 0, 0, .7),
-    3px 0 1px rgba(0, 0, 0, .7),
-    4px 0 1px rgba(0, 0, 0, .7),
-    5px 0 1px rgba(0, 0, 0, .7),
-    6px 0 1px rgba(0, 0, 0, .7),
-    7px 0 1px rgba(0, 0, 0, .7),
-    8px 0 1px rgba(0, 0, 0, .7),
-    9px 0 1px rgba(0, 0, 0, .7),
-    10px 0 1px rgba(0, 0, 0, .4);
+    0 0 .01em,
+    0 0 .01em rgb(0 0 0 / .4),
+    0 .01em .01em rgb(0 0 0 / .4),
+    .01em 0 .01em,
+    .01em .01em .01em rgb(0 0 0 / .4),
+    .02em 0 .01em,
+    .02em .01em .01em rgb(0 0 0 / .4),
+    .03em 0 .01em,
+    .03em .01em .01em rgb(0 0 0 / .4),
+    .04em 0 .01em,
+    .04em .01em .01em rgb(0 0 0 / .4),
+    .05em 0 .01em,
+    .05em .01em .01em rgb(0 0 0 / .4),
+    .06em 0 .01em,
+    .06em .01em .01em rgb(0 0 0 / .4),
+    .07em 0 .01em,
+    .07em .01em .01em rgb(0 0 0 / .4),
+    .08em 0 .01em,
+    .08em .01em .01em rgb(0 0 0 / .4),
+    .09em 0 .01em,
+    .09em .01em .01em rgb(0 0 0 / .4),
+    .1em 0 .01em,
+    .1em .01em .01em rgb(0 0 0 / .4),
+
+    .01em 0 .01em rgb(0 0 0 / .4),
+    .02em 0 .01em rgb(0 0 0 / .4),
+    .03em 0 .01em rgb(0 0 0 / .4),
+    .04em 0 .01em rgb(0 0 0 / .4),
+    .05em 0 .01em rgb(0 0 0 / .4),
+    .06em 0 .01em rgb(0 0 0 / .4),
+    .07em 0 .01em rgb(0 0 0 / .4),
+    .08em 0 .01em rgb(0 0 0 / .4),
+    .09em 0 .01em rgb(0 0 0 / .4),
+    .1em 0 .01em rgb(0 0 0);
 
   --shadow-3D-glow:
     /* 3D layers */

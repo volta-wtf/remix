@@ -24,10 +24,8 @@ textClassesCategories=[
 
 @import './text-styles/fill-glass.css';
 @import './text-styles/fill-crystal.css';
+@import './text-styles/fill-glossy.css';
 
-@import './text-styles/fill-solid.css';
-@import './text-styles/fill-alpha.css';
-@import './text-styles/fill-blend.css';
 
 @import './text-styles/stroke-only.css';
 @import './text-styles/stroke-fill.css';
@@ -98,3 +96,7 @@ textClassesCategories=[
 
 @import './text-styles/gold-emboss.css';
 @import './text-styles/gold-3D.css';
+
+@import './text-styles/fill-alpha.css';
+@import './text-styles/fill-blend.css';
+@import './text-styles/fill-solid.css';

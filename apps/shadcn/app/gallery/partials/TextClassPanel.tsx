@@ -1,9 +1,8 @@
-import { useState, useEffect, CSSProperties } from 'react';
+import { useState, useEffect, type CSSProperties } from 'react';
 import { motion } from '@/lib/motion';
-import { X, Copy, Type, Tag, FileText } from 'lucide-react';
-import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Copy, FileText } from 'lucide-react';
+import { toast } from 'sonner';
 import { Separator } from '@/components/ui/separator';
 import type { TextClass } from '../types';
 
@@ -12,7 +11,23 @@ interface TextClassPanelProps {
   onClose: () => void;
 }
 
+// Background options for the selector
+const backgroundOptions = [
+  { id: 'default', name: 'Background', class: 'bg-preview-default' },
+  { id: 'muted', name: 'Muted', class: 'bg-preview-muted' },
+  { id: 'subtle', name: 'Subtle', class: 'bg-preview-subtle' },
+  { id: 'color-1', name: 'Color 1', class: 'bg-preview-color-1' },
+  { id: 'color-2', name: 'Color 2', class: 'bg-preview-color-2' },
+  { id: 'color-3', name: 'Color 3', class: 'bg-preview-color-3' },
+  { id: 'gradient', name: 'Gradient', class: 'bg-preview-gradient' },
+  { id: 'image', name: 'Image', class: 'bg-preview-image' }
+];
+
 export function TextClassPanel({ textClass, onClose }: TextClassPanelProps) {
+  const [selectedBackground, setSelectedBackground] = useState('default');
+  const [cssContent, setCssContent] = useState<string>('');
+  const [isLoadingCSS, setIsLoadingCSS] = useState<boolean>(true);
+
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
@@ -62,9 +77,6 @@ export function TextClassPanel({ textClass, onClose }: TextClassPanelProps) {
     }
   };
 
-  const [cssContent, setCssContent] = useState<string>('');
-  const [isLoadingCSS, setIsLoadingCSS] = useState<boolean>(true);
-
   // Load CSS content when component mounts or textClass changes
   useEffect(() => {
     const loadCSS = async () => {
@@ -107,7 +119,7 @@ ${className}::after {
   const getBackgroundStyle = (): CSSProperties & { [key: string]: any } => {
     if (!textClass.background) return {};
 
-    if (textClass.background.startsWith('#')) {
+    if (textClass.background && textClass.background.startsWith('#')) {
       return { '--bloc-color': textClass.background };
     }
     return {};
@@ -118,20 +130,35 @@ ${className}::after {
 
     if (!textClass.background) return '';
 
-    if (textClass.background.startsWith('#')) {
+    if (textClass.background && textClass.background.startsWith('#')) {
       return 'bloc';
     }
-    return `bloc bg-${textClass.background}`;
+    return `bloc bg-${textClass.background || ''}`;
+  };
+
+  // Get background style based on selection
+  const getPreviewBackgroundStyle = (): CSSProperties => {
+    const selectedOption = backgroundOptions.find(opt => opt.id === selectedBackground);
+    if (selectedOption) {
+      return selectedOption.style;
+    }
+    return { backgroundColor: '#ffffff' };
+  };
+
+  const getPreviewBackgroundClass = (): CSSProperties => {
+    const selectedOption = backgroundOptions.find(opt => opt.id === selectedBackground);
+    if (selectedOption) {
+      return selectedOption.class;
+    }
+    return '';
   };
 
   return (
     <div className="w-full">
       {/* Header with text preview */}
       <div
-        className={`relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden ${getBackgroundClass()}`}
-        style={getBackgroundStyle()}
+        className={`${getPreviewBackgroundClass()} relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden`}
       >
-
         {/* Large text preview */}
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <h2 className="type-demo">
@@ -145,10 +172,8 @@ ${className}::after {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="py-8">
-        {/* Tags */}
-        <div className="mb-6">
+      <div className="flex items-center justify-between mt-4">
+          {/* Tags */}
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary" className="text-xs">
               {textClass.category}
@@ -159,7 +184,28 @@ ${className}::after {
               </Badge>
             ))}
           </div>
-        </div>
+
+          {/* Background Selector */}
+          <div className="flex gap-2 items-center">
+            <span className="text-sm text-muted-foreground px-2">Background {selectedBackground}</span>
+            {backgroundOptions.map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setSelectedBackground(option.id)}
+                className={`
+                  ${option.class}
+                  w-6 h-6 rounded-full transition-all hover:scale-110 border border-border
+                  ${selectedBackground === option.id ? 'ring-1 ring-primary ring-offset-2 ring-offset-background' : ''}
+                `}
+              />
+            ))}
+          </div>
+      </div>
+
+      {/* Content */}
+      <div className="py-8">
+
+
 
         {/* CSS Class */}
         <div className="mb-6">

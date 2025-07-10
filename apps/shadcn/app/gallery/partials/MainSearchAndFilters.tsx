@@ -34,7 +34,7 @@ export function MainSearchAndFilters({
       <MainSearchInput
         searchQuery={searchQuery}
         onSearchChange={onSearchChange}
-        placeholder="Search by name, description, or tags..."
+        placeholder="Search..."
       />
 
       {/* Category Filters */}

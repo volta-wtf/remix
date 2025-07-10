@@ -13,8 +13,8 @@
 */
 
 .text-stroke-fill {
-    --text-color: white;
-    --stroke-color: black;
+    --text-color: var(--background);
+    --stroke-color: var(--foreground);
     --stroke-width: .06em;
     @apply text-fill;
     @apply text-stroke;

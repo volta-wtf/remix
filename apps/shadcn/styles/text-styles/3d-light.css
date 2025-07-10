@@ -30,15 +30,16 @@
     }
 
     &:before {
-        color: rgba(0, 0, 0, .6);
+        color: rgba(0, 0, 0, .2);
         width: max-content;
         left: 0.1em;
-        filter: blur(5px);
+        top: 0.1em;
+        filter: blur(.05em);
         opacity: .6;
         z-index: -1;
     }
 
     &:after {
-        color: rgba(0, 0, 0, .14);
+        color: rgba(0, 0, 0, .1);
     }
 }

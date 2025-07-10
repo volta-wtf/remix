@@ -5,16 +5,6 @@ import { Providers } from "@/components/providers"
 import "@workspace/ui-registry/shadcn.css"
 import "./globals.css"
 
-const fontSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,9 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
-      >
+      <body className="antialiased">
         <Providers>{children}</Providers>
 
         {/* Theme Editor - Solo en desarrollo */}
