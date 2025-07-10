@@ -1,0 +1,38 @@
+/*
+{
+    id: 'shadow-rainbow',
+    name: 'Rainbow Shadow',
+    description: 'Text with rainbow shadow effect',
+    category: 'Shadows',
+    tags: ['shadow', 'rainbow', 'colorful'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'shadow-rainbow.css',
+    previewText: 'Rainbow',
+    background: '#e0e0e0',
+    reference: ['https://www.foolishdeveloper.com/2022/03/css-rainbow-text-animation.html']
+},
+*/
+
+.text-shadow-rainbow {
+    --text-color: inherit;
+    --text-shadow: var(--shadow-rainbow);
+    @apply text-shadow;
+    @apply text-fill;
+}
+
+.text-shadow-rainbow.clear {
+    --text-color: transparent;
+}
+
+.text-shadow-rainbow.inverse {
+    --text-color: var(--inverse-color);
+}
+
+/*
+// https://codepen.io/TajShireen/pen/abzmoRE
+*/
+.text-shadow-rainbow.multicolor {
+    --text-color: #fcedd8;
+    --text-shadow: var(--shadow-multicolor);
+    @apply text-shadow;
+}

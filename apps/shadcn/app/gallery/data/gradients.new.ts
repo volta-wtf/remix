@@ -1,4 +1,3 @@
-,
   {
     id: '9',
     name: 'To right',

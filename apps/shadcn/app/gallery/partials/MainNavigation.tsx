@@ -14,12 +14,12 @@ const navigationItems = [
     icon: Type,
     description: 'WordArt and typography effects'
   },
-  {
-    id: 'text-styles' as Section,
-    label: 'Text Legacy',
-    icon: Type,
-    description: 'WordArt and typography effects'
-  },
+  //{
+  //  id: 'text-styles' as Section,
+  //  label: 'Text Legacy',
+  //  icon: Type,
+  //  description: 'WordArt and typography effects'
+  //},
   {
     id: 'frame-styles' as Section,
     label: 'Frame Styles',

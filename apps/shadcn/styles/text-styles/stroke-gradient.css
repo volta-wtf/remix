@@ -1,0 +1,25 @@
+/*
+{
+    id: 'stroke-gradient',
+    name: 'Gradient Stroke',
+    description: 'Text with gradient stroke effect',
+    category: 'Basics',
+    tags: ['gradient', 'stroke', 'colorful'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'stroke-gradient.css',
+    previewText: 'Stroke',
+    background: '#222222'
+},
+*/
+
+.text-stroke-gradient {
+    --text-image: var(--gradient-multicolor);
+    --text-color: inherit;
+    --stroke-color: transparent;
+    --stroke-width: .06em;
+    padding: calc(var(--stroke-width) / 2);
+    @apply stroke-gradient;
+    @apply text-fill;
+    @apply text-clip;
+    @apply text-stroke;
+}

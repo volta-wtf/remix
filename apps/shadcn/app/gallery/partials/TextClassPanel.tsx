@@ -50,7 +50,7 @@ export function TextClassPanel({ textClass, onClose }: TextClassPanelProps) {
   // Function to read and process CSS file
   const readCSSFile = async (filename: string): Promise<string> => {
     try {
-      const response = await fetch(`/app/gallery/styles/text/${filename}`);
+      const response = await fetch(`/styles/text/${filename}`);
       if (!response.ok) {
         throw new Error(`Failed to load ${filename}`);
       }
@@ -114,6 +114,8 @@ ${className}::after {
   };
 
   const getBackgroundClass = () => {
+    return ''
+
     if (!textClass.background) return '';
 
     if (textClass.background.startsWith('#')) {
@@ -129,16 +131,6 @@ ${className}::after {
         className={`relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden ${getBackgroundClass()}`}
         style={getBackgroundStyle()}
       >
-        {/* Close button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onClose}
-          className="absolute top-4 right-4 bg-white/50 backdrop-blur-sm hover:bg-white/70"
-          type="button"
-        >
-          <X className="w-4 h-4" />
-        </Button>
 
         {/* Large text preview */}
         <div className="absolute inset-0 flex items-center justify-center p-4">
@@ -155,20 +147,12 @@ ${className}::after {
 
       {/* Content */}
       <div className="py-8">
-        <div className="flex items-center gap-3 mb-4">
-          <Type className="w-6 h-6 text-muted-foreground" />
-          <h2 className="text-2xl font-semibold">{textClass.name}</h2>
-        </div>
-
-        <p className="text-muted-foreground mb-6">{textClass.description}</p>
-
         {/* Tags */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <Tag className="w-4 h-4 text-muted-foreground" />
-            <h3 className="font-medium">Tags</h3>
-          </div>
           <div className="flex flex-wrap gap-2">
+            <Badge variant="secondary" className="text-xs">
+              {textClass.category}
+            </Badge>
             {textClass.tags.map((tag: string, index: number) => (
               <Badge key={index} variant="outline" className="text-xs">
                 {tag}
@@ -177,19 +161,9 @@ ${className}::after {
           </div>
         </div>
 
-        {/* Category */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <h3 className="font-medium">Category</h3>
-          </div>
-          <Badge variant="secondary" className="text-sm">
-            {textClass.category}
-          </Badge>
-        </div>
-
         {/* CSS Class */}
         <div className="mb-6">
-          <h3 className="font-medium mb-3">CSS Class</h3>
+          <h3 className="font-medium text-sm text-primary/40 mb-2">CSS Class</h3>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -202,9 +176,24 @@ ${className}::after {
           </motion.button>
         </div>
 
-        {/* CSS File */}
+        {/* HTML Usage */}
         <div className="mb-6">
-          <h3 className="font-medium mb-3">CSS File</h3>
+          <h3 className="font-medium text-sm text-primary/40 mb-2">HTML Usage</h3>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => copyToClipboard(generateUsageHTML(), 'HTML usage')}
+            className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
+            type="button"
+          >
+            <pre className="text-sm font-mono whitespace-pre-wrap">{generateUsageHTML()}</pre>
+            <Copy className="absolute right-3 top-4 w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </motion.button>
+        </div>
+
+        {/* CSS File */}
+        <div className="hidden mb-6">
+          <h3 className="font-medium text-sm text-primary/40 mb-2">CSS File</h3>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -222,7 +211,7 @@ ${className}::after {
 
         {/* CSS Output */}
         <div className="mb-6">
-          <h3 className="font-medium mb-3">CSS Output</h3>
+          <h3 className="font-medium text-sm text-primary/40 mb-2">CSS Output</h3>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -237,20 +226,7 @@ ${className}::after {
 
         <Separator className="my-6" />
 
-        {/* HTML Usage */}
-        <div className="mb-6">
-          <h3 className="font-medium mb-3">HTML Usage</h3>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => copyToClipboard(generateUsageHTML(), 'HTML usage')}
-            className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
-            type="button"
-          >
-            <pre className="text-sm font-mono whitespace-pre-wrap">{generateUsageHTML()}</pre>
-            <Copy className="w-4 h-4 float-right mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </motion.button>
-        </div>
+
 
         {/* Usage Examples */}
         <div className="space-y-4">

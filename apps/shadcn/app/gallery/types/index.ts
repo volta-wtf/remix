@@ -22,6 +22,8 @@ export interface Gradient extends BaseStyle {
 export interface TextClass extends BaseStyle {
   cssFile: string;
   previewText: string;
+  bestFor?: string[];
+  reference?: string[];
   usesData?: boolean;
   background?: string;
 }

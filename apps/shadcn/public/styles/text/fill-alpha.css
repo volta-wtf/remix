@@ -1,0 +1,21 @@
+/*
+{
+    id: 'fill-alpha',
+    name: 'Alpha Fill',
+    description: 'Semi-transparent text fill with background',
+    category: 'Colors',
+    tags: ['alpha', 'transparent', 'fill'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'fill-alpha.css',
+    previewText: 'Alpha',
+    background: 'waves'
+},
+*/
+
+.text-fill-alpha {
+    --text-color: rgba(0, 0, 0, 0.4);
+    @apply text-fill;
+}
+.dark .text-fill-alpha {
+    --text-color: rgba(255, 255, 255, 0.4);
+}

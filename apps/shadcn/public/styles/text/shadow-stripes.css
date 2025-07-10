@@ -1,0 +1,68 @@
+/*
+{
+    id: 'shadow-stripes',
+    name: 'Shadow Stripes',
+    description: 'Striped shadow text effect',
+    category: 'Decorative',
+    tags: ['shadow', 'stripes', 'pattern'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'shadow-stripes.css',
+    previewText: 'Stripes',
+    usesData: true,
+    background: '#ffc0cb',
+    reference: 'https://codepen.io/t_afif/pen/dyzZEVP'
+},
+*/
+
+.text-shadow-stripes {
+    & {
+        position: relative;
+        display: table;
+        cursor: pointer;
+        transition: .6s;
+    }
+
+    &:before,
+    &:after {
+        content: attr(data-text);
+        transition: .6s;
+        position: absolute;
+        left: 0;
+    }
+
+    &:before {
+        left: 0;
+        top: 0;
+        z-index: -1;
+        text-shadow:
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px,
+            0px 0px;
+        mask: repeating-linear-gradient(45deg, transparent 0 3px, rgba(0, 0, 0, 0.5) 0 6px);
+    }
+
+    &:hover {
+        transform: translate(-10px, -10px);
+    }
+
+    &:hover:before {
+        text-shadow:
+            1px 1px,
+            2px 2px,
+            3px 3px,
+            4px 4px,
+            5px 5px,
+            6px 6px,
+            7px 7px,
+            8px 8px,
+            9px 9px,
+            10px 10px;
+    }
+}

@@ -1,0 +1,31 @@
+/*
+{
+    id: '3D-sweet',
+    name: '3D Sweet',
+    description: 'Sweet pastel 3D text',
+    category: '3D',
+    tags: ['3d', 'sweet', 'pastel'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: '3d-sweet.css',
+    previewText: '3D Text',
+    usesData: true,
+    background: 'sweet',
+    reference: ['https://codepen.io/mireille1306/pen/BawdXzY']
+},
+*/
+
+.text-3D-sweet {
+    display: inline-block;
+    color: #fde9ff;
+    font-weight: 900;
+    line-height: 0.75em;
+    text-shadow: var(--shadow-sweet-back);
+    position: relative;
+
+    &:before {
+        content: attr(data-text);
+        position: absolute;
+        text-shadow: var(--shadow-sweet-front);
+        z-index: 1;
+    }
+}

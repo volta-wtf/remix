@@ -1,0 +1,25 @@
+/*
+{
+    id: 'stroke-image',
+    name: 'Image Stroke',
+    description: 'Text with image-based stroke',
+    category: 'Basics',
+    tags: ['image', 'stroke'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'stroke-image.css',
+    previewText: 'Image',
+    background: '#d6fad9'
+},
+*/
+
+.text-stroke-image {
+    --text-image: var(--image-leafs);
+    --image-size: 100% auto;
+    --text-color: #d6fad9;
+    --stroke-color: transparent;
+    --stroke-width: .06em;
+    @apply stroke-image;
+    @apply text-clip;
+    @apply text-fill;
+    @apply text-stroke;
+}

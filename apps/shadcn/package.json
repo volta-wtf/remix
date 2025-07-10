@@ -10,7 +10,9 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:text-classes": "node scripts/generate-text-classes.js",
+    "watch:text-classes": "node scripts/watch-styles.js"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",

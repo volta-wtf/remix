@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CSSPropertyEditor } from './CSSPropertyEditor';
-import { ShadowEditor } from './ShadowEditor';
+import { CSSShadowEditor } from './CSSShadowEditor';
 import type { FrameStyle } from './FrameStylesGrid';
 
 interface Shadow {
@@ -606,7 +606,7 @@ ${cssProperties}
             </TabsContent>
 
             <TabsContent value="shadows" className="space-y-6">
-              <ShadowEditor
+              <CSSShadowEditor
                 name={editedFrameStyle.name}
                 onNameChange={(name) => setEditedFrameStyle(prev => ({ ...prev, name }))}
                 cssClass={editedFrameStyle.cssClass}

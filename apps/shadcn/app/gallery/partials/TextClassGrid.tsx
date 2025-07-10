@@ -74,16 +74,16 @@ export default function TextClassGrid({
                 ease: "easeOut",
                 layout: { duration: 0.3 }
               }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => handleTextClassClick(textClass)}
               className="group relative cursor-pointer text-center"
             >
-                            <TextStyle
+              <TextStyle
                 id={textClass.id}
-                bg={textClass.background || '#ffffff'}
+                //bg={textClass.background || 'transparent'}
+                bg={'hsla(0 0% 0% / 5%)'}
                 type={textClass.usesData ? 'with-data' : undefined}
               >
-                Aa
+                {textClass.previewText}
               </TextStyle>
             </motion.button>
           ))}

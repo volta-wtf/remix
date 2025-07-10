@@ -2,187 +2,219 @@ import { TextClass } from '../types';
 
 export const textClassesCategories = [
   'All',
-  'Colors',
-  'Effects',
-  'Strokes',
-  'Images',
-  'Gradients',
-  'Shadows',
-  'Decorative',
+  'Basics',
+  'Materials',
   '3D',
+  'Decorative',
+  'Effects',
+  'Colorful',
   'Glitch',
   'Special',
   'Underlines'
 ];
 
 export const textClasses: TextClass[] = [
-  // Colors
+  {
+    id: 'fill-glass',
+    name: 'Glass Fill',
+    description: 'Glass-like transparent text effect',
+    category: 'Materials',
+    tags: ['glass', 'alpha'],
+    cssFile: 'fill-glass.css',
+    previewText: 'Glass',
+    bestFor: ['body', 'heading', 'display'],
+    background: 'waves2'
+  },
+  {
+    id: 'fill-crystal',
+    name: 'Crystal Fill',
+    description: 'Crystal-like transparent text effect',
+    category: 'Materials',
+    tags: ['glass', 'alpha'],
+    cssFile: 'fill-crystal.css',
+    previewText: 'Crystal',
+    bestFor: ['body', 'heading', 'display'],
+    background: 'waves2'
+  },
   {
     id: 'fill-solid',
     name: 'Solid Fill',
     description: 'Simple solid color text fill',
-    category: 'Colors',
-    tags: ['solid', 'basic', 'fill'],
+    category: 'Basics',
+    tags: ['fill'],
     cssFile: 'fill-solid.css',
     previewText: 'Solid',
-    background: '#d6fad9'
+    bestFor: ['body', 'heading', 'display'],
+    background: '#f1fbae'
   },
   {
     id: 'fill-alpha',
     name: 'Alpha Fill',
     description: 'Semi-transparent text fill with background',
-    category: 'Colors',
-    tags: ['alpha', 'transparent', 'fill'],
+    category: 'Basics',
+    tags: ['alpha', 'fill'],
     cssFile: 'fill-alpha.css',
     previewText: 'Alpha',
+    bestFor: ['body', 'heading', 'display'],
     background: 'waves'
-  },
-  {
-    id: 'fill-glass',
-    name: 'Glass Fill',
-    description: 'Glass-like transparent text effect',
-    category: 'Colors',
-    tags: ['glass', 'transparent', 'effect'],
-    cssFile: 'fill-glass.css',
-    previewText: 'Glass',
-    background: 'waves2'
   },
   {
     id: 'fill-blend',
     name: 'Blend Fill',
     description: 'Text with blend mode effects',
-    category: 'Colors',
-    tags: ['blend', 'mix', 'effect'],
+    category: 'Basics',
+    tags: ['blend'],
     cssFile: 'fill-blend.css',
     previewText: 'Blend',
+    bestFor: ['body', 'heading', 'display'],
     background: 'waves3'
   },
-
-  // Effects
-  {
-    id: 'inset',
-    name: 'Inset Effect',
-    description: 'Pressed or engraved text appearance',
-    category: 'Effects',
-    tags: ['inset', 'pressed', 'engraved'],
-    cssFile: 'inset.css',
-    previewText: 'Inset',
-    background: '#a3bdc2'
-  },
-  {
-    id: 'emboss',
-    name: 'Emboss',
-    description: 'Raised embossed text effect',
-    category: 'Effects',
-    tags: ['emboss', 'raised', '3d'],
-    cssFile: 'emboss.css',
-    previewText: 'Emboss',
-    background: '#1e9db6'
-  },
-
-  // Strokes
   {
     id: 'stroke-only',
     name: 'Stroke Only',
     description: 'Outline text without fill',
-    category: 'Strokes',
-    tags: ['stroke', 'outline', 'border'],
+    category: 'Basics',
+    tags: ['stroke'],
     cssFile: 'stroke-only.css',
     previewText: 'Stroke',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://css-tricks.com/text-stroke-stuck-middle/'],
     background: '#d6fad9'
   },
   {
-    id: 'fill-stroke',
-    name: 'Fill + Stroke',
-    description: 'Text with both fill and stroke',
-    category: 'Strokes',
-    tags: ['fill', 'stroke', 'border'],
-    cssFile: 'fill-stroke.css',
-    previewText: 'Fill + Stroke',
+    id: 'stroke-fill',
+    name: 'Stroke + Fill',
+    description: 'Text with stroke and fill',
+    category: 'Basics',
+    tags: ['solid', 'stroke'],
+    cssFile: 'stroke-fill.css',
+    previewText: 'Stroke',
+    bestFor: ['body', 'heading', 'display'],
     background: '#d6fad9'
   },
   {
-    id: 'solid-stroke',
+    id: 'stroke-solid',
     name: 'Solid Stroke',
     description: 'Text with solid color stroke',
-    category: 'Strokes',
-    tags: ['solid', 'stroke', 'border'],
-    cssFile: 'solid-stroke.css',
-    previewText: 'Solid Stroke',
-    background: '#000000'
+    category: 'Basics',
+    tags: ['solid', 'stroke'],
+    cssFile: 'stroke-solid.css',
+    previewText: 'Stroke',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#ddd'
   },
   {
-    id: 'gradient-stroke',
+    id: 'stroke-gradient',
     name: 'Gradient Stroke',
     description: 'Text with gradient stroke effect',
-    category: 'Strokes',
+    category: 'Basics',
     tags: ['gradient', 'stroke', 'colorful'],
-    cssFile: 'gradient-stroke.css',
-    previewText: 'Gradient Stroke',
-    background: '#000000'
+    cssFile: 'stroke-gradient.css',
+    previewText: 'Stroke',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#222222'
   },
-
-  // Images
+  {
+    id: 'stroke-image',
+    name: 'Image Stroke',
+    description: 'Text with image-based stroke',
+    category: 'Basics',
+    tags: ['image', 'stroke'],
+    cssFile: 'stroke-image.css',
+    previewText: 'Image',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#d6fad9'
+  },
   {
     id: 'image',
     name: 'Image Fill',
     description: 'Text filled with image pattern',
-    category: 'Images',
-    tags: ['image', 'pattern', 'texture'],
+    category: 'Basics',
+    tags: ['image'],
     cssFile: 'image.css',
     previewText: 'Image',
-    background: '#d6fad9'
-  },
-  {
-    id: 'image-stroke',
-    name: 'Image Stroke',
-    description: 'Text with image-based stroke',
-    category: 'Images',
-    tags: ['image', 'stroke', 'texture'],
-    cssFile: 'image-stroke.css',
-    previewText: 'Image Stroke',
+    bestFor: ['body', 'heading', 'display'],
     background: '#d6fad9'
   },
   {
     id: 'image-light',
     name: 'Image Light',
     description: 'Light image text effect',
-    category: 'Images',
-    tags: ['image', 'light', 'bright'],
+    category: 'Effects',
+    tags: ['bright'],
     cssFile: 'image-light.css',
-    previewText: 'Image Light',
+    previewText: 'Image',
+    bestFor: ['body', 'heading', 'display'],
     background: '#d6fad9'
   },
-
-  // Gradients
   {
     id: 'gradient-v',
     name: 'Vertical Gradient',
     description: 'Vertical gradient text fill',
     category: 'Gradients',
     tags: ['gradient', 'vertical', 'color'],
-    cssFile: 'gradient.css',
+    cssFile: 'gradient-v.css',
     previewText: 'Gradient',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/ryandsouza13/pen/NVjQBp'],
     background: '#292452'
   },
   {
     id: 'gradient-h',
     name: 'Horizontal Gradient',
     description: 'Horizontal gradient text fill',
-    category: 'Gradients',
-    tags: ['gradient', 'horizontal', 'color'],
-    cssFile: 'gradient.css',
+    category: 'Basics',
+    tags: ['gradient', 'color'],
+    cssFile: 'gradient-h.css',
     previewText: 'Gradient',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/argyleink/pen/OJMEpGp'],
     background: '#0e213a'
   },
   {
     id: 'gradient-motion',
     name: 'Motion Gradient',
     description: 'Animated gradient text effect',
-    category: 'Gradients',
+    category: 'Basics',
     tags: ['gradient', 'motion', 'animated'],
     cssFile: 'gradient-motion.css',
     previewText: 'Gradient',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://webflow.com/made-in-webflow/website/animated-gradient-text'],
+    background: '#4d094d'
+  },
+  {
+    id: 'gradient-rainbow',
+    name: 'Rainbow Gradient',
+    description: 'Full spectrum rainbow gradient text',
+    category: 'Colorful',
+    tags: ['gradient', 'rainbow', 'spectrum', 'colorful'],
+    cssFile: 'gradient-rainbow.css',
+    previewText: 'Rainbow',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#1a1a1a'
+  },
+  {
+    id: 'metallic-chrome',
+    name: 'Metallic Chrome',
+    description: 'Realistic chrome metallic text effect',
+    category: 'Materials',
+    tags: ['metallic', 'chrome', 'silver'],
+    cssFile: 'metallic-chrome.css',
+    previewText: 'Chrome',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#2a2a2a'
+  },
+  {
+    id: 'stripes-colors',
+    name: 'Color Stripes',
+    description: 'Multi-color striped pattern',
+    category: 'Gradients',
+    tags: ['stripes', 'colors', 'pattern'],
+    cssFile: 'stripes-colors.css',
+    previewText: 'Stripes',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/TajShireen/pen/YzZmbep'],
     background: '#4d094d'
   },
   {
@@ -193,20 +225,9 @@ export const textClasses: TextClass[] = [
     tags: ['rainbow', 'stripes', 'colorful'],
     cssFile: 'stripes-rainbow.css',
     previewText: 'Stripes',
+    bestFor: ['body', 'heading', 'display'],
     background: '#411b58'
   },
-  {
-    id: 'stripes-colors',
-    name: 'Color Stripes',
-    description: 'Multi-color striped pattern',
-    category: 'Gradients',
-    tags: ['stripes', 'colors', 'pattern'],
-    cssFile: 'stripes-colors.css',
-    previewText: 'Stripes',
-    background: '#4d094d'
-  },
-
-  // Shadows
   {
     id: 'shadow-rainbow',
     name: 'Rainbow Shadow',
@@ -215,85 +236,9 @@ export const textClasses: TextClass[] = [
     tags: ['shadow', 'rainbow', 'colorful'],
     cssFile: 'shadow-rainbow.css',
     previewText: 'Rainbow',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://www.foolishdeveloper.com/2022/03/css-rainbow-text-animation.html'],
     background: '#e0e0e0'
-  },
-
-  // Decorative
-  {
-    id: 'pop-art',
-    name: 'Pop Art',
-    description: 'Pop art style text effect',
-    category: 'Decorative',
-    tags: ['pop-art', 'retro', 'vintage'],
-    cssFile: 'pop-art.css',
-    previewText: 'Pop Art',
-    background: '#0f88fe'
-  },
-  {
-    id: 'striped-layers',
-    name: 'Striped Layers',
-    description: 'Layered striped text effect',
-    category: 'Decorative',
-    tags: ['stripes', 'layers', 'complex'],
-    cssFile: 'striped-layers.css',
-    previewText: 'Striped Layers',
-    usesData: true,
-    background: '#593439'
-  },
-  {
-    id: 'shadow-animated',
-    name: 'Animated Shadow',
-    description: 'Text with animated shadow effects',
-    category: 'Decorative',
-    tags: ['shadow', 'animated', 'motion'],
-    cssFile: 'shadow-animated.css',
-    previewText: 'Animated Shadow',
-    usesData: true,
-    background: 'dark'
-  },
-  {
-    id: 'shadow-stripes',
-    name: 'Shadow Stripes',
-    description: 'Striped shadow text effect',
-    category: 'Decorative',
-    tags: ['shadow', 'stripes', 'pattern'],
-    cssFile: 'shadow-stripes.css',
-    previewText: 'Aa',
-    usesData: true,
-    background: '#ffc0cb'
-  },
-  {
-    id: 'stripes',
-    name: 'Stripes',
-    description: 'Simple striped text pattern',
-    category: 'Decorative',
-    tags: ['stripes', 'pattern', 'lines'],
-    cssFile: 'stripes.css',
-    previewText: 'Aa',
-    usesData: true,
-    background: '#278293'
-  },
-
-  // 3D
-  {
-    id: '3D',
-    name: '3D Basic',
-    description: 'Basic 3D text effect',
-    category: '3D',
-    tags: ['3d', 'depth', 'basic'],
-    cssFile: '3d.css',
-    previewText: 'Aa',
-    background: '#fed90f'
-  },
-  {
-    id: '3D-sugar',
-    name: '3D Sugar',
-    description: 'Sweet candy-like 3D text',
-    category: '3D',
-    tags: ['3d', 'sugar', 'candy'],
-    cssFile: '3d-sugar.css',
-    previewText: 'Aa',
-    background: '#e589ff'
   },
   {
     id: 'shadow-3D',
@@ -302,30 +247,60 @@ export const textClasses: TextClass[] = [
     category: '3D',
     tags: ['3d', 'shadow', 'depth'],
     cssFile: 'shadow-3d.css',
-    previewText: 'Aa',
+    previewText: 'Shadow',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/davidlillo/pen/wZRagx'],
     background: 'ambient'
+  },
+  {
+    id: '3D',
+    name: '3D Basic',
+    description: 'Basic 3D text effect',
+    category: '3D',
+    tags: ['depth'],
+    cssFile: '3d.css',
+    previewText: '3D Text',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV'],
+    background: '#fed90f'
   },
   {
     id: '3D-light',
     name: '3D Light',
     description: 'Illuminated 3D text effect',
     category: '3D',
-    tags: ['3d', 'light', 'illuminated'],
+    tags: ['illuminated'],
     cssFile: '3d-light.css',
-    previewText: 'Aa',
+    previewText: '3D Text',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/nokiss/pen/OPexYR'],
     background: '#10353e'
+  },
+  {
+    id: '3D-sugar',
+    name: '3D Sugar',
+    description: 'Sweet candy-like 3D text',
+    category: '3D',
+    tags: ['3d', 'sugar', 'candy'],
+    cssFile: '3d-sugar.css',
+    previewText: 'Emboss',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/havardob/pen/WNQwvze'],
+    background: '#e589ff'
   },
   {
     id: '3D-glow',
     name: '3D Glow',
     description: 'Glowing 3D text effect',
     category: '3D',
-    tags: ['3d', 'glow', 'bright'],
+    tags: ['glow', 'bright'],
     cssFile: '3d-glow.css',
-    previewText: 'Aa',
+    previewText: '3D Text',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://redstapler.co/create-3d-text-rgb-animation-css/'],
     background: '#c3c3c3'
   },
   {
@@ -335,32 +310,11 @@ export const textClasses: TextClass[] = [
     category: '3D',
     tags: ['3d', 'sweet', 'pastel'],
     cssFile: '3d-sweet.css',
-    previewText: 'Aa',
+    previewText: '3D Text',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/mireille1306/pen/BawdXzY'],
     background: 'sweet'
-  },
-  {
-    id: '3D-gold',
-    name: '3D Gold',
-    description: 'Luxurious gold 3D text',
-    category: '3D',
-    tags: ['3d', 'gold', 'luxury'],
-    cssFile: '3d-gold.css',
-    previewText: 'Aa',
-    usesData: true,
-    background: 'radial'
-  },
-
-  // Glitch
-  {
-    id: 'glitch-giro',
-    name: 'Giro Glitch',
-    description: 'Rotating glitch text effect',
-    category: 'Glitch',
-    tags: ['glitch', 'giro', 'digital'],
-    cssFile: 'glitch-giro.css',
-    previewText: 'Aa',
-    background: '#151515'
   },
   {
     id: 'glitch',
@@ -369,8 +323,21 @@ export const textClasses: TextClass[] = [
     category: 'Glitch',
     tags: ['glitch', 'digital', 'classic'],
     cssFile: 'glitch.css',
-    previewText: 'Aa',
+    previewText: 'Glitch',
+    bestFor: ['body', 'heading', 'display'],
     background: '#7c7575'
+  },
+  {
+    id: 'glitch-giro',
+    name: 'Giro Glitch',
+    description: 'Rotating glitch text effect',
+    category: 'Glitch',
+    tags: ['glitch', 'giro', 'digital'],
+    cssFile: 'glitch-giro.css',
+    previewText: 'Glitch',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/jackrugile/pen/krVZxw'],
+    background: '#151515'
   },
   {
     id: 'glitch-layers',
@@ -379,9 +346,80 @@ export const textClasses: TextClass[] = [
     category: 'Glitch',
     tags: ['glitch', 'layers', 'complex'],
     cssFile: 'glitch-layers.css',
-    previewText: 'Aa',
+    previewText: 'Glitch',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/kkhenriquez/pen/PGvmjm'],
     background: '#151515'
+  },
+  {
+    id: 'inset',
+    name: 'Inset Effect',
+    description: 'Pressed or engraved text appearance',
+    category: 'Effects',
+    tags: ['inset', 'pressed', 'engraved'],
+    cssFile: 'inset.css',
+    previewText: 'Inset',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/vitamink/pen/rNayMyd'],
+    background: '#606f72'
+  },
+  {
+    id: 'inset-blend',
+    name: 'Inset Effect',
+    description: 'Pressed or engraved text appearance',
+    category: 'Effects',
+    tags: ['inset', 'pressed', 'engraved'],
+    cssFile: 'inset-blend.css',
+    previewText: 'Inset',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/vitamink/pen/rNayMyd'],
+    background: '#5f5b9d'
+  },
+  {
+    id: 'emboss',
+    name: 'Emboss',
+    description: 'Raised embossed text effect',
+    category: 'Effects',
+    tags: ['emboss', 'raised', '3d'],
+    cssFile: 'emboss.css',
+    previewText: 'Emboss',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#1e9db6'
+  },
+  {
+    id: 'emboss-shadow',
+    name: 'Emboss',
+    description: 'Raised embossed text effect',
+    category: 'Effects',
+    tags: ['emboss', 'raised', '3d'],
+    cssFile: 'emboss-shadow.css',
+    previewText: 'Emboss',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#1e9db6'
+  },
+  {
+    id: 'emboss-blend',
+    name: 'Emboss',
+    description: 'Raised embossed text effect',
+    category: 'Effects',
+    tags: ['emboss', 'raised', '3d'],
+    cssFile: 'emboss-blend.css',
+    previewText: 'Emboss',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#606f72'
+  },
+  {
+    id: 'pop-art',
+    name: 'Pop Art',
+    description: 'Pop art style text effect',
+    category: 'Decorative',
+    tags: ['pop-art', 'retro', 'vintage'],
+    cssFile: 'pop-art.css',
+    previewText: 'Pop Art',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/creatz/pen/pooBeev'],
+    background: '#0f88fe'
   },
   {
     id: 'rgb-split',
@@ -390,22 +428,63 @@ export const textClasses: TextClass[] = [
     category: 'Glitch',
     tags: ['rgb', 'split', 'chromatic'],
     cssFile: 'rgb-split.css',
-    previewText: 'Aa',
+    previewText: 'Glitch',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/giannisKapa/pen/BaBJywb', 'https://codepen.io/erinesullivan/pen/ZMreqJ'],
     background: '#151515'
   },
-
-  // Special
   {
-    id: 'distortion',
-    name: 'Distortion',
-    description: 'Distorted text appearance',
-    category: 'Special',
-    tags: ['distortion', 'warped', 'effect'],
-    cssFile: 'distortion.css',
-    previewText: 'Aa',
+    id: 'shadow-animated',
+    name: 'Animated Shadow',
+    description: 'Text with animated shadow effects',
+    category: 'Decorative',
+    tags: ['shadow', 'animated', 'motion'],
+    cssFile: 'shadow-animated.css',
+    previewText: 'Stripes',
     usesData: true,
-    background: '#FFFFFF'
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/carpenumidium/pen/nVgdez'],
+    background: 'dark'
+  },
+  {
+    id: 'shadow-stripes',
+    name: 'Shadow Stripes',
+    description: 'Striped shadow text effect',
+    category: 'Decorative',
+    tags: ['shadow', 'stripes', 'pattern'],
+    cssFile: 'shadow-stripes.css',
+    previewText: 'Stripes',
+    usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/t_afif/pen/dyzZEVP'],
+    background: '#ffc0cb'
+  },
+  {
+    id: 'striped-layers',
+    name: 'Striped Layers',
+    description: 'Layered striped text effect',
+    category: 'Decorative',
+    tags: ['stripes', 'layers', 'complex'],
+    cssFile: 'striped-layers.css',
+    previewText: 'Stripes',
+    usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/prathkum/pen/dyMPErw'],
+    background: '#593439'
+  },
+  {
+    id: 'stripes',
+    name: 'Stripes',
+    description: 'Simple striped text pattern',
+    category: 'Decorative',
+    tags: ['stripes', 'pattern', 'lines'],
+    cssFile: 'stripes.css',
+    previewText: 'Stripes',
+    usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/yoksel/pen/LYZYGrv'],
+    background: '#278293'
   },
   {
     id: 'lighting',
@@ -414,8 +493,10 @@ export const textClasses: TextClass[] = [
     category: 'Special',
     tags: ['lighting', 'dramatic', 'bright'],
     cssFile: 'lighting.css',
-    previewText: 'Aa',
+    previewText: 'Shine',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/comehope/pen/GBwvxw'],
     background: '#000000'
   },
   {
@@ -425,8 +506,10 @@ export const textClasses: TextClass[] = [
     category: 'Special',
     tags: ['lighting', 'stroke', 'glow'],
     cssFile: 'lighting-stroke.css',
-    previewText: 'Aa',
+    previewText: 'Shine',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/comehope/pen/GBwvxw'],
     background: '#000000'
   },
   {
@@ -436,8 +519,10 @@ export const textClasses: TextClass[] = [
     category: 'Special',
     tags: ['lighting', 'border', 'glow'],
     cssFile: 'lighting-border.css',
-    previewText: 'Aa',
+    previewText: 'Shine',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/comehope/pen/GBwvxw'],
     background: '#000000'
   },
   {
@@ -447,8 +532,9 @@ export const textClasses: TextClass[] = [
     category: 'Special',
     tags: ['cut', 'bright', 'sharp'],
     cssFile: 'cut-bright.css',
-    previewText: 'Aa',
+    previewText: 'Bright',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
     background: 'radial3'
   },
   {
@@ -458,20 +544,34 @@ export const textClasses: TextClass[] = [
     category: 'Special',
     tags: ['cut', 'dark', 'sharp'],
     cssFile: 'cut-dark.css',
-    previewText: 'Aa',
+    previewText: 'Dark',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
     background: 'radial'
   },
   {
-    id: 'glass-reflex',
-    name: 'Glass Reflex',
-    description: 'Reflective glass text effect',
+    id: 'distortion',
+    name: 'Distortion',
+    description: 'Distorted text appearance',
     category: 'Special',
-    tags: ['glass', 'reflex', 'shiny'],
-    cssFile: 'glass-reflex.css',
-    previewText: 'Aa',
+    tags: ['distortion', 'warped', 'effect'],
+    cssFile: 'distortion.css',
+    previewText: 'Distortion',
     usesData: true,
-    background: 'radial'
+    bestFor: ['body', 'heading', 'display'],
+    background: '#FFFFFF'
+  },
+  {
+    id: 'glass',
+    name: 'Classic Glass',
+    description: 'Classic glass text effect',
+    category: 'Special',
+    tags: ['glass', 'classic', 'alpha'],
+    cssFile: 'glass.css',
+    previewText: 'Glass',
+    usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    background: 'radial2'
   },
   {
     id: 'glass-new',
@@ -480,19 +580,122 @@ export const textClasses: TextClass[] = [
     category: 'Special',
     tags: ['glass', 'modern', 'clean'],
     cssFile: 'glass-new.css',
-    previewText: 'Aa',
+    previewText: 'Glass',
     usesData: true,
+    bestFor: ['body', 'heading', 'display'],
     background: 'radial2'
   },
   {
-    id: 'glass',
-    name: 'Classic Glass',
-    description: 'Classic glass text effect',
+    id: 'glass-reflex',
+    name: 'Glass Reflex',
+    description: 'Reflective glass text effect',
     category: 'Special',
-    tags: ['glass', 'classic', 'transparent'],
-    cssFile: 'glass.css',
-    previewText: 'Aa',
+    tags: ['glass', 'reflex', 'shiny'],
+    cssFile: 'glass-reflex.css',
+    previewText: 'Reflex',
     usesData: true,
-    background: 'radial2'
+    bestFor: ['body', 'heading', 'display'],
+    background: 'radial'
+  },
+  {
+    id: 'glowing-background',
+    name: 'Glowing Background',
+    description: 'Text with radial gradient glowing background',
+    category: 'Decorative',
+    tags: ['glow', 'background', 'radial'],
+    cssFile: 'glowing-background.css',
+    previewText: 'Glow',
+    background: '#1a1a1a'
+  },
+  {
+    id: 'neon-border',
+    name: 'Neon Border',
+    description: 'Text with neon border and glow effect',
+    category: 'Special',
+    tags: ['neon', 'border', 'cyberpunk'],
+    cssFile: 'neon-border.css',
+    previewText: 'Neon',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#0a0a0a'
+  },
+  {
+    id: 'neon-glow',
+    name: 'Neon Glow',
+    description: 'Bright neon text with multiple glow layers',
+    category: 'Special',
+    tags: ['neon', 'glow', 'bright'],
+    cssFile: 'neon-glow.css',
+    previewText: 'Neon',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#0a0a0a'
+  },
+  {
+    id: 'double',
+    name: 'Double Text',
+    description: 'Layered text with offset shadow effect',
+    category: 'Basics',
+    tags: ['double', 'layer', 'offset'],
+    cssFile: 'double.css',
+    previewText: 'Double',
+    usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    background: '#f0f0f0'
+  },
+  {
+    id: 'retro-wave',
+    name: 'Retro Wave',
+    description: 'Synthwave-inspired gradient text',
+    category: 'Gradients',
+    tags: ['retro', 'synthwave', '80s'],
+    cssFile: 'retro-wave.css',
+    previewText: 'Retro',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#1a0033'
+  },
+  {
+    id: 'element-fire',
+    name: 'Fire Element',
+    description: 'Fiery text with orange glow effect',
+    category: 'Materials',
+    tags: ['fire'],
+    cssFile: 'element-fire.css',
+    previewText: 'Fire',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#2a1a1a'
+  },
+  {
+    id: 'element-ice',
+    name: 'Ice Element',
+    description: 'Icy text with blue glow effect',
+    category: 'Materials',
+    tags: ['ice'],
+    cssFile: 'element-ice.css',
+    previewText: 'Ice',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#1a1a2a'
+  },
+  {
+    id: 'gold-emboss',
+    name: 'Gold Emboss',
+    description: 'Elegant gold embossed text effect',
+    category: 'Materials',
+    tags: ['gold', 'emboss', 'luxury'],
+    cssFile: 'gold-emboss.css',
+    previewText: 'Gold',
+    bestFor: ['body', 'heading', 'display'],
+    background: '#2a2018'
+  },
+  {
+    id: 'gold-3D',
+    name: '3D Gold',
+    description: 'Luxurious gold 3D text',
+    category: 'Materials',
+    tags: ['3d', 'gold', 'luxury'],
+    cssFile: 'gold-3D.css',
+    previewText: 'Gold',
+    usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/TajShireen/pen/LYyOzJL?editors=1100'],
+    background: 'radial'
   }
 ];

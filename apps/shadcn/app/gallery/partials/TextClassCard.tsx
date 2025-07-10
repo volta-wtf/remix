@@ -12,7 +12,7 @@ function TextStyle({ id, bg, type, children }: TextStyleProps) {
   let style: CSSProperties & { [key: string]: any } = {};
   let className = '';
 
-  if (bg.startsWith('#')) {
+  if (bg.startsWith('#') || bg.startsWith('hsla')) {
     // Hex color - use CSS variable
     style = { '--bloc-color': bg };
   } else {
@@ -24,7 +24,7 @@ function TextStyle({ id, bg, type, children }: TextStyleProps) {
 
   return (
     <div
-      className={`bloc bg-origin-border! bg-cover! cursor-pointer aspect-4/3 rounded-md border border-transparent hover:border-primary/20 transition-border duration-300 overflow-hidden ${className}`}
+      className={`bloc_ bg-origin-border! bg-cover! bg-primary/3 cursor-pointer aspect-4/3 rounded-md border border-transparent hover:border-primary/20 transition-border duration-300 overflow-hidden ${className}`}
       style={style}
     >
       <div className="absolute inset-0 flex items-center justify-center p-4">

@@ -1,0 +1,39 @@
+/*
+{
+    id: 'distortion',
+    name: 'Distortion',
+    description: 'Distorted text appearance',
+    category: 'Special',
+    tags: ['distortion', 'warped', 'effect'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'distortion.css',
+    previewText: 'Distortion',
+    usesData: true,
+    background: '#FFFFFF'
+},
+*/
+
+.text-distortion {
+    position: relative;
+    mix-blend-mode: difference;
+    color: transparent;
+    color: #DCAD05;
+
+    &::after,
+    &::before {
+        color: #DCAD05;
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        filter: blur(.025em);
+        mix-blend-mode: difference;
+    }
+
+    &::before {
+        left: -0.025em;
+    }
+
+    &::after {
+        left: 0.025em;
+    }
+}

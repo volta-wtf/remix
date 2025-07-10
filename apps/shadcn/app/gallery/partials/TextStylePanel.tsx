@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CSSPropertyEditor } from './CSSPropertyEditor';
-import { ShadowEditor } from './ShadowEditor';
+import { CSSShadowEditor } from './CSSShadowEditor';
 import type { TextStyle } from '../types';
 
 interface Shadow {
@@ -222,7 +222,7 @@ export function TextStylePanel({ textStyle, onClose, onDuplicate, onUpdate }: Te
       })
       .join('\n');
 
-    const className = `.text-style-${styleToUse.id.replace(/[^a-zA-Z0-9]/g, '-')}`;
+    const className = `.text-${styleToUse.cssClass.replace(/[^a-zA-Z0-9]/g, '-')}`;
 
     let cssOutput = `${className} {
 ${cssProperties}
@@ -484,7 +484,7 @@ ${cssProperties}
               </TabsList>
 
               <TabsContent value="shadows" className="space-y-6">
-                <ShadowEditor
+                <CSSShadowEditor
                   name={editedTextStyle.name}
                   onNameChange={(name) => setEditedTextStyle(prev => ({ ...prev, name }))}
                   cssClass={editedTextStyle.cssClass}

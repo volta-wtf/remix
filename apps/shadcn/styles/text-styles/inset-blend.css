@@ -1,0 +1,32 @@
+/*
+{
+    id: 'inset-blend',
+    name: 'Inset Effect',
+    description: 'Pressed or engraved text appearance',
+    category: 'Effects',
+    tags: ['inset', 'pressed', 'engraved'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'inset-blend.css',
+    previewText: 'Inset',
+    background: '#5f5b9d',
+    reference: ['https://codepen.io/vitamink/pen/rNayMyd']
+},
+*/
+
+.text-inset-blend {
+    --fill-color: #0009;
+    --shadow-color: #fff6;
+    --text-color: rgba(0, 0, 0, 0.2);
+    text-shadow: .01em .01em .02em var(--shadow-color);
+    mix-blend-mode: hard-light;
+    color: var(--text-color);
+    background-color: var(--fill-color);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-overflow: clip;
+}
+
+.dark .text-inset-blend {
+    --fill-color:rgba(0, 0, 0, 0.6);
+    --shadow-color: rgba(255, 255, 255, 0.4);
+}

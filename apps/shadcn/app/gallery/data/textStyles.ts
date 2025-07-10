@@ -56,7 +56,7 @@ export const textStyles: TextStyle[] = [
     },
     category: 'Colorful',
     tags: ['rainbow', 'gradient', 'colorful'],
-    cssClass: 'rainbow-gradient'
+    cssClass: 'gradient-rainbow'
   },
   {
     id: '4',

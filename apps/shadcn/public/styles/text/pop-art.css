@@ -1,0 +1,23 @@
+/*
+{
+    id: 'pop-art',
+    name: 'Pop Art',
+    description: 'Pop art style text effect',
+    category: 'Decorative',
+    tags: ['pop-art', 'retro', 'vintage'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: 'pop-art.css',
+    previewText: 'Pop Art',
+    background: '#0f88fe',
+    reference: 'https://codepen.io/creatz/pen/pooBeev'
+},
+*/
+
+.text-pop-art {
+    --text-color: transparent;
+    --stroke-color: white;
+    --stroke-width: .03em;
+    text-shadow: var(--shadow-double);
+    @apply text-fill;
+    @apply text-stroke;
+}

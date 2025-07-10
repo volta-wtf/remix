@@ -14,7 +14,8 @@ import TextClassGrid from './partials/TextClassGrid';
 import { TextClassPanel } from './partials/TextClassPanel';
 import { FrameStylesGrid } from './partials/FrameStylesGrid';
 import { FrameStylePanel } from './partials/FrameStylePanel';
-import { SearchAndFilter } from './partials/SearchAndFilter';
+import { MainSearchInput } from './partials/MainSearchInput';
+import { MainCategoryFilter } from './partials/MainCategoryFilter';
 
 // Types
 import { Gradient, TextStyle, FrameStyle, TextClass, Section } from './types';
@@ -30,7 +31,7 @@ import {
 } from './data';
 import { textClasses, textClassesCategories } from './data/textClasses';
 
-import "./styles/index.css";
+import "@/styles/index.css";
 
 const styles = {
   name: "Style 1",
@@ -154,6 +155,7 @@ export default function GalleryPage() {
   };
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedTag, setSelectedTag] = useState('All');
 
   // Modified and custom items state
   const [modifiedGradients, setModifiedGradients] = useState<Gradient[]>([]);
@@ -195,6 +197,20 @@ export default function GalleryPage() {
 
   const { data: currentData, categories: currentCategories } = getCurrentData();
 
+  // Get all unique tags from current data
+  const currentTags = useMemo(() => {
+    const allTags = new Set<string>();
+    allTags.add('All');
+
+    currentData.forEach((item: any) => {
+      if (item.tags) {
+        item.tags.forEach((tag: string) => allTags.add(tag));
+      }
+    });
+
+    return Array.from(allTags);
+  }, [currentData]);
+
   const filteredData = useMemo(() => {
     return currentData.filter((item: any) => {
       const matchesSearch = searchQuery === '' ||
@@ -205,13 +221,16 @@ export default function GalleryPage() {
 
       const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
 
-      return matchesSearch && matchesCategory;
+      const matchesTag = selectedTag === 'All' || (item.tags && item.tags.includes(selectedTag));
+
+      return matchesSearch && matchesCategory && matchesTag;
     });
-  }, [currentData, searchQuery, selectedCategory]);
+  }, [currentData, searchQuery, selectedCategory, selectedTag]);
 
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategory('All');
+    setSelectedTag('All');
   };
 
   const handleSectionChange = (section: Section) => {
@@ -362,15 +381,10 @@ export default function GalleryPage() {
     <div className="h-svh bg-background">
 
       <AppHeader isPreviewOpen={isPreviewOpen} togglePreview={togglePreview}>
-        <SearchAndFilter
+        <MainSearchInput
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-          categories={currentCategories}
-          onClearFilters={clearFilters}
-          resultsCount={filteredData.length}
-          totalCount={currentData.length}
+          placeholder="Search by name, description, or tags..."
         />
       </AppHeader>
 
@@ -380,6 +394,19 @@ export default function GalleryPage() {
             activeSection={activeSection}
             onSectionChange={handleSectionChange}
           />
+          <div className="mt-8">
+            <MainCategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              categories={currentCategories}
+              selectedTag={selectedTag}
+              onTagChange={setSelectedTag}
+              tags={currentTags}
+              onClearFilters={clearFilters}
+              resultsCount={filteredData.length}
+              totalCount={currentData.length}
+            />
+          </div>
         </aside>
         <main className={cn("flex flex-row", styles.main)}>
 
