@@ -182,7 +182,7 @@ ${className}::after {
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <h2 className="type-demo">
             <span
-              className={`text-${textClass.id} text-8xl select-none pointer-events-none`}
+              className={`text-${textClass.id} text-8xl select-none`}
               {...(textClass.usesData ? { 'data-text': textClass.previewText } : {})}
             >
               {textClass.previewText}

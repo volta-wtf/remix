@@ -4,7 +4,7 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center min-h-svh">
       <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Hello World</h1>
+        <h1 className="text-2xl font-bold">Styles Gallery</h1>
         <Button size="sm">
           <svg viewBox="0 0 438.549 438.549">
             <path
@@ -14,10 +14,6 @@ export default function Page() {
           </svg>
           Button
         </Button>
-
-        <div className="border-outline">
-          <h1 className="text-disabled">Hello World</h1>
-        </div>
       </div>
     </div>
   )

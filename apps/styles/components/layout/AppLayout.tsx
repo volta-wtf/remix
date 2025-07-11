@@ -37,7 +37,7 @@ export function AppHeader({ isPreviewOpen, children }: AppHeaderProps) {
 
   const getSlot = (slotName: string) =>
     childrenArray.find(
-      (child: React.ReactNode) => React.isValidElement(child) && (child as any).props.slot === slotName
+      (child: React.ReactNode) => React.isValidElement(child) && (child as any).props['data-slot'] === slotName
     );
 
   return (
@@ -87,7 +87,7 @@ export const AppMain = ({ children, isPreviewOpen }: AppMainProps) => {
 
   const getSlot = (slotName: string) =>
     childrenArray.find(
-      (child: React.ReactNode) => React.isValidElement(child) && (child as any).props.slot === slotName
+      (child: React.ReactNode) => React.isValidElement(child) && (child as any).props['data-slot'] === slotName
     );
 
   return (

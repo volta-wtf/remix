@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Toaster } from 'sonner';
 
@@ -39,6 +39,14 @@ import {
   textClasses,
   textClassesCategories
 } from '@/data';
+
+// CSS Injection utilities
+// TODO: Arreglar path de import
+import {
+  injectMultipleGradients,
+  injectMultipleTextStyles,
+  injectMultipleFrameStyles
+} from '@/lib/cssInjection';
 
 import "@/styles/index.css";
 
@@ -94,6 +102,22 @@ export default function GalleryPage() {
   const [customFrameStyles, setCustomFrameStyles] = useState<FrameStyle[]>([]);
 
   // const { user, logout, isFavorite } = useAuth()
+
+  // Inyección inicial de CSS (una sola vez al cargar)
+  useEffect(() => {
+    // Inyectar CSS para todos los datos originales
+    injectMultipleGradients(gradients);
+    injectMultipleTextStyles(textStyles);
+    injectMultipleFrameStyles(frameStyles);
+    // textClasses NO necesitan inyección (archivos CSS estáticos)
+  }, []); // Solo una vez al montar
+
+  // Inyectar CSS cuando se crean/modifican estilos
+  useEffect(() => {
+    injectMultipleGradients([...customGradients, ...modifiedGradients]);
+    injectMultipleTextStyles([...customTextStyles, ...modifiedTextStyles]);
+    injectMultipleFrameStyles([...customFrameStyles, ...modifiedFrameStyles]);
+  }, [customGradients, modifiedGradients, customTextStyles, modifiedTextStyles, customFrameStyles, modifiedFrameStyles]);
 
   // Get current data and categories based on active section
   const getCurrentData = () => {
@@ -300,7 +324,7 @@ export default function GalleryPage() {
         );
       }
     }
-            handleSelectFrameStyle(updatedFrameStyle);
+    handleSelectFrameStyle(updatedFrameStyle);
   };
 
   const isLightboxOpen = selectedGradient || selectedTextStyle || selectedTextClass || selectedFrameStyle;
@@ -310,12 +334,12 @@ export default function GalleryPage() {
 
       <AppHeader isPreviewOpen={isPreviewOpen}>
         <SearchInput
-          slot="content"
+          data-slot="content"
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           placeholder="Search..."
         />
-        <PreviewToggler slot="actions" isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
+        <PreviewToggler data-slot="actions" isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
       </AppHeader>
 
       <AppContainer>
@@ -341,10 +365,9 @@ export default function GalleryPage() {
         </AppSidebar>
 
         <AppMain isPreviewOpen={isPreviewOpen}>
-          <section slot="content" className="w-full">
+          <section data-slot="content" className="w-full">
             {activeSection === 'gradients' && (
               <GradientGrid
-                slot="content"
                 key="gradients-grid"
                 gradients={filteredData as Gradient[]}
                 onSelectGradient={handleSelectGradient}
@@ -354,7 +377,6 @@ export default function GalleryPage() {
             )}
             {activeSection === 'text-styles' && (
               <TextStylesGrid
-                slot="content"
                 key="text-styles-grid"
                 textStyles={filteredData as TextStyle[]}
                 onSelectTextStyle={handleSelectTextStyle}
@@ -364,7 +386,6 @@ export default function GalleryPage() {
             )}
             {activeSection === 'text-classes' && (
               <TextClassGrid
-                slot="content"
                 key="text-classes-grid"
                 textClasses={filteredData as TextClass[]}
                 onSelectTextClass={handleSelectTextClass}
@@ -374,7 +395,6 @@ export default function GalleryPage() {
             )}
             {activeSection === 'frame-styles' && (
               <FrameStylesGrid
-                slot="content"
                 key="frame-styles-grid"
                 frameStyles={filteredData as FrameStyle[]}
                 onSelectFrameStyle={handleSelectFrameStyle}
@@ -383,7 +403,7 @@ export default function GalleryPage() {
               />
             )}
           </section>
-          <section slot="complement" className="w-full">
+          <section data-slot="complement" className="w-full">
             {selectedGradient && (
               <GradientPanel
                 key="gradient-lightbox"

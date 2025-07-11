@@ -7,8 +7,8 @@
       "@workspace/ui-registry/*": ["../../registry/*"],
       "@/components/ui/*": ["../../registry/uis/*"],
       "@/hooks/*": ["../../registry/hooks/*"],
-      "@/lib/*": ["../../registry/lib/*"],
-      "@/types/*": ["../../registry/types/*"],
+      "@/lib/*": ["./lib/*", "../../registry/lib/*"],
+      "@/types/*": ["./types/*", "../../registry/types/*"],
       "@/utils/*": ["../../registry/utils/*"]
     },
     "plugins": [
