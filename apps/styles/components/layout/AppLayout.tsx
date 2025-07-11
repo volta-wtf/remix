@@ -1,0 +1,105 @@
+"use client"
+
+import React from 'react'
+import { cn } from '@/lib/utils'
+import { SitesDropdown } from './SitesDropdown'
+import { ScrollProgress } from './ScrollProgress'
+import { ThemeToggler } from './ThemeToggler'
+
+const styles = {
+  name: "Style 1",
+  description: "A modern and clean style",
+  image: "https://via.placeholder.com/150",
+
+  container: "flex px-8",
+  aside: "w-2/10 px-12",
+  main: "flex-1",
+  content: "w-2/5 px-8 gap-4",
+  preview: "px-12 gap-4",
+  scroll: "h-svh py-24 overflow-y-auto overscroll-contain scroll-auto"
+}
+
+export const AppLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="h-svh bg-background">
+      {children}
+    </div>
+  )
+}
+
+interface AppHeaderProps {
+  isPreviewOpen: boolean
+  children: React.ReactNode
+}
+
+export function AppHeader({ isPreviewOpen, children }: AppHeaderProps) {
+  const childrenArray = React.Children.toArray(children);
+
+  const getSlot = (slotName: string) =>
+    childrenArray.find(
+      (child: React.ReactNode) => React.isValidElement(child) && (child as any).props.slot === slotName
+    );
+
+  return (
+    <header className={cn("fixed top-0 z-10 text-muted-foreground bg-background/80 backdrop-blur-lg h-24 w-full ", styles.container)}>
+      <div className={cn("flex flex-row items-center gap-4 pr-0!", styles.aside)}>
+        <SitesDropdown />
+        <ScrollProgress />
+      </div>
+      <div data-slot="main" className={cn("flex flex-row", styles.main)}>
+        <div className={cn(isPreviewOpen ? "" : "w-full! pr-0!", "flex flex-row items-center", styles.content)}>
+          {getSlot('content')}
+          <ScrollProgress />
+        </div>
+        <div className={cn("flex flex-1 items-center", styles.preview)}>
+          {getSlot('actions')}
+          <ScrollProgress className={cn(isPreviewOpen ? "w-full" : "hidden")} />
+          <ThemeToggler />
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export const AppContainer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className={cn("h-svh", styles.container)}>
+      {children}
+    </div>
+  )
+}
+
+export const AppSidebar = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <aside className={cn("flex flex-col", styles.aside, styles.scroll)}>
+      {children}
+    </aside>
+  )
+}
+
+interface AppMainProps {
+  children: React.ReactNode
+  isPreviewOpen: boolean
+}
+
+export const AppMain = ({ children, isPreviewOpen }: AppMainProps) => {
+  const childrenArray = React.Children.toArray(children);
+
+  const getSlot = (slotName: string) =>
+    childrenArray.find(
+      (child: React.ReactNode) => React.isValidElement(child) && (child as any).props.slot === slotName
+    );
+
+  return (
+    <main className={cn("flex flex-row", styles.main)}>
+      <section className={cn("flex flex-col", styles.content, styles.scroll, isPreviewOpen ? "" : "flex-1 pr-12")}>
+        {getSlot('content')}
+      </section>
+      {isPreviewOpen && (
+        <section className={cn("flex flex-1", styles.preview, styles.scroll)}>
+          {getSlot('complement')}
+        </section>
+      )}
+    </main>
+  )
+}

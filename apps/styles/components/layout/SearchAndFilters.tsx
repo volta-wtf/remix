@@ -1,5 +1,5 @@
-import { MainSearchInput } from './MainSearchInput';
-import { MainCategoryFilter } from './MainCategoryFilter';
+import { SearchInput } from './SearchInput';
+import { CategoryFilter } from './CategoryFilter';
 
 interface SearchAndFilterProps {
   searchQuery: string;
@@ -15,7 +15,7 @@ interface SearchAndFilterProps {
   totalCount: number;
 }
 
-export function MainSearchAndFilters({
+export function SearchAndFilters({
   searchQuery,
   onSearchChange,
   selectedCategory,
@@ -31,14 +31,14 @@ export function MainSearchAndFilters({
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Search Input */}
-      <MainSearchInput
+      <SearchInput
         searchQuery={searchQuery}
         onSearchChange={onSearchChange}
         placeholder="Search..."
       />
 
       {/* Category Filters */}
-      <MainCategoryFilter
+      <CategoryFilter
         selectedCategory={selectedCategory}
         onCategoryChange={onCategoryChange}
         categories={categories}

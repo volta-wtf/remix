@@ -1,13 +1,21 @@
 "use client"
-import { useState, useMemo } from 'react';
-import { AnimatePresence } from '@/lib/motion';
+import React, { useState, useMemo } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon } from '@/lib/icon';
-import { Button } from '@/components/ui/button';
 import { Toaster } from 'sonner';
+
+import {
+  AppLayout,
+  AppHeader,
+  AppContainer,
+  AppSidebar,
+  AppMain
+} from '@/components/layout/AppLayout';
+
 import { MainNavigation } from '@/components/layout/MainNavigation';
-import { MainSearchInput } from '@/components/layout/MainSearchInput';
-import { MainCategoryFilter } from '@/components/layout/MainCategoryFilter';
+import { PreviewToggler } from '@/components/layout/PreviewToggler';
+import { SearchInput } from '@/components/layout/SearchInput';
+import { CategoryFilter } from '@/components/layout/CategoryFilter';
+
 import { GradientGrid } from '@/components/feature/Gradients/Grid';
 import { GradientPanel } from '@/components/feature/Gradients/Panel';
 import { TextStylesGrid } from '@/components/feature/TextStyles/Grid';
@@ -33,93 +41,6 @@ import {
 } from '@/data';
 
 import "@/styles/index.css";
-
-const styles = {
-  name: "Style 1",
-  description: "A modern and clean style",
-  image: "https://via.placeholder.com/150",
-
-  container: "flex px-8",
-  aside: "w-2/10 px-12",
-  main: "flex-1",
-  content: "w-2/5 px-8 gap-4",
-  preview: "px-12 gap-4",
-  scroll: "h-svh py-24 overflow-y-auto overscroll-contain scroll-auto"
-}
-
-const changeTheme = () => {
-  // Cambia el tema entre 'light' y 'dark' usando el provider de next-themes
-  if (typeof window !== "undefined") {
-    const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light";
-    const nextTheme = currentTheme === "dark" ? "light" : "dark";
-    document.documentElement.classList.remove(currentTheme);
-    document.documentElement.classList.add(nextTheme);
-    // Si usas next-themes, lo ideal es usar el hook useTheme:
-    // const { setTheme, theme } = useTheme();
-    // setTheme(theme === "dark" ? "light" : "dark");
-  }
-}
-
-const ScrollProgress = ({ className }: { className?: string }) => {
-  return (
-    <div className={cn("h-px w-full bg-border", className)}></div>
-  )
-}
-
-function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: boolean; togglePreview: () => void, children: React.ReactNode }) {
-  return (
-    <header className={cn("fixed top-0 z-10 text-muted-foreground bg-background/80 backdrop-blur-lg h-24 w-full ", styles.container)}>
-      <div className={cn("flex flex-row items-center gap-4 pr-0!", styles.aside)}>
-        <div className="text-2xl text-foreground">styles</div>
-        <Icon.Select sm className="shrink-0 text-current" />
-        <ScrollProgress />
-      </div>
-      <div className={cn("flex flex-row", styles.main)}>
-
-        <div className={cn(isPreviewOpen ? "" : "w-full! pr-0!", "flex flex-row items-center", styles.content)}>
-          <div className="flex flex-row items-center gap-2">
-            {children}
-          </div>
-          <ScrollProgress />
-        </div>
-
-        <div className={cn("flex flex-1 items-center", styles.preview)}>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="-ml-2 group"
-            onClick={togglePreview}
-          >
-            <span className="relative inline-block">
-              <Icon.RightPanel className=" shrink-0 text-current transition-opacity duration-150 group-hover:opacity-0" />
-              <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                {isPreviewOpen
-                  ? <Icon.CloseRightPanel className="shrink-0 text-current" />
-                  : <Icon.OpenRightPanel className="shrink-0 text-current" />
-                }
-              </span>
-            </span>
-          </Button>
-          <ScrollProgress className={cn(isPreviewOpen ? "w-full" : "hidden")} />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="-mr-2"
-            onClick={changeTheme}
-          >
-            <span className="relative inline-block">
-              <Icon.ThemeDark className="shrink-0 dark:opacity-0 text-current transition-opacity duration-150" />
-              <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-150">
-                <Icon.ThemeLight className="shrink-0 opacity-0 dark:opacity-100 text-current transition-opacity duration-150" />
-              </span>
-            </span>
-          </Button>
-        </div>
-
-      </div>
-    </header>
-  )
-}
 
 export default function GalleryPage() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
@@ -385,24 +306,27 @@ export default function GalleryPage() {
   const isLightboxOpen = selectedGradient || selectedTextStyle || selectedTextClass || selectedFrameStyle;
 
   return (
-    <div className="h-svh bg-background">
+    <AppLayout>
 
-      <AppHeader isPreviewOpen={isPreviewOpen} togglePreview={togglePreview}>
-        <MainSearchInput
+      <AppHeader isPreviewOpen={isPreviewOpen}>
+        <SearchInput
+          slot="content"
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           placeholder="Search..."
         />
+        <PreviewToggler slot="actions" isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
       </AppHeader>
 
-      <div className={cn("h-svh", styles.container)}>
-        <aside className={cn("flex flex-col", styles.aside, styles.scroll)}>
+      <AppContainer>
+
+        <AppSidebar>
           <MainNavigation
             activeSection={activeSection}
             onSectionChange={handleSectionChange}
           />
           <div className="mt-8">
-            <MainCategoryFilter
+            <CategoryFilter
               selectedCategory={selectedCategory}
               onCategoryChange={setSelectedCategory}
               categories={currentCategories}
@@ -414,10 +338,10 @@ export default function GalleryPage() {
               totalCount={currentData.length}
             />
           </div>
-        </aside>
-        <main className={cn("flex flex-row", styles.main)}>
+        </AppSidebar>
 
-          <section className={cn("flex flex-col", styles.content, styles.scroll, isPreviewOpen ? "" : "flex-1 pr-12")}>
+        <AppMain isPreviewOpen={isPreviewOpen}>
+          <section slot="content">
             {activeSection === 'gradients' && (
               <GradientGrid
                 key="gradients-grid"
@@ -455,50 +379,48 @@ export default function GalleryPage() {
               />
             )}
           </section>
+          <section slot="complement">
+            {selectedGradient && (
+              <GradientPanel
+                key="gradient-lightbox"
+                gradient={selectedGradient}
+                onClose={() => handleSelectGradient(null)}
+                onDuplicate={handleDuplicateGradient}
+                onUpdate={handleUpdateGradient}
+              />
+            )}
+            {selectedTextStyle && (
+              <TextStylePanel
+                key="text-style-lightbox"
+                textStyle={selectedTextStyle}
+                onClose={() => handleSelectTextStyle(null)}
+                onDuplicate={handleDuplicateTextStyle}
+                onUpdate={handleUpdateTextStyle}
+              />
+            )}
+            {selectedTextClass && (
+              <TextClassPanel
+                key="text-class-lightbox"
+                textClass={selectedTextClass}
+                onClose={() => handleSelectTextClass(null)}
+              />
+            )}
+            {selectedFrameStyle && (
+              <FrameStylePanel
+                key="frame-style-lightbox"
+                frameStyle={selectedFrameStyle}
+                onClose={() => handleSelectFrameStyle(null)}
+                onDuplicate={handleDuplicateFrameStyle}
+                onUpdate={handleUpdateFrameStyle}
+              />
+            )}
+          </section>
+        </AppMain>
 
-          {isPreviewOpen && (
-            <section className={cn("flex flex-1", styles.preview, styles.scroll)}>
-              {selectedGradient && (
-                <GradientPanel
-                  key="gradient-lightbox"
-                  gradient={selectedGradient}
-                  onClose={() => handleSelectGradient(null)}
-                  onDuplicate={handleDuplicateGradient}
-                  onUpdate={handleUpdateGradient}
-                />
-              )}
-              {selectedTextStyle && (
-                <TextStylePanel
-                  key="text-style-lightbox"
-                  textStyle={selectedTextStyle}
-                  onClose={() => handleSelectTextStyle(null)}
-                  onDuplicate={handleDuplicateTextStyle}
-                  onUpdate={handleUpdateTextStyle}
-                />
-              )}
-              {selectedTextClass && (
-                <TextClassPanel
-                  key="text-class-lightbox"
-                  textClass={selectedTextClass}
-                  onClose={() => handleSelectTextClass(null)}
-                />
-              )}
-              {selectedFrameStyle && (
-                <FrameStylePanel
-                  key="frame-style-lightbox"
-                  frameStyle={selectedFrameStyle}
-                  onClose={() => handleSelectFrameStyle(null)}
-                  onDuplicate={handleDuplicateFrameStyle}
-                  onUpdate={handleUpdateFrameStyle}
-                />
-              )}
-            </section>
-          )}
+      </AppContainer>
 
-        </main>
-      </div>
       <Toaster />
-    </div>
+    </AppLayout>
   );
 }
 

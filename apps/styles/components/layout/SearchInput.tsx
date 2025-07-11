@@ -1,21 +1,26 @@
-import { Search, X } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+"use client"
+
+import { Input } from "@/components/ui/input"
+import { Icon } from "@/lib/icon"
 
 interface SearchInputProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  placeholder?: string;
+  searchQuery: string
+  onSearchChange: (query: string) => void
+  placeholder?: string
+  className?: string
 }
 
-export function MainSearchInput({
+export const SearchInput = ({
   searchQuery,
   onSearchChange,
-  placeholder = "Search..."
-}: SearchInputProps) {
+  placeholder = "Buscar...",
+  className = ""
+}: SearchInputProps) => {
   return (
-    <div className="relative">
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+    <div className={`relative ${className}`}>
+      <Icon.Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
       <Input
+        type="text"
         placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
@@ -26,9 +31,9 @@ export function MainSearchInput({
           onClick={() => onSearchChange('')}
           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
         >
-          <X className="w-4 h-4" />
+          <Icon.Close className="h-4 w-4" />
         </button>
       )}
     </div>
-  );
+  )
 }
