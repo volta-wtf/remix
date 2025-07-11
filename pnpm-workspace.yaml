@@ -2,4 +2,6 @@ packages:
   - "apps/*"
   - "playground/*"
   - "packages/*"
+  - "packages/eslint-config"
+  - "packages/typescript-config"
   - "registry"
