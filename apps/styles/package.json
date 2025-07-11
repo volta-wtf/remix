@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "theme-editor next dev --turbopack --port 3001",
-    "build": "next build",
+    "build": "turbo run build --filter=apps/styles...",
+    "build:next": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -16,7 +17,6 @@
   },
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",
-    "@workspace/theme-editor": "workspace:*",
     "@workspace/ui-registry": "workspace:*",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.475.0",
@@ -27,12 +27,13 @@
     "recharts": "^3.0.0",
     "sonner": "^1.7.1"
   },
-  "devDependencies": {
+    "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
+    "@workspace/theme-editor": "workspace:*",
     "typescript": "^5.7.3"
   },
   "overrides": {
