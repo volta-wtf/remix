@@ -286,9 +286,10 @@ ${cssProperties}
   const showDuplicateButton = !isEditing && onDuplicate && !textStyle.isCustom;
 
   return (
-      <div className="w-full">
+      <div>
+
         {/* Header with text preview */}
-      <div className="relative aspect-4/2 border border-border rounded-md flex items-center justify-center">
+        <div className="relative aspect-4/2 border border-border rounded-md flex items-center justify-center">
 
           {/* Status badges
           <div className="absolute top-4 left-4 flex gap-2">
@@ -516,6 +517,7 @@ ${cssProperties}
             </Tabs>
           )}
         </div>
+
       </div>
   );
 }

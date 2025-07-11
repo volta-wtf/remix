@@ -166,6 +166,10 @@ export default function GalleryPage() {
     clearFilters();
   };
 
+  const togglePreview = () => {
+    setIsPreviewOpen(!isPreviewOpen)
+  }
+
   // Duplicate handlers (now creates custom items)
   const handleDuplicateGradient = (gradient: Gradient) => {
     const newGradient: Gradient = {
@@ -299,10 +303,6 @@ export default function GalleryPage() {
             handleSelectFrameStyle(updatedFrameStyle);
   };
 
-  const togglePreview = () => {
-    setIsPreviewOpen(!isPreviewOpen)
-  }
-
   const isLightboxOpen = selectedGradient || selectedTextStyle || selectedTextClass || selectedFrameStyle;
 
   return (
@@ -341,9 +341,10 @@ export default function GalleryPage() {
         </AppSidebar>
 
         <AppMain isPreviewOpen={isPreviewOpen}>
-          <section slot="content">
+          <section slot="content" className="w-full">
             {activeSection === 'gradients' && (
               <GradientGrid
+                slot="content"
                 key="gradients-grid"
                 gradients={filteredData as Gradient[]}
                 onSelectGradient={handleSelectGradient}
@@ -353,6 +354,7 @@ export default function GalleryPage() {
             )}
             {activeSection === 'text-styles' && (
               <TextStylesGrid
+                slot="content"
                 key="text-styles-grid"
                 textStyles={filteredData as TextStyle[]}
                 onSelectTextStyle={handleSelectTextStyle}
@@ -362,6 +364,7 @@ export default function GalleryPage() {
             )}
             {activeSection === 'text-classes' && (
               <TextClassGrid
+                slot="content"
                 key="text-classes-grid"
                 textClasses={filteredData as TextClass[]}
                 onSelectTextClass={handleSelectTextClass}
@@ -371,6 +374,7 @@ export default function GalleryPage() {
             )}
             {activeSection === 'frame-styles' && (
               <FrameStylesGrid
+                slot="content"
                 key="frame-styles-grid"
                 frameStyles={filteredData as FrameStyle[]}
                 onSelectFrameStyle={handleSelectFrameStyle}
@@ -379,7 +383,7 @@ export default function GalleryPage() {
               />
             )}
           </section>
-          <section slot="complement">
+          <section slot="complement" className="w-full">
             {selectedGradient && (
               <GradientPanel
                 key="gradient-lightbox"

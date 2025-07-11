@@ -172,7 +172,8 @@ ${className}::after {
   };
 
   return (
-    <div className="w-full">
+    <>
+
       {/* Header with text preview */}
       <div
         className={`${getPreviewBackgroundClass()} relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden`}
@@ -331,6 +332,7 @@ ${className}::after {
           </div>
         )}
       </div>
-    </div>
+
+    </>
   );
 }

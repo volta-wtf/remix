@@ -163,7 +163,8 @@ export function GradientPanel({ gradient, onClose, onDuplicate, onUpdate }: Grad
   const showDuplicateButton = !isEditing && onDuplicate && !gradient.isCustom;
 
   return (
-    <div className="w-full">
+    <>
+
       {/* Header with gradient preview */}
       <div
         className="relative aspect-4/2 border border-border rounded-md"
@@ -619,6 +620,7 @@ export function GradientPanel({ gradient, onClose, onDuplicate, onUpdate }: Grad
           </Tabs>
         )}
       </div>
-    </div>
+
+    </>
   );
 }
