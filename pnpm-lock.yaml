@@ -32,9 +32,6 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@workspace/theme-editor':
-        specifier: workspace:*
-        version: link:../../packages/theme-editor
       '@workspace/ui-registry':
         specifier: workspace:*
         version: link:../../registry
@@ -75,6 +72,9 @@ importers:
       '@workspace/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
+      '@workspace/theme-editor':
+        specifier: workspace:*
+        version: link:../../packages/theme-editor
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -87,9 +87,6 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@workspace/theme-editor':
-        specifier: workspace:*
-        version: link:../../packages/theme-editor
       '@workspace/ui-registry':
         specifier: workspace:*
         version: link:../../registry
@@ -130,6 +127,9 @@ importers:
       '@workspace/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
+      '@workspace/theme-editor':
+        specifier: workspace:*
+        version: link:../../packages/theme-editor
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -142,9 +142,6 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@workspace/theme-editor':
-        specifier: workspace:*
-        version: link:../../packages/theme-editor
       '@workspace/ui-registry':
         specifier: workspace:*
         version: link:../../registry
@@ -179,6 +176,9 @@ importers:
       '@workspace/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
+      '@workspace/theme-editor':
+        specifier: workspace:*
+        version: link:../../packages/theme-editor
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -292,9 +292,6 @@ importers:
 
   playground/tmp:
     dependencies:
-      '@workspace/theme-editor':
-        specifier: workspace:*
-        version: link:../../packages/theme-editor
       '@workspace/ui-registry':
         specifier: workspace:*
         version: link:../../registry
@@ -329,6 +326,9 @@ importers:
       '@workspace/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
+      '@workspace/theme-editor':
+        specifier: workspace:*
+        version: link:../../packages/theme-editor
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -341,9 +341,6 @@ importers:
 
   playground/tmp-1:
     dependencies:
-      '@workspace/theme-editor':
-        specifier: workspace:*
-        version: link:../../packages/theme-editor
       '@workspace/ui-registry':
         specifier: workspace:*
         version: link:../../registry
@@ -378,6 +375,9 @@ importers:
       '@workspace/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
+      '@workspace/theme-editor':
+        specifier: workspace:*
+        version: link:../../packages/theme-editor
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -390,9 +390,6 @@ importers:
 
   playground/tmp-2:
     dependencies:
-      '@workspace/theme-editor':
-        specifier: workspace:*
-        version: link:../../packages/theme-editor
       '@workspace/ui-registry':
         specifier: workspace:*
         version: link:../../registry
@@ -427,6 +424,9 @@ importers:
       '@workspace/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
+      '@workspace/theme-editor':
+        specifier: workspace:*
+        version: link:../../packages/theme-editor
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -439,9 +439,6 @@ importers:
 
   playground/tmp-3:
     dependencies:
-      '@workspace/theme-editor':
-        specifier: workspace:*
-        version: link:../../packages/theme-editor
       '@workspace/ui-registry':
         specifier: workspace:*
         version: link:../../registry
@@ -476,6 +473,9 @@ importers:
       '@workspace/eslint-config':
         specifier: workspace:^
         version: link:../../packages/eslint-config
+      '@workspace/theme-editor':
+        specifier: workspace:*
+        version: link:../../packages/theme-editor
       '@workspace/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
