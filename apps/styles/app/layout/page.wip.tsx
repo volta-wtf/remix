@@ -44,7 +44,7 @@ const ScrollProgress = ({ className }: { className?: string }) => {
   )
 }
 
-function AppHeader({ isPreviewOpen, togglePreview }: { isPreviewOpen: boolean; togglePreview: () => void }) {
+function CustomAppHeader({ isPreviewOpen, togglePreview }: { isPreviewOpen: boolean; togglePreview: () => void }) {
   return (
     <div className={cn("fixed top-0 z-10 bg-background h-24 w-full ", styles.container)}>
       <div className={cn("flex flex-row items-center gap-4 pr-0!", styles.aside)}>
@@ -113,7 +113,7 @@ function AppAside() {
   )
 }
 
-function AppMain({ isPreviewOpen, togglePreview }: { isPreviewOpen: boolean; togglePreview: () => void }) {
+function CustomAppMain({ isPreviewOpen, togglePreview }: { isPreviewOpen: boolean; togglePreview: () => void }) {
   return (
     <main className={cn("flex flex-row", styles.main)}>
       <section className={cn("flex flex-col", styles.content, isPreviewOpen ? "" : "flex-1 pr-12")}>
@@ -167,10 +167,10 @@ export default function Page() {
 
   return (
     <>
-      <AppHeader isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
+      <CustomAppHeader isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
       <div className={cn("min-h-svh", styles.container)}>
         <AppAside />
-        <AppMain isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
+        <CustomAppMain isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
       </div>
     </>
   )

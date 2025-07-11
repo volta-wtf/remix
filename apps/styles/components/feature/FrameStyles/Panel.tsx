@@ -19,7 +19,7 @@ interface Shadow {
   offsetX: number;
   offsetY: number;
   blurRadius: number;
-  spreadRadius: number;
+  spreadRadius?: number;
   color: string;
   enabled: boolean;
 }
@@ -180,7 +180,7 @@ export function FrameStylePanel({ frameStyle, onClose, onDuplicate, onUpdate }: 
   };
 
   const startEditingTag = (index: number) => {
-    setEditingTag({ index, value: editedFrameStyle.tags[index] });
+    setEditingTag({ index, value: editedFrameStyle.tags[index] ?? '' });
   };
 
   const saveEditingTag = () => {
@@ -240,7 +240,7 @@ ${cssProperties}
               Custom
             </Badge>
           )}
-          {currentFrameStyle.isModified && (
+          {(currentFrameStyle as any).isModified && (
             <Badge variant="outline" className="bg-yellow-500/20 backdrop-blur-sm border-yellow-400/40">
               Modified
             </Badge>

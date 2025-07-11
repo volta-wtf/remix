@@ -120,7 +120,7 @@ export function CSSShadowEditor({
   };
 
   const startEditingTag = (index: number) => {
-    setEditingTag({ index, value: tags[index] });
+    setEditingTag({ index, value: tags[index] ?? '' });
   };
 
   const saveEditingTag = () => {

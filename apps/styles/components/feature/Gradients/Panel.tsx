@@ -84,7 +84,7 @@ export function GradientPanel({ gradient, onClose, onDuplicate, onUpdate }: Grad
   };
 
   const startEditingTag = (index: number) => {
-    setEditingTag({ index, value: editedGradient.tags[index] });
+    setEditingTag({ index, value: editedGradient.tags[index] ?? '' });
   };
 
   const saveEditingTag = () => {
@@ -132,7 +132,7 @@ export function GradientPanel({ gradient, onClose, onDuplicate, onUpdate }: Grad
 
   const extractDirection = (gradientString: string): string => {
     const match = gradientString.match(/linear-gradient\(([^,]+),/);
-    return match ? match[1].trim() : '135deg';
+    return match && match[1] ? match[1].trim() : '135deg';
   };
 
   const generateGradientFromColors = (colors: string[], direction: string = '135deg'): string => {

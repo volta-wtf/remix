@@ -1,6 +1,7 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { Toaster } from 'sonner'
 
 import {
   AppLayout,
@@ -15,77 +16,66 @@ import { PreviewToggler } from '@/components/layout/PreviewToggler';
 import { SearchInput } from '@/components/layout/SearchInput';
 import { CategoryFilter } from '@/components/layout/CategoryFilter';
 
-function StyleCard({ className }: { className?: string }) {
-  return (
-    <div className={cn("flex items-center justify-center min-w-20 bg-black/3 p-10", className)}>
-      <p className="text-4xl font-bold">Aa</p>
-    </div>
-  )
-}
+export default function LayoutPage() {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
-function StylesGrid({ isPreviewOpen }: { isPreviewOpen: boolean }) {
-  return (
-    <div className={`grid ${isPreviewOpen ? "grid-cols-2" : "grid-cols-5"} gap-2`}>
-      {Array.from({ length: 30 }).map((_, i) => (
-        <StyleCard key={i} className="col-span-1" />
-      ))}
-    </div>
-  )
-}
-
-function PreviewContent() {
-  return (
-    <div>
-      preview content
-    </div>
-  )
-}
-
-export default function Page() {
   return (
     <AppLayout>
-
       <AppHeader isPreviewOpen={isPreviewOpen}>
         <SearchInput
-          slot="content"
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           placeholder="Search..."
         />
-        <PreviewToggler slot="actions" isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
+        <PreviewToggler
+          isPreviewOpen={isPreviewOpen}
+          togglePreview={() => setIsPreviewOpen(!isPreviewOpen)}
+        />
       </AppHeader>
 
       <AppContainer>
-
         <AppSidebar>
           <MainNavigation
-            activeSection={activeSection}
-            onSectionChange={handleSectionChange}
+            activeSection="layout"
+            onSectionChange={() => {}}
           />
           <div className="mt-8">
             <CategoryFilter
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              categories={currentCategories}
-              selectedTag={selectedTag}
-              onTagChange={setSelectedTag}
-              tags={currentTags}
-              onClearFilters={clearFilters}
-              resultsCount={filteredData.length}
-              totalCount={currentData.length}
+              selectedCategory="All"
+              onCategoryChange={() => {}}
+              categories={['All', 'Text', 'Background']}
+              selectedTag="All"
+              onTagChange={() => {}}
+              tags={['All', 'Modern', 'Classic']}
+              onClearFilters={() => {}}
+              resultsCount={0}
+              totalCount={0}
             />
           </div>
         </AppSidebar>
 
         <AppMain isPreviewOpen={isPreviewOpen}>
-          <section slot="content">
-            <StylesGrid isPreviewOpen={isPreviewOpen} />
+          <section>
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-4">Layout Demo</h2>
+              <p className="text-muted-foreground">
+                Esta es una demostración básica de la estructura del layout.
+              </p>
+            </div>
           </section>
-          <section slot="complement">
-            <PreviewContent />
-          </section>
-        </AppMain>
 
+          {isPreviewOpen && (
+            <section>
+              <div className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Preview Panel</h3>
+                <p className="text-muted-foreground">
+                  Aquí aparecería el contenido del preview.
+                </p>
+              </div>
+            </section>
+          )}
+        </AppMain>
       </AppContainer>
 
       <Toaster />
