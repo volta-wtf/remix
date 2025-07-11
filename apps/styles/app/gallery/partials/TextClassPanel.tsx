@@ -44,22 +44,40 @@ export function TextClassPanel({ textClass, onClose }: TextClassPanelProps) {
 
       // Function to clean CSS comments and unnecessary whitespace
   const cleanCSS = (css: string): string => {
-    return css
+    let cleaned = css
       // Remove /* */ comments
       .replace(/\/\*[\s\S]*?\*\//g, '')
       // Remove // comments (though rare in CSS)
       .replace(/\/\/.*$/gm, '')
       // Remove empty lines
       .replace(/^\s*[\r\n]/gm, '')
-      // Normalize whitespace
-      .replace(/\s+/g, ' ')
-      // Clean up spaces around braces and semicolons
-      .replace(/\s*{\s*/g, ' {\n  ')
-      .replace(/;\s*/g, ';\n  ')
-      .replace(/\s*}\s*/g, '\n}\n')
-      // Fix indentation
-      .replace(/^  /gm, '  ')
       .trim();
+
+    // Split into lines and process each line
+    const lines = cleaned.split('\n');
+    const result: string[] = [];
+    let indentLevel = 0;
+
+    for (let line of lines) {
+      line = line.trim();
+      if (!line) continue;
+
+      // Decrease indent for closing braces
+      if (line.includes('}')) {
+        indentLevel = Math.max(0, indentLevel - 1);
+      }
+
+      // Add line with proper indentation
+      const indent = '    '.repeat(indentLevel);
+      result.push(indent + line);
+
+      // Increase indent for opening braces
+      if (line.includes('{')) {
+        indentLevel++;
+      }
+    }
+
+    return result.join('\n');
   };
 
   // Function to read and process CSS file
@@ -145,7 +163,7 @@ ${className}::after {
     return { backgroundColor: '#ffffff' };
   };
 
-  const getPreviewBackgroundClass = (): CSSProperties => {
+  const getPreviewBackgroundClass = (): string => {
     const selectedOption = backgroundOptions.find(opt => opt.id === selectedBackground);
     if (selectedOption) {
       return selectedOption.class;

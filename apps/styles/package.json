@@ -1,16 +1,18 @@
 {
-  "name": "website",
-  "description": "Shadcn Theme Editor Template",
+  "name": "styles",
+  "description": "Premade styles for styling websites and apps",
   "version": "0.0.1",
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "theme-editor next dev --turbopack --port 3003",
+    "dev": "theme-editor next dev --turbopack --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit",
+    "generate:text-classes": "node scripts/generate-text-classes.js",
+    "watch:text-classes": "node scripts/watch-styles.js"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",

@@ -64,7 +64,7 @@ export function MainCategoryFilter({
       </div>
 
       {/* Tag Filters */}
-      <div className="space-y-3">
+      <div className="space-y-3 hidden">
         <h3 className="text-sm font-medium text-foreground">Tags</h3>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (

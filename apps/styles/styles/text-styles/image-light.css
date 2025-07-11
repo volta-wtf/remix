@@ -17,6 +17,7 @@
     --image-size: 100% auto;
     --light-color: hsla(10, 100%, 55%, 0.5);
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --stroke-color: var(--foreground);
     --stroke-width: 0.03em;
     --text-shadow: var(--shadow-simple);
     text-shadow: 0 0 0.1em var(--light-color);
