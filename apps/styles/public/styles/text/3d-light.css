@@ -4,13 +4,13 @@
     name: '3D Light',
     description: 'Illuminated 3D text effect',
     category: '3D',
-    tags: ['3d', 'light', 'illuminated'],
+    tags: ['illuminated'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: '3d-light.css',
     previewText: '3D Text',
     usesData: true,
     background: '#10353e',
-    reference: 'https://codepen.io/nokiss/pen/OPexYR'
+    reference: ['https://codepen.io/nokiss/pen/OPexYR']
 },
 */
 
@@ -30,15 +30,16 @@
     }
 
     &:before {
-        color: rgba(0, 0, 0, .6);
+        color: rgba(0, 0, 0, .2);
         width: max-content;
         left: 0.1em;
-        filter: blur(5px);
+        top: 0.1em;
+        filter: blur(.05em);
         opacity: .6;
         z-index: -1;
     }
 
     &:after {
-        color: rgba(0, 0, 0, .14);
+        color: rgba(0, 0, 0, .1);
     }
 }

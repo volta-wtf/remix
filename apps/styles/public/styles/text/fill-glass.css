@@ -14,7 +14,7 @@
 
 .text-fill-glass {
     --text-color: rgba(0, 0, 0, 0.15);
-    --shadow-color: rgba(0, 0, 0, 0.8);
+    --shadow-color: rgba(0, 0, 0, 0.5);
     --light-color: rgba(255, 255, 255, 0.8);
     --stroke-color: rgba(0, 0, 0, 0.2);
     --stroke-width: .01em;

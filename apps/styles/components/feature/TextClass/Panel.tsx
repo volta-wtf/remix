@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Copy, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { Separator } from '@/components/ui/separator';
-import type { TextClass } from '../types';
+import type { TextClass } from '@/types';
 
 interface TextClassPanelProps {
   textClass: TextClass;
@@ -191,21 +191,8 @@ ${className}::after {
       </div>
 
       <div className="flex items-center justify-between mt-4">
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary" className="text-xs">
-              {textClass.category}
-            </Badge>
-            {textClass.tags.map((tag: string, index: number) => (
-              <Badge key={index} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-
           {/* Background Selector */}
           <div className="flex gap-2 items-center">
-            <span className="text-sm text-muted-foreground px-2">Background {selectedBackground}</span>
             {backgroundOptions.map((option) => (
               <button
                 key={option.id}
@@ -217,6 +204,18 @@ ${className}::after {
                 `}
               />
             ))}
+            <span className="text-sm text-muted-foreground px-2">Background {selectedBackground}</span>
+          </div>
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2">
+            {textClass.tags.map((tag: string, index: number) => (
+              <Badge key={index} variant="outline" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
+            <Badge variant="secondary" className="text-xs">
+              {textClass.category}
+            </Badge>
           </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { Gradient } from '../types';
+import { Gradient } from '../gallery/types';
 
 export const gradientCategories = [
   'All',

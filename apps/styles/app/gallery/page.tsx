@@ -5,20 +5,20 @@ import { cn } from '@/lib/utils';
 import { Icon } from '@/lib/icon';
 import { Button } from '@/components/ui/button';
 import { Toaster } from 'sonner';
-import { MainNavigation } from './partials/MainNavigation';
-import { GradientGrid } from './partials/GradientGrid';
-import { GradientPanel } from './partials/GradientPanel';
-import { TextStylesGrid } from './partials/TextStylesGrid';
-import { TextStylePanel } from './partials/TextStylePanel';
-import TextClassGrid from './partials/TextClassGrid';
-import { TextClassPanel } from './partials/TextClassPanel';
-import { FrameStylesGrid } from './partials/FrameStylesGrid';
-import { FrameStylePanel } from './partials/FrameStylePanel';
-import { MainSearchInput } from './partials/MainSearchInput';
-import { MainCategoryFilter } from './partials/MainCategoryFilter';
+import { MainNavigation } from '@/components/layout/MainNavigation';
+import { MainSearchInput } from '@/components/layout/MainSearchInput';
+import { MainCategoryFilter } from '@/components/layout/MainCategoryFilter';
+import { GradientGrid } from '@/components/feature/Gradients/Grid';
+import { GradientPanel } from '@/components/feature/Gradients/Panel';
+import { TextStylesGrid } from '@/components/feature/TextStyles/Grid';
+import { TextStylePanel } from '@/components/feature/TextStyles/Panel';
+import TextClassGrid from '@/components/feature/TextClass/Grid';
+import { TextClassPanel } from '@/components/feature/TextClass/Panel';
+import { FrameStylesGrid } from '@/components/feature/FrameStyles/Grid';
+import { FrameStylePanel } from '@/components/feature/FrameStyles/Panel';
 
 // Types
-import { Gradient, TextStyle, FrameStyle, TextClass, Section } from './types';
+import { Gradient, TextStyle, FrameStyle, TextClass, Section } from '@/types';
 
 // Data
 import {
@@ -27,9 +27,10 @@ import {
   textStyles,
   textStyleCategories,
   frameStyles,
-  frameStyleCategories
-} from './data';
-import { textClasses, textClassesCategories } from './data/textClasses';
+  frameStyleCategories,
+  textClasses,
+  textClassesCategories
+} from '@/data';
 
 import "@/styles/index.css";
 
@@ -86,12 +87,18 @@ function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: 
           <Button
             variant="ghost"
             size="icon"
-            className="-ml-2"
+            className="-ml-2 group"
             onClick={togglePreview}
           >
-            <Icon.RightPanel className={cn("shrink-0 text-current transition-transform",
-              isPreviewOpen ? "" : "rotate-180"
-            )} />
+            <span className="relative inline-block">
+              <Icon.RightPanel className=" shrink-0 text-current transition-opacity duration-150 group-hover:opacity-0" />
+              <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                {isPreviewOpen
+                  ? <Icon.CloseRightPanel className="shrink-0 text-current" />
+                  : <Icon.OpenRightPanel className="shrink-0 text-current" />
+                }
+              </span>
+            </span>
           </Button>
           <ScrollProgress className={cn(isPreviewOpen ? "w-full" : "hidden")} />
           <Button
@@ -100,7 +107,12 @@ function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: 
             className="-mr-2"
             onClick={changeTheme}
           >
-            <Icon.ThemeDark className="shrink-0 text-current" />
+            <span className="relative inline-block">
+              <Icon.ThemeDark className="shrink-0 dark:opacity-0 text-current transition-opacity duration-150" />
+              <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-150">
+                <Icon.ThemeLight className="shrink-0 opacity-0 dark:opacity-100 text-current transition-opacity duration-150" />
+              </span>
+            </span>
           </Button>
         </div>
 
@@ -110,9 +122,9 @@ function AppHeader({ isPreviewOpen, togglePreview, children }: { isPreviewOpen: 
 }
 
 export default function GalleryPage() {
-  const [isPreviewOpen, setIsPreviewOpen] = useState(true)
-
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<Section>('text-classes');
+
   const [selectedGradient, setSelectedGradient] = useState<Gradient | null>(null);
   const [selectedTextStyle, setSelectedTextStyle] = useState<TextStyle | null>(null);
   const [selectedTextClass, setSelectedTextClass] = useState<TextClass | null>(null);
@@ -122,29 +134,32 @@ export default function GalleryPage() {
   const handleSelectGradient = (gradient: Gradient | null) => {
     setSelectedGradient(gradient);
     setSelectedTextStyle(null);
+    setSelectedTextClass(null);
     setSelectedFrameStyle(null);
+    setIsPreviewOpen(true);
   };
-
   const handleSelectTextStyle = (textStyle: TextStyle | null) => {
     setSelectedTextStyle(textStyle);
     setSelectedGradient(null);
     setSelectedTextClass(null);
     setSelectedFrameStyle(null);
+    setIsPreviewOpen(true);
   };
-
   const handleSelectTextClass = (textClass: TextClass | null) => {
     setSelectedTextClass(textClass);
     setSelectedGradient(null);
     setSelectedTextStyle(null);
     setSelectedFrameStyle(null);
+    setIsPreviewOpen(true);
   };
-
   const handleSelectFrameStyle = (frameStyle: FrameStyle | null) => {
     setSelectedFrameStyle(frameStyle);
     setSelectedGradient(null);
     setSelectedTextStyle(null);
     setSelectedTextClass(null);
+    setIsPreviewOpen(true);
   };
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedTag, setSelectedTag] = useState('All');
@@ -488,4 +503,4 @@ export default function GalleryPage() {
 }
 
 // Re-export types for backward compatibility
-export type { Gradient, TextStyle, FrameStyle, Section } from './types';
+export type { Gradient, TextStyle, FrameStyle, Section } from '@/types';

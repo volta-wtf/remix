@@ -1,4 +1,4 @@
-import { TextClass } from '../types';
+import { TextClass } from '../gallery/types';
 
 export const textClassesCategories = [
   'All',
@@ -244,6 +244,79 @@ export const textClasses: TextClass[] = [
     background: '#fed90f'
   },
   {
+    id: '3D-thin',
+    name: '3D Thin',
+    description: 'Thin 3D text effect',
+    category: '3D',
+    tags: ['depth', 'thin'],
+    cssFile: '3d-thin.css',
+    previewText: '3D Thin',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV'],
+    background: '#fed90f'
+  },
+  {
+    id: '3D-glow',
+    name: '3D Glow',
+    description: 'Glowing 3D text effect',
+    category: '3D',
+    tags: ['glow', 'bright'],
+    cssFile: '3d-glow.css',
+    previewText: '3D Text',
+    usesData: true,
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://redstapler.co/create-3d-text-rgb-animation-css/'],
+    background: '#c3c3c3'
+  },
+  {
+    id: '3D-faded-soft',
+    name: '3D Faded Soft',
+    description: 'Faded 3D text effect',
+    category: '3D',
+    tags: ['depth', 'faded', 'soft'],
+    cssFile: '3d-faded-soft.css',
+    previewText: '3D Soft',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV'],
+    background: '#fed90f'
+  },
+  {
+    id: '3D-faded-medium',
+    name: '3D Faded Medium',
+    description: 'Faded 3D text effect',
+    category: '3D',
+    tags: ['depth', 'faded', 'medium'],
+    cssFile: '3d-faded-medium.css',
+    previewText: '3D Medium',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV'],
+    background: '#fed90f'
+  },
+  {
+    id: '3D-faded-hard',
+    name: '3D Faded Hard',
+    description: 'Faded 3D text effect',
+    category: '3D',
+    tags: ['depth', 'faded', 'hard'],
+    cssFile: '3d-faded-hard.css',
+    previewText: '3D Hard',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV'],
+    background: '#fed90f'
+  },
+  {
+    id: '3D-plain',
+    name: '3D Plain',
+    description: 'Plain 3D text effect',
+    category: '3D',
+    tags: ['depth', 'plain'],
+    cssFile: '3d-plain.css',
+    previewText: '3D Plain',
+    bestFor: ['body', 'heading', 'display'],
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV'],
+    background: '#fed90f'
+  },
+  {
     id: '3D-light',
     name: '3D Light',
     description: 'Illuminated 3D text effect',
@@ -267,19 +340,6 @@ export const textClasses: TextClass[] = [
     bestFor: ['body', 'heading', 'display'],
     reference: ['https://codepen.io/havardob/pen/WNQwvze'],
     background: '#e589ff'
-  },
-  {
-    id: '3D-glow',
-    name: '3D Glow',
-    description: 'Glowing 3D text effect',
-    category: '3D',
-    tags: ['glow', 'bright'],
-    cssFile: '3d-glow.css',
-    previewText: '3D Text',
-    usesData: true,
-    bestFor: ['body', 'heading', 'display'],
-    reference: ['https://redstapler.co/create-3d-text-rgb-animation-css/'],
-    background: '#c3c3c3'
   },
   {
     id: '3D-sweet',

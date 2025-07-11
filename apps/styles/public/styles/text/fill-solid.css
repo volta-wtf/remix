@@ -3,12 +3,12 @@
     id: 'fill-solid',
     name: 'Solid Fill',
     description: 'Simple solid color text fill',
-    category: 'Colors',
-    tags: ['basic', 'fill'],
+    category: 'Basics',
+    tags: ['fill'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'fill-solid.css',
     previewText: 'Solid',
-    background: '#d6fad9'
+    background: '#f1fbae'
 },
 */
 

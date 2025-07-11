@@ -9,7 +9,7 @@
     cssFile: 'shadow-rainbow.css',
     previewText: 'Rainbow',
     background: '#e0e0e0',
-    reference: 'https://www.foolishdeveloper.com/2022/03/css-rainbow-text-animation.html'
+    reference: ['https://www.foolishdeveloper.com/2022/03/css-rainbow-text-animation.html']
 },
 */
 
@@ -35,4 +35,8 @@
     --text-color: #fcedd8;
     --text-shadow: var(--shadow-multicolor);
     @apply text-shadow;
+}
+
+.dark .text-shadow-rainbow {
+    --text-color: #fcedd8;
 }

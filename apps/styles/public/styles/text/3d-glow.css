@@ -4,13 +4,13 @@
     name: '3D Glow',
     description: 'Glowing 3D text effect',
     category: '3D',
-    tags: ['3d', 'glow', 'bright'],
+    tags: [ 'glow', 'bright'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: '3d-glow.css',
     previewText: '3D Text',
     usesData: true,
     background: '#c3c3c3',
-    reference: 'https://redstapler.co/create-3d-text-rgb-animation-css/'
+    reference: ['https://redstapler.co/create-3d-text-rgb-animation-css/']
 },
 */
 

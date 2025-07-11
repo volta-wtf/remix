@@ -1,4 +1,4 @@
-import { FrameStyle } from '../types';
+import { FrameStyle } from '../gallery/types';
 
 export const frameStyleCategories = [
   'All',

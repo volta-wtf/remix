@@ -49,9 +49,17 @@ textClassesCategories=[
 @import './text-styles/shadow-3d.css';
 
 @import './text-styles/3d.css';
+@import './text-styles/3d-thin.css';
+@import './text-styles/3d-glow.css';
+
+@import './text-styles/3d-faded-soft.css';
+@import './text-styles/3d-faded-medium.css';
+@import './text-styles/3d-faded-hard.css';
+
+@import './text-styles/3d-plain.css';
+
 @import './text-styles/3d-light.css';
 @import './text-styles/3d-sugar.css';
-@import './text-styles/3d-glow.css';
 @import './text-styles/3d-sweet.css';
 
 @import './text-styles/glitch.css';

@@ -29,6 +29,7 @@
         --stroke-width: 0.5px;
     }
 }
+
 .dark .text-fill-glossy {
     --text-color: rgba(255, 255, 255, 0.4);
     --shadow-color: rgba(0, 0, 0, 0.3);

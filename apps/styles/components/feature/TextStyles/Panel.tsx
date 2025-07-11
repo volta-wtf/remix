@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from '@/lib/motion';
-import { X, Copy, Type, Tag, Plus, Edit2, RotateCcw } from 'lucide-react';
+import { Copy, Plus, Edit2, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CSSPropertyEditor } from './CSSPropertyEditor';
-import { CSSShadowEditor } from './CSSShadowEditor';
-import type { TextStyle } from '../types';
+import { CSSPropertyEditor } from '@/components/feature/Editor/CSSProperty';
+import { CSSShadowEditor } from '@/components/feature/Editor/CSSShadow';
+import type { TextStyle } from '@/types';
 
 interface Shadow {
   id: string;

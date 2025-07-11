@@ -4,7 +4,7 @@
     name: 'Classic Glass',
     description: 'Classic glass text effect',
     category: 'Special',
-    tags: ['glass', 'classic', 'transparent'],
+    tags: ['glass', 'classic', 'alpha'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'glass.css',
     previewText: 'Glass',

@@ -6,6 +6,7 @@ import {
   PanelRightOpenIcon as _PanelRightOpenIcon,
   PanelRightCloseIcon as _PanelRightCloseIcon,
   MoonIcon as _MoonIcon,
+  SunIcon as _SunIcon,
   XIcon as _XIcon,
   CircleXIcon as _CircleXIcon,
   //   CheckIcon as _CheckIcon,
@@ -48,6 +49,7 @@ export const picto = {
   decrease: _MinusIcon,
 
   themeDark: _MoonIcon,
+  themeLight: _SunIcon,
 
   rightPanel: _PanelRightIcon,
   closeRightPanel: _PanelRightCloseIcon,

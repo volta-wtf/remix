@@ -3,7 +3,7 @@
     id: 'gold-emboss',
     name: 'Gold Emboss',
     description: 'Elegant gold embossed text effect',
-    category: 'Effects',
+    category: 'Materials',
     tags: ['gold', 'emboss', 'luxury'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'gold-emboss.css',

@@ -1,16 +1,27 @@
-import { motion, AnimatePresence } from '@/lib/motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Search } from 'lucide-react';
-import type { Gradient } from '../page';
 
-interface GradientGridProps {
-  gradients: Gradient[];
-  onSelectGradient: (gradient: Gradient) => void;
-  isPreviewOpen: boolean;
-  searchQuery: string;
+export interface FrameStyle {
+  id: string;
+  name: string;
+  description: string;
+  style: React.CSSProperties;
+  category: string;
+  tags: string[];
+  cssClass: string;
+  material: string;
+  isCustom?: boolean;
 }
 
-export function GradientGrid({ gradients, onSelectGradient, isPreviewOpen, searchQuery }: GradientGridProps) {
-  if (gradients.length === 0) {
+interface FrameStylesGridProps {
+  frameStyles: FrameStyle[];
+  onSelectFrameStyle: (frameStyle: FrameStyle) => void;
+  searchQuery: string;
+  isPreviewOpen: boolean;
+}
+
+export function FrameStylesGrid({ frameStyles, onSelectFrameStyle, searchQuery, isPreviewOpen }: FrameStylesGridProps) {
+  if (frameStyles.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -29,7 +40,7 @@ export function GradientGrid({ gradients, onSelectGradient, isPreviewOpen, searc
             <Search className="w-8 h-8 text-muted-foreground" />
           </div>
         </motion.div>
-        <h3 className="text-xl mb-2">No gradients found</h3>
+        <h3 className="text-xl mb-2">No frame styles found</h3>
         <p className="text-muted-foreground max-w-md">
           {searchQuery ? (
             <>Try adjusting your search for <span className="font-medium">"{searchQuery}"</span> or browse different categories.</>
@@ -48,11 +59,11 @@ export function GradientGrid({ gradients, onSelectGradient, isPreviewOpen, searc
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className={`grid ${isPreviewOpen ? "grid-cols-3" : "grid-cols-8"} gap-2`}>
+      <div className={`grid ${isPreviewOpen ? "grid-cols-2" : "grid-cols-5"} gap-2`}>
         <AnimatePresence>
-          {gradients.map((gradient, index) => (
+          {frameStyles.map((frameStyle, index) => (
             <motion.button
-              key={gradient.id}
+              key={frameStyle.id}
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -64,10 +75,17 @@ export function GradientGrid({ gradients, onSelectGradient, isPreviewOpen, searc
                 layout: { duration: 0.3 }
               }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => onSelectGradient(gradient)}
-              className="group relative bg-origin-border! bg-cover! aspect-square rounded-md cursor-pointer hover:border hover:border-primary/40 transition-border duration-300 overflow-hidden"
-              style={{background: gradient.gradient}}
+              onClick={() => onSelectFrameStyle(frameStyle)}
+              className="group relative aspect-square rounded-md cursor-pointer bg-primary/3 border border-transparent hover:border hover:border-primary/20 transition-border duration-300 overflow-hidden"
             >
+              {/* Frame preview */}
+              <div
+                className="absolute inset-4 rounded-lg"
+                style={frameStyle.style}
+              >
+              </div>
+
+
             </motion.button>
           ))}
         </AnimatePresence>

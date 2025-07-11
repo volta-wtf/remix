@@ -1,4 +1,4 @@
-export const styles = {
+const styles = {
   name: "Style 1",
   description: "A modern and clean style",
   image: "https://via.placeholder.com/150",
@@ -8,4 +8,5 @@ export const styles = {
   main: "flex-1",
   content: "w-2/5 px-8 gap-4",
   preview: "px-12 gap-4",
+  scroll: "h-svh py-24 overflow-y-auto overscroll-contain scroll-auto"
 }

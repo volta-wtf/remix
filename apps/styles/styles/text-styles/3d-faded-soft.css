@@ -1,0 +1,19 @@
+/*
+{
+    id: '3D-faded-soft',
+    name: '3D Faded Soft',
+    description: 'Faded 3D text effect',
+    category: '3D',
+    tags: ['depth', 'faded', 'soft'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: '3d-faded-soft.css',
+    previewText: '3D Soft',
+    background: '#fed90f',
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV']
+},
+*/
+
+.text-3D-faded-soft {
+    color: mix(#fff, #ef6209, 85%);
+    text-shadow: var(--shadow-faded-soft);
+}

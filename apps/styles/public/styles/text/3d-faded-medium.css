@@ -1,0 +1,19 @@
+/*
+{
+    id: '3D-faded-medium',
+    name: '3D Faded Medium',
+    description: 'Faded 3D text effect',
+    category: '3D',
+    tags: ['depth', 'faded', 'medium'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: '3d-faded-medium.css',
+    previewText: '3D Medium',
+    background: '#fed90f',
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV']
+},
+*/
+
+.text-3D-faded-medium {
+    color: #ff9f00;
+    text-shadow: var(--shadow-faded-medium);
+}

@@ -1,3 +1,4 @@
 {
-  "tailwindCSS.experimental.configFile": "registry/styles/globals.css"
+  "tailwindCSS.experimental.configFile": "registry/styles/globals.css",
+  "files.exclude": {}
 }

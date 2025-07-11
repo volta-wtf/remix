@@ -1,27 +1,16 @@
-import React from 'react';
 import { motion, AnimatePresence } from '@/lib/motion';
 import { Search } from 'lucide-react';
-import TextStyle from "./TextClassCard";
-import { TextClass } from '../types';
+import type { Gradient } from '@/app/gallery/page';
 
-interface TextClassGridProps {
-  textClasses: TextClass[];
-  onSelectTextClass: (textClass: TextClass) => void;
-  searchQuery: string;
+interface GradientGridProps {
+  gradients: Gradient[];
+  onSelectGradient: (gradient: Gradient) => void;
   isPreviewOpen: boolean;
+  searchQuery: string;
 }
 
-export default function TextClassGrid({
-  textClasses: filteredTextClasses,
-  onSelectTextClass,
-  searchQuery,
-  isPreviewOpen
-}: TextClassGridProps) {
-  const handleTextClassClick = (textClass: TextClass) => {
-    onSelectTextClass(textClass);
-  };
-
-  if (filteredTextClasses.length === 0) {
+export function GradientGrid({ gradients, onSelectGradient, isPreviewOpen, searchQuery }: GradientGridProps) {
+  if (gradients.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -40,12 +29,12 @@ export default function TextClassGrid({
             <Search className="w-8 h-8 text-muted-foreground" />
           </div>
         </motion.div>
-        <h3 className="text-xl mb-2">No se encontraron efectos de texto</h3>
+        <h3 className="text-xl mb-2">No gradients found</h3>
         <p className="text-muted-foreground max-w-md">
           {searchQuery ? (
-            <>Intenta ajustar tu búsqueda para <span className="font-medium">"{searchQuery}"</span> o explora diferentes categorías.</>
+            <>Try adjusting your search for <span className="font-medium">"{searchQuery}"</span> or browse different categories.</>
           ) : (
-            "Intenta ajustar tus filtros o explora diferentes categorías."
+            "Try adjusting your filters or browse different categories."
           )}
         </p>
       </motion.div>
@@ -59,11 +48,11 @@ export default function TextClassGrid({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className={`grid ${isPreviewOpen ? "grid-cols-2" : "grid-cols-5"} gap-2`}>
+      <div className={`grid ${isPreviewOpen ? "grid-cols-3" : "grid-cols-8"} gap-2`}>
         <AnimatePresence>
-          {filteredTextClasses.map((textClass, index) => (
+          {gradients.map((gradient, index) => (
             <motion.button
-              key={textClass.id}
+              key={gradient.id}
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -74,17 +63,11 @@ export default function TextClassGrid({
                 ease: "easeOut",
                 layout: { duration: 0.3 }
               }}
-              onClick={() => handleTextClassClick(textClass)}
-              className="group relative cursor-pointer text-center"
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onSelectGradient(gradient)}
+              className="group relative bg-origin-border! bg-cover! aspect-square rounded-md cursor-pointer hover:border hover:border-primary/40 transition-border duration-300 overflow-hidden"
+              style={{background: gradient.gradient}}
             >
-              <TextStyle
-                id={textClass.id}
-                //bg={textClass.background || 'transparent'}
-                bg={'hsla(0 0% 0% / 5%)'}
-                type={textClass.usesData ? 'with-data' : undefined}
-              >
-                {textClass.previewText}
-              </TextStyle>
             </motion.button>
           ))}
         </AnimatePresence>

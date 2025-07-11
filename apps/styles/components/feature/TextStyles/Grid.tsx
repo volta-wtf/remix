@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from '@/lib/motion';
-import { Search, Type } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useEffect } from 'react';
-import type { TextStyle } from '../types';
+import type { TextStyle } from '@/types';
 
 // Utility function to inject CSS for pseudo-elements
 function injectTextStyleCSS(textStyle: TextStyle) {

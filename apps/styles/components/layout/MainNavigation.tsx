@@ -1,6 +1,6 @@
 import { motion } from '@/lib/motion';
 import { Palette, Type, Frame, FileText } from 'lucide-react';
-import { Section } from '../types';
+import { Section } from '../../../types';
 
 interface MainNavigationProps {
   activeSection: Section;

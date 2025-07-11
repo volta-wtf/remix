@@ -1,0 +1,19 @@
+/*
+{
+    id: '3D-plain',
+    name: '3D Plain',
+    description: 'Plain 3D text effect',
+    category: '3D',
+    tags: ['depth', 'plain'],
+    bestFor: ['body', 'heading', 'display'],
+    cssFile: '3d-plain.css',
+    previewText: '3D Plain',
+    background: '#fed90f',
+    reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV']
+},
+*/
+
+.text-3D-plain {
+    color: mix(#fff, #ef6209, 85%);
+    text-shadow: var(--shadow-long-hard);
+}

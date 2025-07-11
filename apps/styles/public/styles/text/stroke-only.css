@@ -3,19 +3,19 @@
     id: 'stroke-only',
     name: 'Stroke Only',
     description: 'Outline text without fill',
-    category: 'Strokes',
-    tags: ['stroke', 'outline', 'border'],
+    category: 'Basics',
+    tags: ['stroke'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'stroke-only.css',
     previewText: 'Stroke',
     background: '#d6fad9',
-    reference: 'https://css-tricks.com/text-stroke-stuck-middle/'
+    reference: ['https://css-tricks.com/text-stroke-stuck-middle/']
 },
 */
 
 .text-stroke-only {
     --text-color: transparent;
-    --stroke-color: black;
+    --stroke-color: var(--foreground);
     --stroke-width: .03em;
     @apply text-fill;
     @apply text-stroke;

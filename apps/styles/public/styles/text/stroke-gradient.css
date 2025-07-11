@@ -3,12 +3,12 @@
     id: 'stroke-gradient',
     name: 'Gradient Stroke',
     description: 'Text with gradient stroke effect',
-    category: 'Strokes',
+    category: 'Basics',
     tags: ['gradient', 'stroke', 'colorful'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'stroke-gradient.css',
     previewText: 'Stroke',
-    background: '#000000'
+    background: '#222222'
 },
 */
 

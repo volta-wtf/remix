@@ -3,14 +3,14 @@
     id: 'gold-3D',
     name: '3D Gold',
     description: 'Luxurious gold 3D text',
-    category: '3D',
+    category: 'Materials',
     tags: ['3d', 'gold', 'luxury'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'gold-3D.css',
     previewText: 'Gold',
     usesData: true,
     background: 'radial',
-    reference: 'https://codepen.io/TajShireen/pen/LYyOzJL?editors=1100'
+    reference: ['https://codepen.io/TajShireen/pen/LYyOzJL?editors=1100']
 },
 */
 

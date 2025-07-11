@@ -3,7 +3,7 @@
     id: 'metallic-chrome',
     name: 'Metallic Chrome',
     description: 'Realistic chrome metallic text effect',
-    category: 'Special',
+    category: 'Materials',
     tags: ['metallic', 'chrome', 'silver'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'metallic-chrome.css',

@@ -1,27 +1,27 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Frame } from 'lucide-react';
+import React from 'react';
+import { motion, AnimatePresence } from '@/lib/motion';
+import { Search } from 'lucide-react';
+import TextStyle from "./Card";
+import { TextClass } from '@/types';
 
-export interface FrameStyle {
-  id: string;
-  name: string;
-  description: string;
-  style: React.CSSProperties;
-  category: string;
-  tags: string[];
-  cssClass: string;
-  material: string;
-  isCustom?: boolean;
-}
-
-interface FrameStylesGridProps {
-  frameStyles: FrameStyle[];
-  onSelectFrameStyle: (frameStyle: FrameStyle) => void;
+interface TextClassGridProps {
+  textClasses: TextClass[];
+  onSelectTextClass: (textClass: TextClass) => void;
   searchQuery: string;
   isPreviewOpen: boolean;
 }
 
-export function FrameStylesGrid({ frameStyles, onSelectFrameStyle, searchQuery, isPreviewOpen }: FrameStylesGridProps) {
-  if (frameStyles.length === 0) {
+export default function TextClassGrid({
+  textClasses: filteredTextClasses,
+  onSelectTextClass,
+  searchQuery,
+  isPreviewOpen
+}: TextClassGridProps) {
+  const handleTextClassClick = (textClass: TextClass) => {
+    onSelectTextClass(textClass);
+  };
+
+  if (filteredTextClasses.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -40,12 +40,12 @@ export function FrameStylesGrid({ frameStyles, onSelectFrameStyle, searchQuery, 
             <Search className="w-8 h-8 text-muted-foreground" />
           </div>
         </motion.div>
-        <h3 className="text-xl mb-2">No frame styles found</h3>
+        <h3 className="text-xl mb-2">No se encontraron efectos de texto</h3>
         <p className="text-muted-foreground max-w-md">
           {searchQuery ? (
-            <>Try adjusting your search for <span className="font-medium">"{searchQuery}"</span> or browse different categories.</>
+            <>Intenta ajustar tu búsqueda para <span className="font-medium">"{searchQuery}"</span> o explora diferentes categorías.</>
           ) : (
-            "Try adjusting your filters or browse different categories."
+            "Intenta ajustar tus filtros o explora diferentes categorías."
           )}
         </p>
       </motion.div>
@@ -61,9 +61,9 @@ export function FrameStylesGrid({ frameStyles, onSelectFrameStyle, searchQuery, 
     >
       <div className={`grid ${isPreviewOpen ? "grid-cols-2" : "grid-cols-5"} gap-2`}>
         <AnimatePresence>
-          {frameStyles.map((frameStyle, index) => (
+          {filteredTextClasses.map((textClass, index) => (
             <motion.button
-              key={frameStyle.id}
+              key={textClass.id}
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -74,18 +74,17 @@ export function FrameStylesGrid({ frameStyles, onSelectFrameStyle, searchQuery, 
                 ease: "easeOut",
                 layout: { duration: 0.3 }
               }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => onSelectFrameStyle(frameStyle)}
-              className="group relative aspect-square rounded-md cursor-pointer bg-primary/3 border border-transparent hover:border hover:border-primary/20 transition-border duration-300 overflow-hidden"
+              onClick={() => handleTextClassClick(textClass)}
+              className="group relative cursor-pointer text-center"
             >
-              {/* Frame preview */}
-              <div
-                className="absolute inset-4 rounded-lg"
-                style={frameStyle.style}
+              <TextStyle
+                id={textClass.id}
+                //bg={textClass.background || 'transparent'}
+                bg={'hsla(0 0% 0% / 5%)'}
+                type={textClass.usesData ? 'with-data' : undefined}
               >
-              </div>
-
-
+                {textClass.previewText}
+              </TextStyle>
             </motion.button>
           ))}
         </AnimatePresence>

@@ -3,7 +3,7 @@
     id: 'double',
     name: 'Double Text',
     description: 'Layered text with offset shadow effect',
-    category: 'Effects',
+    category: 'Basics',
     tags: ['double', 'layer', 'offset'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'double.css',

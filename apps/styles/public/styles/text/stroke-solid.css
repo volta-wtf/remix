@@ -1,10 +1,10 @@
 /*
 {
-    id: 'solid-stroke',
+    id: 'stroke-solid',
     name: 'Solid Stroke',
     description: 'Text with solid color stroke',
-    category: 'Strokes',
-    tags: ['solid', 'stroke', 'border'],
+    category: 'Basics',
+    tags: ['solid', 'stroke'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'stroke-solid.css',
     previewText: 'Stroke',
@@ -14,7 +14,7 @@
 
 .text-stroke-solid {
     --text-image: var(--gradient-solid);
-    --text-color: inherit;
+    --text-color: var(--foreground);
     --stroke-color: transparent;
     --stroke-width: .06em;
     padding: calc(var(--stroke-width) / 2);
