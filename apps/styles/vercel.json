@@ -1,8 +1,9 @@
 {
-  "buildCommand": "pnpm build",
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm --filter apps/styles build",
   "devCommand": "pnpm dev",
-  "installCommand": "pnpm install",
   "framework": "nextjs",
+  "outputDirectory": ".next",
   "rewrites": [
     {
       "source": "/(.*)",

@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "theme-editor next dev --turbopack --port 3001",
-    "build": "turbo run build --filter=apps/styles...",
-    "build:next": "next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -31,7 +30,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/eslint-config": "workspace:^",
+    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "@workspace/theme-editor": "workspace:*",
     "typescript": "^5.7.3"
