@@ -1,7 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { Icon } from "@/lib/icon"
+import { Button } from "@/components/ui/button"
 
 const changeTheme = () => {
   // Cambia el tema entre 'light' y 'dark' usando el provider de next-themes
@@ -16,12 +17,13 @@ const changeTheme = () => {
   }
 }
 
-export const ThemeToggler = () => {
+export const ThemeToggler = ({ className }: { className?: string }) => {
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={changeTheme}
+      className={cn("group", className)}
     >
       <span className="relative inline-block">
         <Icon.ThemeDark className="text-current dark:opacity-0 transition-opacity duration-150" />

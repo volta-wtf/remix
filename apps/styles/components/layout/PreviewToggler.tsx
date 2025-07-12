@@ -14,18 +14,23 @@ export const PreviewToggler = ({ isPreviewOpen, togglePreview, className }: Prev
     <Button
       variant="ghost"
       size="icon"
-      className={`-ml-2 group hidden lg:inline-flex ${className} ${isPreviewOpen ? "flex" : "hidden"}`}
+      className={`-ml-2 group hidden lg:inline-flex ${className} ${isPreviewOpen ? "flex" : ""}`}
       onClick={togglePreview}
     >
       <span className="relative inline-block">
-        { isPreviewOpen ?  <Icon.Back className=" md:hidden shrink-0 text-current" /> : "" }
-        <Icon.RightPanel className="hidden md:inline-block shrink-0 text-current transition-opacity duration-150 group-hover:opacity-0" />
-        <span className=" hidden md:inline-block absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-          {isPreviewOpen
-            ? <Icon.CloseRightPanel className="shrink-0 text-current" />
-            : <Icon.OpenRightPanel className="shrink-0 text-current" />
-          }
-        </span>
+        { isPreviewOpen ?  (
+          <>
+            <Icon.Back className="md:hidden text-current" />
+            <Icon.ClosePanel className="hidden md:inline-block text-current" />
+          </>
+        ) : (
+          <>
+              <Icon.RightPanel className="hidden md:inline-block text-current transition-opacity duration-150 group-hover:opacity-0" />
+              <span className=" hidden md:inline-block absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                  <Icon.OpenRightPanel className="text-current" />
+              </span>
+          </>
+        )}
       </span>
     </Button>
   )

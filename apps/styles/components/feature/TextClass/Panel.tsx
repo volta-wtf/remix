@@ -191,7 +191,7 @@ ${className}::after {
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-4">
+      <div className="flex flex-col md:flex-row items-center justify-between mt-4">
           {/* Background Selector */}
           <div className="flex gap-2 items-center">
             {backgroundOptions.map((option) => (
@@ -205,10 +205,10 @@ ${className}::after {
                 `}
               />
             ))}
-            <span className="text-sm text-muted-foreground px-2">Background {selectedBackground}</span>
+            <span className="hidden md:block text-sm text-muted-foreground px-2">{selectedBackground}</span>
           </div>
           {/* Tags */}
-          <div className="flex flex-wrap gap-2">
+          <div className="hidden _flex flex-wrap gap-2">
             {textClass.tags.map((tag: string, index: number) => (
               <Badge key={index} variant="outline" className="text-xs">
                 {tag}

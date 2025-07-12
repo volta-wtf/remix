@@ -16,9 +16,9 @@ const styles = {
   container: "flex px-2 md:px-4 lg:px-8",
   aside: "hidden xl:flex w-2/10 px-8",
   main: "flex-1",
-  content: "w-2/5 px-3 md:px-4 lg:px-8 gap-4",
+  content: "w-1/3 lg:w-2/5 px-3 md:px-4 lg:px-8 gap-4",
   preview: "px-4 lg:px-8 gap-4",
-  scroll: "h-svh py-18 lg:py-24 overflow-y-auto overscroll-contain scroll-auto"
+  scroll: "h-svh py-18 md:py-24 overflow-y-auto overscroll-contain scroll-auto"
 }
 
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
@@ -44,7 +44,12 @@ export function AppHeader({ isPreviewOpen, children }: AppHeaderProps) {
 
   return (
     <header className={cn("h-18 md:h-24 w-full fixed top-0 z-10 text-muted-foreground bg-background/80 backdrop-blur-lg", styles.container, "_block _lg:flex")}>
-      <div className={cn("flex-row items-center gap-4 -ml-2 pr-0!", styles.aside, "w-full md:w-1/3 _lg:w-3/10 lg:w-2/10 px-4 lg:px-8 py-4 _pb-2 flex _md:flex")}>
+      <div className={cn(
+        "flex-row items-center gap-4 ",
+        styles.aside,
+        "w-full md:w-1/3 lg:w-2/5 xl:w-2/10 px-4 lg:px-8 py-4 flex ",
+        isPreviewOpen ? "hidden md:flex lg:w-2/5" : "pr-0 md:pr-4 _max-lg:pr-0!"
+      )}>
         <SitesDropdown />
         <ScrollProgress />
       </div>
@@ -52,21 +57,21 @@ export function AppHeader({ isPreviewOpen, children }: AppHeaderProps) {
         <div
           className={cn(
             styles.content,
-            "flex flex-row items-center",
-            isPreviewOpen ? "hidden md:flex" : "hidden md:flex md:w-full! pr-0!",
+            "hidden md:flex flex-row items-center xl:pl-6",
+            isPreviewOpen ? "hidden! xl:flex!" : "md:w-full! md:pl-0 lg:pl-0 pr-0!",
             !getSlot('content') && "pl-0!"
           )}
         >
           {getSlot('content')}
-          <ScrollProgress />
+          <ScrollProgress target="#main-content" />
         </div>
         <div className={cn("flex flex-1 items-center", styles.preview)}>
           {getSlot('actions')}
-          <ScrollProgress className={cn(isPreviewOpen ? "w-full" : "hidden")} />
+          <ScrollProgress target="#main-preview" className={cn(isPreviewOpen ? "w-full" : "hidden")} />
           <div className="flex flex-row items-center gap-2 -mr-2 text-muted-foreground">
-            <SearchToggler />
+            <SearchToggler className="md:hidden" />
             <ThemeToggler />
-            <MenuToggler />
+            <MenuToggler className="xl:hidden" />
           </div>
         </div>
       </div>
@@ -106,6 +111,7 @@ export const AppMain = ({ children, isPreviewOpen }: AppMainProps) => {
   return (
     <main className={cn("flex flex-row", styles.main)}>
       <section
+        id="main-content"
         className={cn(
           styles.content, styles.scroll,
           "flex flex-col",
@@ -116,7 +122,10 @@ export const AppMain = ({ children, isPreviewOpen }: AppMainProps) => {
         {getSlot('content')}
       </section>
       {isPreviewOpen && (
-        <section className={cn("flex flex-1", styles.preview, styles.scroll)}>
+        <section
+          id="main-preview"
+          className={cn("flex flex-1", styles.preview, styles.scroll)}
+        >
           {getSlot('complement')}
         </section>
       )}

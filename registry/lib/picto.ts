@@ -56,6 +56,7 @@ export const picto = {
   themeLight: _SunIcon,
 
   rightPanel: _PanelRightIcon,
+  closePanel: _PanelRightCloseIcon,
   closeRightPanel: _PanelRightCloseIcon,
   openRightPanel: _PanelRightOpenIcon,
 

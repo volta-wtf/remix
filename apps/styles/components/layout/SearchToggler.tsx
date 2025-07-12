@@ -1,7 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { Icon } from "@/lib/icon"
+import { Button } from "@/components/ui/button"
 
 interface SearchTogglerProps {
   className?: string
@@ -12,7 +13,7 @@ export const SearchToggler = ({ className }: SearchTogglerProps) => {
     <Button
       variant="ghost"
       size="icon"
-      className={`group md:hidden _md:inline-flex ${className}`}
+      className={cn("group", className)}
     >
       <Icon.Search className="text-current" />
     </Button>

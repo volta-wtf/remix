@@ -1,7 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { Icon } from "@/lib/icon"
+import { Button } from "@/components/ui/button"
 
 interface MenuTogglerProps {
   className?: string
@@ -12,7 +13,7 @@ export const MenuToggler = ({ className }: MenuTogglerProps) => {
     <Button
       variant="ghost"
       size="icon"
-      className={`group xl:hidden _md:inline-flex ${className}`}
+      className={cn("group", className)}
     >
       <Icon.Menu className="text-current" />
     </Button>
