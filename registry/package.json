@@ -1,6 +1,6 @@
 {
   "name": "@workspace/ui-registry",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -60,10 +60,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
-    "@stylewindcss/postcss": "workspace:*",
-    "stylewindcss": "workspace:*",
+    "@workspace/eslint-config": "^1.0.0",
+    "@workspace/typescript-config": "^1.0.0",
+    "@stylewindcss/postcss": "^1.0.0",
+    "stylewindcss": "^1.0.0",
     "typescript": "^5.7.3"
   },
   "exports": {

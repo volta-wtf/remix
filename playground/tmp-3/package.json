@@ -24,11 +24,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
-    "@workspace/theme-editor": "workspace:*",
-    "@stylewindcss/postcss": "workspace:*",
-    "stylewindcss": "workspace:*",
+    "@workspace/eslint-config": "^1.0.0",
+    "@workspace/typescript-config": "^1.0.0",
+    "@workspace/theme-editor": "^1.0.0",
+    "@stylewindcss/postcss": "^1.0.0",
+    "stylewindcss": "^1.0.0",
     "typescript": "^5.7.3"
   }
 }
