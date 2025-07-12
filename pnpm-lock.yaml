@@ -70,7 +70,7 @@ importers:
         specifier: ^19
         version: 19.0.4(@types/react@19.0.10)
       '@workspace/eslint-config':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/eslint-config
       '@workspace/theme-editor':
         specifier: workspace:*
@@ -125,7 +125,7 @@ importers:
         specifier: ^19
         version: 19.0.4(@types/react@19.0.10)
       '@workspace/eslint-config':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/eslint-config
       '@workspace/theme-editor':
         specifier: workspace:*
@@ -174,7 +174,7 @@ importers:
         specifier: ^19
         version: 19.0.4(@types/react@19.0.10)
       '@workspace/eslint-config':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/eslint-config
       '@workspace/theme-editor':
         specifier: workspace:*
@@ -324,7 +324,7 @@ importers:
         specifier: ^19
         version: 19.0.4(@types/react@19.0.10)
       '@workspace/eslint-config':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/eslint-config
       '@workspace/theme-editor':
         specifier: workspace:*
@@ -373,7 +373,7 @@ importers:
         specifier: ^19
         version: 19.0.4(@types/react@19.0.10)
       '@workspace/eslint-config':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/eslint-config
       '@workspace/theme-editor':
         specifier: workspace:*
@@ -422,7 +422,7 @@ importers:
         specifier: ^19
         version: 19.0.4(@types/react@19.0.10)
       '@workspace/eslint-config':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/eslint-config
       '@workspace/theme-editor':
         specifier: workspace:*
@@ -471,7 +471,7 @@ importers:
         specifier: ^19
         version: 19.0.4(@types/react@19.0.10)
       '@workspace/eslint-config':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/eslint-config
       '@workspace/theme-editor':
         specifier: workspace:*
