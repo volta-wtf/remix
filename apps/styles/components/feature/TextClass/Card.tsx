@@ -24,7 +24,7 @@ function TextStyle({ id, bg, type, children }: TextStyleProps) {
 
   return (
     <div
-      className={`bloc_ bg-origin-border! bg-cover! bg-primary/3 cursor-pointer aspect-4/3 rounded-md border border-transparent hover:border-primary/20 transition-border duration-300 overflow-hidden flex items-center justify-center p-4 ${className}`}
+      className={`bloc_ bg-origin-border! bg-cover! bg-primary/3 cursor-pointer aspect-8/4 lg:aspect-6/4 rounded-md border border-transparent hover:border-primary/20 transition-border duration-300 overflow-hidden flex items-center justify-center p-4 ${className}`}
       style={style}
     >
       <h2 className="type-demo">

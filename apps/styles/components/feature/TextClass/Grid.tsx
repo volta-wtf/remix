@@ -59,7 +59,7 @@ export default function TextClassGrid({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className={`grid ${isPreviewOpen ? "grid-cols-2" : "grid-cols-5"} gap-2`}>
+      <div className={`grid grid-cols-1  ${isPreviewOpen ? "lg:grid-cols-2" : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"} gap-2`}>
         <AnimatePresence>
           {filteredTextClasses.map((textClass, index) => (
             <motion.button

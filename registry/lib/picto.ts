@@ -7,10 +7,11 @@ import {
   PanelRightCloseIcon as _PanelRightCloseIcon,
   MoonIcon as _MoonIcon,
   SunIcon as _SunIcon,
-  XIcon as _XIcon,
+  CircleArrowLeftIcon as _CircleArrowLeftIcon,
   CircleXIcon as _CircleXIcon,
+  XIcon as _XIcon,
+  MenuIcon as _MenuIcon,
   //   CheckIcon as _CheckIcon,
-  //   XIcon as _XIcon,
   //   ChevronRightIcon as _ChevronRightIcon,
   //   ChevronLeftIcon as _ChevronLeftIcon,
   //   ChevronUpIcon as _ChevronUpIcon,
@@ -40,9 +41,12 @@ import {
 // Mapeo semántico de iconos - Nombres que describen el CONTEXTO, no la forma
 export const picto = {
   // System icons
+  back: _CircleArrowLeftIcon,
   select: _ChevronDownIcon,
   close: _XIcon,
   clear: _CircleXIcon,
+
+  menu: _MenuIcon,
 
   // Acciones generales
   increase: _PlusIcon,

@@ -48,7 +48,7 @@ export const CategoryFilter = ({
 
       {/* Tags */}
       {tags.length > 0 && (
-        <div>
+        <div className="hidden">
           <h3 className="text-sm font-medium mb-3">Tags</h3>
           <div className="flex flex-wrap gap-1">
             {tags.map((tag) => (
@@ -66,7 +66,7 @@ export const CategoryFilter = ({
       )}
 
       {/* Resultados y limpiar filtros */}
-      <div className="text-sm text-muted-foreground space-y-2">
+      <div className="hidden text-sm text-muted-foreground space-y-2">
         {resultsCount !== undefined && totalCount !== undefined && (
           <div>
             Mostrando {resultsCount} de {totalCount} elementos

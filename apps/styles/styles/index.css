@@ -24,9 +24,19 @@
     .type-demo {
         /*font-size: 6rem;*/
         /*font-size: 2rem;*/
-        font-size: calc(1em + 1vw);
+        font-size: calc(1em + 9vw);
         font-weight: 900;
         line-height: 1;
+    }
+    @media (min-width: 640px) {
+        .type-demo {
+            font-size: calc(1em + 4vw);
+        }
+    }
+    @media (min-width: 768px) {
+        .type-demo {
+            font-size: calc(1em + 1vw);
+        }
     }
 }
 

@@ -100,7 +100,7 @@ export function TextStylesGrid({ textStyles, onSelectTextStyle, searchQuery, isP
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center"
+        className="flex flex-col items-center justify-center p-8 text-center"
       >
         <motion.div
           initial={{ scale: 0.8 }}
@@ -131,7 +131,7 @@ export function TextStylesGrid({ textStyles, onSelectTextStyle, searchQuery, isP
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className={`grid ${isPreviewOpen ? "grid-cols-2" : "grid-cols-5"} gap-2`}>
+      <div className={`grid ${isPreviewOpen ? "md:grid-cols-2" : "grid-cols-1 md:grid-cols-3"} gap-2`}>
         <AnimatePresence>
           {textStyles.map((textStyle, index) => (
             <motion.button

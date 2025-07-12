@@ -24,13 +24,16 @@ export default function LayoutPage() {
     <AppLayout>
       <AppHeader isPreviewOpen={isPreviewOpen}>
         <SearchInput
+          data-slot="content"
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           placeholder="Search..."
         />
         <PreviewToggler
+          data-slot="actions"
           isPreviewOpen={isPreviewOpen}
           togglePreview={() => setIsPreviewOpen(!isPreviewOpen)}
+          className="hidden md:inline-block"
         />
       </AppHeader>
 
@@ -56,8 +59,8 @@ export default function LayoutPage() {
         </AppSidebar>
 
         <AppMain isPreviewOpen={isPreviewOpen}>
-          <section>
-            <div className="p-6">
+          <section data-slot="content">
+            <div className="">
               <h2 className="text-2xl font-bold mb-4">Layout Demo</h2>
               <p className="text-muted-foreground">
                 Esta es una demostración básica de la estructura del layout.
@@ -66,8 +69,8 @@ export default function LayoutPage() {
           </section>
 
           {isPreviewOpen && (
-            <section>
-              <div className="p-6">
+            <section data-slot="complement">
+              <div className="">
                 <h3 className="text-lg font-semibold mb-4">Preview Panel</h3>
                 <p className="text-muted-foreground">
                   Aquí aparecería el contenido del preview.

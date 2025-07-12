@@ -337,9 +337,14 @@ export default function GalleryPage() {
           data-slot="content"
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
+          isPreviewOpen={isPreviewOpen}
           placeholder="Search..."
         />
-        <PreviewToggler data-slot="actions" isPreviewOpen={isPreviewOpen} togglePreview={togglePreview} />
+        <PreviewToggler
+          data-slot="actions"
+          isPreviewOpen={isPreviewOpen}
+          togglePreview={togglePreview}
+        />
       </AppHeader>
 
       <AppContainer>

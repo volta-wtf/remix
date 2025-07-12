@@ -21,13 +21,12 @@ export const ThemeToggler = () => {
     <Button
       variant="ghost"
       size="icon"
-      className="-mr-2"
       onClick={changeTheme}
     >
       <span className="relative inline-block">
-        <Icon.ThemeDark className="shrink-0 dark:opacity-0 text-current transition-opacity duration-150" />
+        <Icon.ThemeDark className="text-current dark:opacity-0 transition-opacity duration-150" />
         <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-150">
-          <Icon.ThemeLight className="shrink-0 opacity-0 dark:opacity-100 text-current transition-opacity duration-150" />
+          <Icon.ThemeLight className="text-current opacity-0 dark:opacity-100 transition-opacity duration-150" />
         </span>
       </span>
     </Button>
