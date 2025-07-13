@@ -26,7 +26,7 @@ const __dirname = path.dirname(__filename);
 // Rutas de archivos (relativas al directorio del script)
 const appDir = path.dirname(__dirname);
 const stylesPath = path.join(appDir, 'styles/styles.css');
-const textClassesPath = path.join(appDir, 'app/gallery/data/textClasses.ts');
+const textClassesPath = path.join(appDir, 'data/textClasses.ts');
 const textStylesDir = path.join(appDir, 'styles/text-styles');
 
 function extractCategoriesFromStyles(stylesContent) {

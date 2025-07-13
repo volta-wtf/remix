@@ -6,6 +6,7 @@
     category: 'Special',
     tags: ['cut', 'bright', 'sharp'],
     bestFor: ['body', 'heading', 'display'],
+    cssVariants: ['inverse', 'inverse2'],
     cssFile: 'cut-bright.css',
     previewText: 'Bright',
     usesData: true,
@@ -35,12 +36,12 @@
         text-shadow: 0 0 51px rgba(236, 233, 233, .3);
         filter: blur(0.01em);
     }
+}
 
-    &.inverse {
-        filter: brightness(150%) contrast(4.5) inverse(.1);
-    }
+.text-cut-bright.inverse {
+    filter: brightness(150%) contrast(4.5) inverse(.1);
+}
 
-    &.inverse2 {
-        filter: brightness(150%) contrast(4.5) inverse(.5);
-    }
+.text-cut-bright.inverse2 {
+    filter: brightness(150%) contrast(4.5) inverse(.5);
 }

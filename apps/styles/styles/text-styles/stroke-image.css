@@ -15,7 +15,7 @@
 .text-stroke-image {
     --text-image: var(--image-color);
     --image-size: 100% auto;
-    --text-color: white;
+    --text-color: var(--background);
     --stroke-color: transparent;
     --stroke-width: .1em;
     padding: .05em;

@@ -23,8 +23,7 @@ textClassesCategories=[
 
 
 @import './text-styles/fill-glass.css';
-@import './text-styles/fill-crystal.css';
-@import './text-styles/fill-glossy.css';
+
 
 
 @import './text-styles/stroke-only.css';
@@ -89,6 +88,8 @@ textClassesCategories=[
 
 @import './text-styles/distortion.css';
 
+@import './text-styles/fill-crystal.css';
+@import './text-styles/fill-glossy.css';
 @import './text-styles/glass.css';
 @import './text-styles/glass-new.css';
 @import './text-styles/glass-reflex.css';

@@ -176,13 +176,13 @@ ${className}::after {
 
       {/* Header with text preview */}
       <div
-        className={`${getPreviewBackgroundClass()} relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden`}
+        className={`bg-background ${getPreviewBackgroundClass()} relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden`}
       >
         {/* Large text preview */}
         <div className="absolute inset-0 flex items-center justify-center p-4">
-          <h2 className="type-demo">
+          <h2 className="type-demo-large">
             <span
-              className={`text-${textClass.id} text-8xl select-none`}
+              className={`text-${textClass.id} select-none`}
               {...(textClass.usesData ? { 'data-text': textClass.previewText } : {})}
             >
               {textClass.previewText}
@@ -199,11 +199,12 @@ ${className}::after {
                 key={option.id}
                 onClick={() => setSelectedBackground(option.id)}
                 className={`
-                  ${option.class}
-                  w-6 h-6 rounded-full transition-all hover:scale-110 border border-border
+                  relative w-6 h-6 rounded-full transition-all hover:scale-110 border border-border
                   ${selectedBackground === option.id ? 'ring-1 ring-primary ring-offset-2 ring-offset-background' : ''}
                 `}
-              />
+              >
+                <div className={`absolute inset-0 rounded-full bg-background ${option.class}`} />
+              </button>
             ))}
             <span className="hidden md:block text-sm text-muted-foreground px-2">{selectedBackground}</span>
           </div>

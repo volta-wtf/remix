@@ -21,7 +21,7 @@ export const ScrollProgress = ({
   const pollIntervalRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const currentElementRef = useRef<HTMLElement | Window | null>(null)
   // Crear un ID único verdaderamente único para cada instancia
-  const instanceIdRef = useRef<string>(`scroll-progress-${Math.random().toString(36).slice(2, 11)}-${Date.now()}`)
+  const instanceIdRef = useRef<string>(`${Math.random().toString(36).slice(2, 11)}`)
 
   useEffect(() => {
     const instanceId = instanceIdRef.current
@@ -164,8 +164,8 @@ export const ScrollProgress = ({
   return (
     <div
       className={cn("w-full h-px bg-primary/10 overflow-hidden", className)}
-      data-scroll-progress-id={instanceIdRef.current}
       data-scroll-progress-target={target}
+      data-scroll-progress-id={instanceIdRef.current}
     >
       <div
         className="h-full bg-primary/70 transition-none"

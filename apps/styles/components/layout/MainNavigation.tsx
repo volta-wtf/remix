@@ -7,7 +7,7 @@ interface MainNavigationProps {
   onSectionChange: (section: Section) => void;
 }
 
-const navigationItems = [
+const categoryItems = [
   {
     id: 'text-classes' as Section,
     label: 'Text Styles',
@@ -34,15 +34,17 @@ const navigationItems = [
   },
 ];
 
+const navigationItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Installation', href: '/' },
+  { label: 'About', href: '/about' },
+];
+
 export function MainNavigation({ activeSection, onSectionChange }: MainNavigationProps) {
   return (
     <nav>
-      <ul className="flex flex-col gap-2 mb-6">
-        <li className="text-sm font-bold text-foreground"><a href="/">Home</a></li>
-        <li className="text-sm font-bold text-foreground"><a href="/about">About</a></li>
-      </ul>
       <div className="-ml-3">
-        {navigationItems.map((item) => {
+        {categoryItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
 
@@ -74,6 +76,13 @@ export function MainNavigation({ activeSection, onSectionChange }: MainNavigatio
           );
         })}
       </div>
+      <ul className="flex flex-col gap-2 mt-6">
+        {navigationItems.map((link) => (
+          <li key={link.label} className="text-sm font-medium text-muted-foreground">
+            <a className="hover:text-foreground" href={link.href}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 }

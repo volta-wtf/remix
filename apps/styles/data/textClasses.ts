@@ -1,4 +1,4 @@
-import { TextClass } from '../gallery/types';
+import { TextClass } from '../types';
 
 export const textClassesCategories = [
   'All',
@@ -22,28 +22,6 @@ export const textClasses: TextClass[] = [
     tags: ['glass', 'alpha'],
     cssFile: 'fill-glass.css',
     previewText: 'Glass',
-    bestFor: ['body', 'heading', 'display'],
-    background: 'waves2'
-  },
-  {
-    id: 'fill-crystal',
-    name: 'Crystal Fill',
-    description: 'Crystal-like transparent text effect',
-    category: 'Materials',
-    tags: ['glass', 'alpha'],
-    cssFile: 'fill-crystal.css',
-    previewText: 'Crystal',
-    bestFor: ['body', 'heading', 'display'],
-    background: 'waves2'
-  },
-  {
-    id: 'fill-glossy',
-    name: 'Glossy Fill',
-    description: 'Glossy-like transparent text effect',
-    category: 'Materials',
-    tags: ['glass', 'alpha'],
-    cssFile: 'fill-glossy.css',
-    previewText: 'Glossy',
     bestFor: ['body', 'heading', 'display'],
     background: 'waves2'
   },
@@ -598,6 +576,28 @@ export const textClasses: TextClass[] = [
     usesData: true,
     bestFor: ['body', 'heading', 'display'],
     background: '#FFFFFF'
+  },
+  {
+    id: 'fill-crystal',
+    name: 'Crystal Fill',
+    description: 'Crystal-like transparent text effect',
+    category: 'Materials',
+    tags: ['glass', 'alpha'],
+    cssFile: 'fill-crystal.css',
+    previewText: 'Crystal',
+    bestFor: ['body', 'heading', 'display'],
+    background: 'waves2'
+  },
+  {
+    id: 'fill-glossy',
+    name: 'Glossy Fill',
+    description: 'Glossy-like transparent text effect',
+    category: 'Materials',
+    tags: ['glass', 'alpha'],
+    cssFile: 'fill-glossy.css',
+    previewText: 'Glossy',
+    bestFor: ['body', 'heading', 'display'],
+    background: 'waves2'
   },
   {
     id: 'glass',
