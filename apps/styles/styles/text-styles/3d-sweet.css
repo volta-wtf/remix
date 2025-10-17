@@ -4,7 +4,7 @@
     name: '3D Sweet',
     description: 'Sweet pastel 3D text',
     category: '3D',
-    tags: ['3d', 'sweet', 'pastel'],
+    tags: ['fixed color', 'depth'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: '3d-sweet.css',
     previewText: '3D Text',
@@ -15,17 +15,20 @@
 */
 
 .text-3D-sweet {
-    display: inline-block;
-    color: #fde9ff;
-    font-weight: 900;
-    line-height: 0.75em;
-    text-shadow: var(--shadow-sweet-back);
-    position: relative;
+    & {
+        --style-text-color: #fde9ff;
+    }
+
+    & {
+        position: relative;
+        color: var(--style-text-color);
+        text-shadow: var(--extrusion-sweet);
+    }
 
     &:before {
         content: attr(data-text);
         position: absolute;
-        text-shadow: var(--shadow-sweet-front);
+        text-shadow: var(--bevel-sweet);
         z-index: 1;
     }
 }

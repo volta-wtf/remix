@@ -1,12 +1,13 @@
 /*
 {
     id: 'rgb-split',
+    cssFile: 'rgb-split.css',
     name: 'RGB Split',
     description: 'RGB color separation effect',
     category: 'Glitch',
     tags: ['rgb', 'split', 'chromatic'],
     bestFor: ['body', 'heading', 'display'],
-    cssFile: 'rgb-split.css',
+    cssVariants: ['blurred-1', 'blurred-2'],
     previewText: 'Glitch',
     usesData: true,
     background: '#151515',
@@ -44,9 +45,19 @@
         top: -0.03em;
         left: -0.03em;
     }
+}
 
-    &.blured::after,
-    &.blured::before {
+.text-rgb-split.blurred-1 {
+
+    &:after,
+    &:before {
+        filter: contrast(2.7) blur(3px);
+    }
+}
+
+.text-rgb-split.blurred-2 {
+    &:after,
+    &:before {
         filter: contrast(2.7) blur(7px);
     }
 }

@@ -37,7 +37,7 @@ export function useThemeEditor() {
 
   // Función para determinar si una variable es de colores
   const isColorVariable = (varName) => {
-    return varName.startsWith('--color-') || varName.startsWith('--tone-');
+    return varName.startsWith('--color-') || varName.startsWith('--tone-') || varName.startsWith('--tint-');
   };
 
   // Función para obtener el tema actual

@@ -28,12 +28,12 @@ export function useColorPanel(cssVars, modifiedVars) {
     ];
 
     Object.entries(cssVars).forEach(([varName, value]) => {
-      // Filtrar variables que empiecen con --color- o --tone-
-      if (!varName.startsWith('--color-') && !varName.startsWith('--tone-')) return;
+      // Filtrar variables que empiecen con --color-, --tone- o --tint-
+      if (!varName.startsWith('--color-') && !varName.startsWith('--tone-') && !varName.startsWith('--tint-')) return;
 
       console.log(`🔍 Analizando variable de color: ${varName} = ${value}`);
 
-      const colorName = varName.replace(/^--(color|tone)-/, '');
+      const colorName = varName.replace(/^--(color|tone|tint)-/, '');
 
       // Verificar si es una variable de rueda de colores
       const isWheelColor = wheelColorNames.some(name => {

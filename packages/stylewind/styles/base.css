@@ -1,0 +1,67 @@
+@import "tailwindcss/preflight";
+
+body {
+    color-scheme: var(--color-scheme);
+    background: var(--background);
+    color: var(--text);
+    accent-color: var(--accent);
+    caret-color: var(--caret);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        color-scheme: dark;
+    }
+}
+
+.dark {
+    color-scheme: dark;
+}
+
+.light {
+    color-scheme: light;
+}
+
+body::selection {
+    background: var(--selection);
+}
+
+::backdrop {
+    background-color: var(--backdrop-medium);
+}
+
+mark {
+    background: var(--highlight);
+}
+
+hr {
+    border-color: var(--divider);
+}
+
+/*
+svg.icon {
+    fill: var(--default-fill-icon, initial);
+    stroke: var(--default-stroke-icon, initial);
+}
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--heading);
+}
+
+* {
+    border-color: var(--border, currentColor);
+}
+
+.divide-y, .divide-x {
+    :where(.divide-y > :not(:last-child)) {
+        border-color: var(--divider, currentColor);
+    }
+}

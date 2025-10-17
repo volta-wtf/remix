@@ -4,16 +4,18 @@
     name: '3D Plain',
     description: 'Plain 3D text effect',
     category: '3D',
-    tags: ['depth', 'plain'],
+    tags: ['fixed color', 'depth', 'plain'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: '3d-plain.css',
-    previewText: '3D Plain',
+    previewText: 'Shadow',
     background: '#fed90f',
     reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV']
 },
 */
 
 .text-3D-plain {
-    color: mix(#fff, #ef6209, 85%);
+    --style-tint-color: #ef6209;
+    --style-text-color: #fff;
+    color: color-mix(in srgb, var(--style-text-color) 100%, var(--style-text-tint) 85%);
     text-shadow: var(--shadow-long-hard);
 }

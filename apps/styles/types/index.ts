@@ -26,6 +26,7 @@ export interface TextClass extends BaseStyle {
   reference?: string[];
   usesData?: boolean;
   background?: string;
+  cssVariants?: string[];
 }
 
 export interface TextStyle extends BaseStyle {

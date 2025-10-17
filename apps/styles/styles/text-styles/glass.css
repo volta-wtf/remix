@@ -6,6 +6,7 @@
     category: 'Special',
     tags: ['glass', 'classic', 'alpha'],
     bestFor: ['body', 'heading', 'display'],
+    cssVariants: ['rushed'],
     cssFile: 'glass.css',
     previewText: 'Glass',
     usesData: true,
@@ -33,12 +34,12 @@
 
     &,
     &:before {
-        --text-color: transparent;
-        --color-background: #000000;
+        --style-text-color: transparent;
+        --style-fill-color: #000000;
         @apply text-fill;
     }
+}
 
-    &.rushed {
-        text-shadow: 0 0 1em #1001f97a;
-    }
+.text-glass.rushed {
+    text-shadow: 0 0 1em #1001f97a;
 }

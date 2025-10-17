@@ -18,5 +18,8 @@
   "license": "ISC",
   "peerDependencies": {
     "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@stylewindcss/postcss": "workspace:*"
   }
 }

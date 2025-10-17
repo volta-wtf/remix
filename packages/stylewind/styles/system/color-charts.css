@@ -1,0 +1,72 @@
+/* Chart Colors */
+:root {
+
+    /* Accent */
+    --primary
+    --secondary
+    --tertiary
+    --contrast
+    --ambient
+    --accent
+    --highlight
+
+    /* Functional */
+    --chart-increment
+    --chart-decrement
+    --neutral
+    --positive
+    --negative
+
+    --color-chart-contrast-lower
+    --color-chart-contrast-low
+    --color-chart-contrast-medium
+    --color-chart-contrast-higher
+
+    --color-chart-ambient-low
+    --color-chart-ambient-medium
+    --color-chart-ambient-high
+
+    --color-chart-sequential
+    --color-chart-diverging
+    --color-chart-qualitative
+
+
+
+
+    --color-qualitative-50:  var(--color-slate-50);
+    --color-qualitative-100: var(--color-slate-100);
+    --color-qualitative-200: var(--color-slate-200);
+    --color-qualitative-300: var(--color-slate-300);
+    --color-qualitative-400: var(--color-slate-400);
+    --color-qualitative-500: var(--color-slate-500);
+    --color-qualitative-600: var(--color-slate-600);
+    --color-qualitative-700: var(--color-slate-700);
+    --color-qualitative-800: var(--color-slate-800);
+    --color-qualitative-900: var(--color-slate-900);
+    --color-qualitative-950: var(--color-slate-950);
+
+    --color-divergent-50:  var(--color-contrast-50);
+    --color-divergent-100: var(--color-contrast-100);
+    --color-divergent-200: var(--color-contrast-200);
+    --color-divergent-300: var(--color-contrast-300);
+    --color-divergent-400: var(--color-contrast-400);
+    --color-divergent-500: var(--color-contrast-500);
+    --color-divergent-600: var(--color-contrast-600);
+    --color-divergent-700: var(--color-contrast-700);
+    --color-divergent-800: var(--color-contrast-800);
+    --color-divergent-900: var(--color-contrast-900);
+    --color-divergent-950: var(--color-contrast-950);
+
+    --color-sequential-50:  var(--color-indigo-50);
+    --color-sequential-100: var(--color-indigo-100);
+    --color-sequential-200: var(--color-indigo-200);
+    --color-sequential-300: var(--color-indigo-300);
+    --color-sequential-400: var(--color-indigo-400);
+    --color-sequential-500: var(--color-indigo-500);
+    --color-sequential-600: var(--color-indigo-600);
+    --color-sequential-700: var(--color-indigo-700);
+    --color-sequential-800: var(--color-indigo-800);
+    --color-sequential-900: var(--color-indigo-900);
+    --color-sequential-950: var(--color-indigo-950);
+
+}

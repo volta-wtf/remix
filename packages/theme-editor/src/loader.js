@@ -9,7 +9,7 @@ import { NETWORK, API_ENDPOINTS, CSS, DEV } from './config/constants.js';
 
 // ---- Theme Editor UI Server ----
 const app = express();
-const PORT = 4444; // Puerto fijo
+const PORT = process.env.THEME_EDITOR_PORT || 4444; // Puerto configurable via env
 
 // Middleware CORS
 app.use(cors({

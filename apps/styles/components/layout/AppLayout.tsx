@@ -18,7 +18,7 @@ const styles = {
   main: "flex-1",
   content: "w-1/3 lg:w-2/5 px-3 md:px-4 lg:px-8 gap-4",
   preview: "px-4 lg:px-8 gap-4",
-  scroll: "h-svh py-18 md:py-24 overflow-y-auto overscroll-contain scroll-auto"
+  scroll: "min-h-svh py-18 md:py-24 overflow-y-auto overscroll-contain scroll-auto"
 }
 
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {

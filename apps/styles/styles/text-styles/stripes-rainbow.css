@@ -13,8 +13,8 @@
 */
 
 .text-stripes-rainbow {
-    --text-image: var(--gradient-rainbow);
-    --image-size: 100% 70%;
+    --style-fill-image: var(--gradient-rainbow);
+    --style-fill-size: 100% 70%;
     @apply text-gradient;
     @apply text-clip;
     @apply text-fill;

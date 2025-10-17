@@ -15,26 +15,26 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-stroke-color: transparent;
-  -webkit-text-stroke-width: var(--stroke-width);
+  -webkit-text-stroke-width: var(--style-stroke-width);
 }
 
 @utility text-color {
-    color: var(--text-color);
+    color: var(--style-text-color);
 }
 
 @utility text-fill {
-    -webkit-text-fill-color: var(--text-color);
-    color: var(--text-color);
+    -webkit-text-fill-color: var(--style-text-color);
+    color: var(--style-text-color);
 }
 
 @utility text-stroke {
-    -webkit-text-stroke-color: var(--stroke-color);
-    -webkit-text-stroke-width: var(--stroke-width);
+    -webkit-text-stroke-color: var(--style-stroke-color);
+    -webkit-text-stroke-width: var(--style-stroke-width);
 }
 
 @utility text-background {
-    --text-color: transparent;
-    background-color: var(--fill-color);
+    --style-text-color: transparent;
+    background-color: var( --style-fill-color);
 }
 
 @utility text-clip {
@@ -43,42 +43,42 @@
 }
 
 @utility text-gradient {
-    --text-color: transparent;
-    background-image: var(--text-image);
-    background-size: var(--image-size);
+    --style-text-color: transparent;
+    background-image: var(--style-fill-image);
+    background-size: var(--style-fill-size);
 }
 
 @utility text-image {
-    --text-color: transparent;
-    background-image: var(--text-image);
+    --style-text-color: transparent;
+    background-image: var(--style-fill-image);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% 100%;
 }
 
 @utility stroke-gradient {
-    background-image: var(--text-image);
+    background-image: var(--style-fill-image);
     background-size: 100% 100%;
 }
 
 @utility stroke-image {
-    background-image: var(--text-image);
+    background-image: var(--style-fill-image);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% 100%;
 }
 
 @utility text-fill-shadow {
-    -webkit-text-fill-color: var(--text-color);
-    color: var(--stroke-color);
+    -webkit-text-fill-color: var(--style-text-color);
+    color: var(--style-stroke-color);
 }
 
 @utility text-shadow {
-    text-shadow: var(--text-shadow);
+    text-shadow: var(--style-shadow-text);
 }
 
 @utility filter-shadow {
-    filter: drop-shadow(var(--text-shadow));
+    filter: drop-shadow(var(--style-shadow-filter));
 }
 
 /*
@@ -187,10 +187,26 @@
 
 /* Animations for text effects */
 @keyframes light {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0 0, 0 0;
   }
+
   50% {
+    background-position: 100% 0, 100% 0;
+  }
+}
+
+@keyframes lighting {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+
+  50% {
+    background-position: 50% 0, 50% 0;
+  }
+
+  100% {
     background-position: 100% 0, 100% 0;
   }
 }

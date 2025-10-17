@@ -1,4 +1,27 @@
 {
   "tailwindCSS.experimental.configFile": "registry/styles/globals.css",
-  "files.exclude": {}
+  "files.exclude": {
+    "**/.next": true,
+    "**/.turbo": true,
+    "**/.git": true,
+    "**/.env": true,
+    "**/node_modules": true,
+
+    "**/tsconfig.json": true,
+    "**/tsconfig.*.json": true,
+    "**/eslint.config.js": true,
+    "**/next-env.d.ts": true,
+    "**/next.config.{ts,tsx,mjs}": true,
+    "**/postcss.config.{ts,tsx,mjs}": true,
+
+    "packages/eslint-config/": true,
+    "packages/typescript-config/": true,
+    "packages/theme-editor/": true,
+
+    "registry/{blocks,charts,examples,regions,hooks,ui,uis}/": true,
+
+    "apps/stylewind/app/demo": true,
+    "apps/stylewind/app/demo1": true,
+    "apps/stylewind/app/example": true,
+  }
 }

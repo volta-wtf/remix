@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "theme-editor next dev --turbopack --port 3001",
+    "dev": "THEME_EDITOR_PORT=4445 theme-editor next dev --turbopack --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

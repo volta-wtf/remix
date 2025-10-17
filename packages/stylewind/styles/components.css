@@ -1,0 +1,17 @@
+@component ui {
+    background-color: var(--ui-surface, initial);
+    padding: var(--ui-spacing, initial);
+    gap: var(--ui-gap, initial);
+    border-radius: var(--ui-radius, initial);
+    border-color: var(--tw-border-color, initial);
+    box-shadow: var(--tw-shadow, initial);
+}
+
+@component ui-* {
+    --ui-surface: --value(--color-*);
+    --ui-spacing: --value(--spacing-*);
+    --ui-gap: --value(--gap-*);
+    --ui-radius: --value(--radius-*);
+    --tw-border-color: --value(--color-border-*);
+    --tw-shadow: --value(--shadow-*);
+}

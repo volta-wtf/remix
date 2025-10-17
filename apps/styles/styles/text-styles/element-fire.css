@@ -13,6 +13,12 @@
 */
 
 .text-element-fire {
-    color: #ff4500;
-    text-shadow: 0 0 5px #ff4500, 0 0 10px #ff4500, 0 0 15px #ff6347, 0 0 20px #ff6347;
+    --style-text-color: #ff4500;
+    --style-shadow-color: #ff4500;
+    color: var(--style-text-color);
+    text-shadow:
+        0 0 0.05em var(--style-shadow-color),
+        0 0 0.10em var(--style-shadow-color),
+        0 0 0.15em var(--style-shadow-color),
+        0 0 0.20em var(--style-shadow-color);
 }

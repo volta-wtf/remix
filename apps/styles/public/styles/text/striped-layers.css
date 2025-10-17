@@ -15,13 +15,20 @@
 */
 
 .text-striped-layers {
-    position: relative;
-    display: inline-block;
-    color: #cf1b1b;
-    cursor: pointer;
-    z-index: 0;
 
-    &::after,
+    & {
+        --style-text-color: currentColor;
+        --style-stroke-color: var(--background);
+    }
+
+    & {
+        position: relative;
+        display: inline-block;
+        color: var(--style-text-color);
+        cursor: pointer;
+        z-index: 0;
+    }
+
     &::before {
         content: attr(data-text);
         position: absolute;
@@ -33,19 +40,20 @@
 
     &::before {
         background-image: repeating-linear-gradient(45deg,
-                transparent 0,
-                transparent 2px,
-                white 2px,
-                white 4px);
+            transparent 0,
+            transparent 0.03em,
+            var(--style-stroke-color) 0.03em,
+            var(--style-stroke-color) 0.06em);
         background-clip: text;
     }
 
+    /*
     &::after {
         background-image: repeating-linear-gradient(135deg,
-                transparent 0,
-                transparent 2px,
-                white 2px,
-                white 4px);
+            transparent 0,
+            transparent 0.03em,
+            white 0.03em,
+            white 0.06em);
         background-clip: text;
         z-index: -1;
     }
@@ -59,4 +67,5 @@
         top: -10px;
         left: -10px;
     }
+    */
 }

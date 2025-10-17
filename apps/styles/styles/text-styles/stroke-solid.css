@@ -7,17 +7,17 @@
     tags: ['solid', 'stroke'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'stroke-solid.css',
-    previewText: 'Stroke',
+    previewText: 'Border',
     background: '#ddd'
 },
 */
 
 .text-stroke-solid {
-    --text-image: var(--gradient-solid);
-    --text-color: var(--foreground);
-    --stroke-color: transparent;
-    --stroke-width: .06em;
-    padding: calc(var(--stroke-width) / 2);
+    --style-stroke-width: .06em;
+    --style-stroke-color: transparent;
+    --style-text-color: var(--foreground);
+    --style-fill-image: var(--gradient-solid);
+    padding: calc(var(--style-stroke-width) / 2);
     @apply stroke-gradient;
     @apply text-fill;
     @apply text-clip;

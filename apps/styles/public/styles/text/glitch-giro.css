@@ -1,12 +1,13 @@
 /*
 {
     id: 'glitch-giro',
+    cssFile: 'glitch-giro.css',
     name: 'Giro Glitch',
     description: 'Rotating glitch text effect',
     category: 'Glitch',
     tags: ['glitch', 'giro', 'digital'],
     bestFor: ['body', 'heading', 'display'],
-    cssFile: 'glitch-giro.css',
+    cssVariants: ['darker', 'colored', 'lighter'],
     previewText: 'Glitch',
     background: '#151515',
     reference: ['https://codepen.io/jackrugile/pen/krVZxw']
@@ -16,8 +17,20 @@
 .text-glitch-giro {
     --shadow-color-1: hsla(0, 100%, 50%, .8);
     --shadow-color-2: hsla(180, 100%, 50%, .8);
-    color: hsla(0, 0%, 0%, .9);
+    color: var(--background);
     animation: move linear 2000ms infinite;
+}
+
+.text-glitch-giro.darker {
+    color: hsla(0, 0%, 0%, .9);
+}
+
+.text-glitch-giro.lighter {
+    color: rgb(255 255 255);
+}
+
+.text-glitch-giro.colored {
+    color: rgb(0 49 128 / .7);
 }
 
 @keyframes move {

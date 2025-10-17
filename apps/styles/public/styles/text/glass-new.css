@@ -14,12 +14,13 @@
 */
 
 .text-glass-new {
-    --text-image: var(--gradient-glass-stroke);
-    --text-color: rgba(255, 255, 255, 0.25);
-    --stroke-color: transparent;
-    --stroke-width: .02em;
-    padding: calc(var(--stroke-width) / 2);
-    mix-blend-mode: plus-lighter;
+    --style-text-image: var(--gradient-glass-stroke);
+    --style-text-color: rgba(255, 255, 255, 0.25);
+    --style-stroke-color: transparent;
+    --style-stroke-width: .02em;
+    --style-layer-blend: plus-lighter;
+    padding: calc(var(--style-stroke-width) / 2);
+    mix-blend-mode: var(--style-layer-blend);
     @apply stroke-gradient;
     @apply text-fill;
     @apply text-clip;

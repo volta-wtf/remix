@@ -13,6 +13,7 @@ export const VARIABLE_PATTERNS = {
     namePatterns: [
       /^--color-/i,
       /^--tone-/i,
+      /^--tint-/i,
       /^--bg-/i,
       /^--text-/i,
       /^--border-color/i,  // Más específico para border-color
@@ -54,8 +55,12 @@ export const VARIABLE_PATTERNS = {
       /^rgba\(/i,                       // RGBA: rgba(255, 255, 255, 0.5)
       /^hsl\(/i,                        // HSL: hsl(120, 100%, 50%)
       /^hsla\(/i,                       // HSLA: hsla(120, 100%, 50%, 0.5)
+      // Valores HSL sin función (para variables tint)
+      /^\d+(\.\d+)?\s+\d+%\s+\d+%\s*(\d+%)?$/i,  // HSL valores: "240 100% 50%" o "240 100% 50% 50%"
+      /^\d+(\.\d+)?\s+\d+%\s+\d+(\.\d+)?%?.*$/i, // HSL parciales: "222.2 84% 4.9% foreground)"
       /^var\(--.*color.*\)$/i,          // Referencias a otras variables de color
       /^var\(--.*tone.*\)$/i,           // Referencias a variables tone
+      /^var\(--.*tint.*\)$/i,           // Referencias a variables tint
       /^var\(--.*foreground.*\)$/i,     // Referencias a variables foreground
       /^var\(--.*background.*\)$/i,     // Referencias a variables background
       /^var\(--.*surface.*\)$/i,        // Referencias a variables surface
@@ -67,6 +72,7 @@ export const VARIABLE_PATTERNS = {
       /^var\(--.*warning.*\)$/i,        // Referencias a variables warning
       /^var\(--.*success.*\)$/i,        // Referencias a variables success
       /^var\(--.*info.*\)$/i,           // Referencias a variables info
+      /^var\(--.*ambient.*\)$/i,        // Referencias a variables ambient
       /^(transparent|currentColor)$/i,   // Palabras clave de color CSS
       // Colores CSS estándar comunes (más completo)
       /^(aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgrey|darkgreen|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|grey|green|greenyellow|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgrey|lightgreen|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen)$/i

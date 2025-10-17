@@ -13,7 +13,8 @@ interface TextClassPanelProps {
 
 // Background options for the selector
 const backgroundOptions = [
-  { id: 'default', name: 'Background', class: 'bg-preview-default' },
+  { id: 'preview', name: 'Default', class: 'bg-preview-default' },
+  { id: 'background', name: 'Background', class: 'bg-preview-background' },
   { id: 'muted', name: 'Muted', class: 'bg-preview-muted' },
   { id: 'subtle', name: 'Subtle', class: 'bg-preview-subtle' },
   { id: 'color-1', name: 'Color 1', class: 'bg-preview-color-1' },
@@ -24,7 +25,7 @@ const backgroundOptions = [
 ];
 
 export function TextClassPanel({ textClass, onClose }: TextClassPanelProps) {
-  const [selectedBackground, setSelectedBackground] = useState('default');
+  const [selectedBackground, setSelectedBackground] = useState('preview');
   const [cssContent, setCssContent] = useState<string>('');
   const [isLoadingCSS, setIsLoadingCSS] = useState<boolean>(true);
 
@@ -175,21 +176,48 @@ ${className}::after {
     <>
 
       {/* Header with text preview */}
-      <div
-        className={`bg-background ${getPreviewBackgroundClass()} relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden`}
-      >
+      <div className={`bg-background ${getPreviewBackgroundClass()} relative aspect-4/2 border border-border rounded-md flex items-center justify-center overflow-hidden`}>
         {/* Large text preview */}
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <h2 className="type-demo-large">
             <span
-              className={`text-${textClass.id} select-none`}
-              {...(textClass.usesData ? { 'data-text': textClass.previewText } : {})}
+              contentEditable={true}
+              className={`text-${textClass.id} shadow-red-600 select-none`}
+              /*{...(textClass.usesData ? { 'data-text': textClass.previewText } : {})}*/
+              {...(textClass.usesData ? { 'data-text': 'WordArt' } : {})}
             >
-              {textClass.previewText}
+              {/*textClass.previewText*/}
+              WordArt
             </span>
           </h2>
         </div>
       </div>
+
+      {/* Style variants */}
+      {console.log('textClass.cssVariants:', textClass.cssVariants)}
+      {textClass.cssVariants && textClass.cssVariants.length > 0 && (
+        <div className="mt-2">
+          <div className="flex gap-2">
+            {textClass.cssVariants.map((variant) => (
+              <div key={variant} className="flex-1 relative overflow-hidden">
+                <div className={`bg-background ${getPreviewBackgroundClass()} border border-border rounded-md flex items-center justify-center py-12`}>
+                  <h2 className="type-demo-medium">
+                    <span
+                      className={`text-${textClass.id} ${variant} select-none`}
+                      {...(textClass.usesData ? { 'data-text': "Aa" } : {})}
+                    >
+                      Aa
+                    </span>
+                  </h2>
+                </div>
+                <div className="absolute bottom-1 left-1 right-1 text-xs opacity-40 _bg-background/80 _backdrop-blur-sm rounded px-1 py-0.5 text-right">
+                  {variant}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col md:flex-row items-center justify-between mt-4">
           {/* Background Selector */}
@@ -230,7 +258,6 @@ ${className}::after {
         <div className="mb-6">
           <h3 className="font-medium text-sm text-primary/40 mb-2">CSS Class</h3>
           <motion.button
-            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => copyToClipboard(generateCSSClass(), 'CSS class')}
             className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
@@ -245,8 +272,7 @@ ${className}::after {
         <div className="mb-6">
           <h3 className="font-medium text-sm text-primary/40 mb-2">HTML Usage</h3>
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.99 }}
             onClick={() => copyToClipboard(generateUsageHTML(), 'HTML usage')}
             className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
             type="button"
@@ -260,8 +286,7 @@ ${className}::after {
         <div className="hidden mb-6">
           <h3 className="font-medium text-sm text-primary/40 mb-2">CSS File</h3>
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.99 }}
             onClick={() => copyToClipboard(`@/text/${textClass.cssFile}`, 'CSS file path')}
             className="w-full p-3 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
             type="button"
@@ -278,8 +303,7 @@ ${className}::after {
         <div className="mb-6">
           <h3 className="font-medium text-sm text-primary/40 mb-2">CSS Output</h3>
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.99 }}
             onClick={() => copyToClipboard(generateCSSOutput(), 'CSS output')}
             className="w-full p-4 bg-muted rounded-lg text-left hover:bg-muted/80 transition-colors group"
             type="button"
@@ -298,7 +322,20 @@ ${className}::after {
           <div>
             <h3 className="font-medium mb-2">Examples</h3>
             <div className="space-y-2">
-              <div className="p-3 bg-muted/50 rounded-lg">
+
+
+              <div className="p-3 bg-muted/50 rounded-lg p-4">
+                <h2 className="type-demo text-red-600">
+                  <span
+                    className={`text-${textClass.id} current text-center`}
+                    {...(textClass.usesData ? { 'data-text': 'HELLO WORLD' } : {})}
+                  >
+                    HELLO WORLD
+                  </span>
+                </h2>
+              </div>
+
+              <div className="p-3 bg-muted/50 rounded-lg p-4">
                 <h2 className="type-demo">
                   <span
                     className={`text-${textClass.id} text-center`}
@@ -308,7 +345,8 @@ ${className}::after {
                   </span>
                 </h2>
               </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
+
+              <div className="p-3 bg-muted/50 rounded-lg p-4">
                 <h2 className="type-demo">
                   <span
                     className={`text-${textClass.id} text-center`}
@@ -318,6 +356,7 @@ ${className}::after {
                   </span>
                 </h2>
               </div>
+
             </div>
           </div>
         </div>

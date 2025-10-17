@@ -1,19 +1,32 @@
 /*
 {
     id: '3D-faded-hard',
+    cssFile: '3d-faded-hard.css',
     name: '3D Faded Hard',
     description: 'Faded 3D text effect',
     category: '3D',
-    tags: ['depth', 'faded', 'hard'],
+    tags: ['current color', 'faded', 'hard'],
     bestFor: ['body', 'heading', 'display'],
-    cssFile: '3d-faded-hard.css',
-    previewText: '3D Hard',
+    cssVariants: ['bevel-soft', 'bevel-hard'],
+    previewText: 'Shadow',
     background: '#fed90f',
     reference: ['https://codepen.io/ryandsouza13/pen/yEBJQV']
 },
 */
 
 .text-3D-faded-hard {
-    color: mix(#fff, #ef6209, 85%);
-    text-shadow: var(--shadow-faded-hard);
+    --style-tint-color: #fff;
+    --style-text-color: currentColor;
+    color: color-mix(in srgb, var(--style-text-color) 100%, var(--style-text-tint) 20%);
+    text-shadow: var(--bevel-top-left), var(--shadow-faded-hard);
+}
+
+.text-3D-faded-hard.bevel-soft {
+    color: color-mix(in srgb, var(--style-text-color) 100%, var(--style-text-tint) 25%);
+    text-shadow: var(--bevel-bottom-right), var(--shadow-faded-hard);
+}
+
+.text-3D-faded-hard.bevel-hard {
+    color: color-mix(in srgb, var(--style-text-color) 100%, var(--style-text-tint) 30%);
+    text-shadow: var(--bevel-bottom-right), var(--bevel-top-left), var(--shadow-faded-hard);
 }

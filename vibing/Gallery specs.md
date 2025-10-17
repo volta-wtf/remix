@@ -17,11 +17,11 @@ apps/shadcn/app/gallery/
     ├── MainNavigation.tsx      # Navegación entre secciones
     ├── SearchAndFilter.tsx     # Sistema de búsqueda y filtros
     ├── GradientGrid.tsx        # Grid de gradientes
-    ├── GradientPanel.tsx    # Modal de edición de gradientes
+    ├── GradientPanel.tsx       # Modal de edición de gradientes
     ├── TextStylesGrid.tsx      # Grid de estilos de texto
-    ├── TextStylePanel.tsx   # Modal de edición de texto
+    ├── TextStylePanel.tsx      # Modal de edición de texto
     ├── FrameStylesGrid.tsx     # Grid de estilos de marco
-    ├── FrameStylePanel.tsx  # Modal de edición de marcos
+    ├── FrameStylePanel.tsx     # Modal de edición de marcos
     ├── CSSPropertyEditor.tsx   # Editor genérico de propiedades CSS
     ├── ShadowEditor.tsx        # Editor específico de sombras
     ├── ImageWithFallback.tsx   # Componente de imagen con fallback

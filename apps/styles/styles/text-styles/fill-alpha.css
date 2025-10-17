@@ -13,9 +13,9 @@
 */
 
 .text-fill-alpha {
-    --text-color: rgba(0, 0, 0, 0.4);
+    --style-text-color: rgba(0, 0, 0, 0.4);
     @apply text-fill;
 }
 .dark .text-fill-alpha {
-    --text-color: rgba(255, 255, 255, 0.4);
+    --style-text-color: rgba(255, 255, 255, 0.4);
 }

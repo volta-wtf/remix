@@ -1,0 +1,16 @@
+@utility text-overline {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+@utility icon-* {
+    width: --value(--size-icon-*);
+    height: --value(--size-icon-*);
+}
+
+/*
+@utility text-demo {
+    text-transform: lowercase;
+    letter-spacing: 1em;
+}
+*/

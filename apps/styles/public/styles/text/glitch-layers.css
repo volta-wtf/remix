@@ -15,9 +15,12 @@
 */
 
 .text-glitch-layers {
-    color: #fff;
-    position: relative;
-    z-index: 0;
+
+    & {
+        color: #fff;
+        position: relative;
+        z-index: 0;
+    }
 
     &:before,
     &:after {
@@ -43,27 +46,10 @@
 }
 
 @keyframes glitch {
-    0% {
-        transform: translate(0)
-    }
-
-    20% {
-        transform: translate(-0.03em, 0.03em)
-    }
-
-    40% {
-        transform: translate(-0.03em, -0.03em)
-    }
-
-    60% {
-        transform: translate(0.03em, 0.03em)
-    }
-
-    80% {
-        transform: translate(0.03em, -0.03em)
-    }
-
-    to {
-        transform: translate(0)
-    }
+    0%  { transform: translate(0) }
+    20% { transform: translate(-0.03em, 0.03em) }
+    40% { transform: translate(-0.03em, -0.03em) }
+    60% { transform: translate(0.03em, 0.03em) }
+    80% { transform: translate(0.03em, -0.03em) }
+    to  { transform: translate(0) }
 }

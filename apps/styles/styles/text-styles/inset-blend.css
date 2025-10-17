@@ -14,19 +14,19 @@
 */
 
 .text-inset-blend {
-    --fill-color: #0009;
-    --shadow-color: #fff6;
-    --text-color: rgba(0, 0, 0, 0.2);
-    text-shadow: .01em .01em .02em var(--shadow-color);
+    --style-fill-color: #0009;
+    --style-shadow-color: #fff6;
+    --style-text-color: rgba(0, 0, 0, 0.2);
+    text-shadow: .01em .01em .02em var(--style-shadow-color);
     mix-blend-mode: hard-light;
-    color: var(--text-color);
-    background-color: var(--fill-color);
+    color: var(--style-text-color);
+    background-color: var( --style-fill-color);
     -webkit-background-clip: text;
     background-clip: text;
     text-overflow: clip;
 }
 
 .dark .text-inset-blend {
-    --fill-color:rgba(0, 0, 0, 0.6);
-    --shadow-color: rgba(255, 255, 255, 0.4);
+    --style-fill-color:rgba(0, 0, 0, 0.6);
+    --style-shadow-color: rgba(255, 255, 255, 0.4);
 }

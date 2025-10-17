@@ -14,26 +14,27 @@
 */
 
 .text-distortion {
-    position: relative;
-    mix-blend-mode: difference;
-    color: transparent;
-    color: #DCAD05;
+    & {
+        --style-text-color: #DCAD05;
+        --style-layer-blend: difference;
+    }
+
+    & {
+        position: relative;
+        color: var(--style-text-color);
+        mix-blend-mode: var(--style-layer-blend);
+    }
 
     &::after,
     &::before {
-        color: #DCAD05;
         content: attr(data-text);
         position: absolute;
         left: 0;
+        color: var(--style-text-color);
         filter: blur(.025em);
-        mix-blend-mode: difference;
+        mix-blend-mode: var(--style-layer-blend);
     }
 
-    &::before {
-        left: -0.025em;
-    }
-
-    &::after {
-        left: 0.025em;
-    }
+    &::before { transform: translateX(-0.025em); }
+    &::after  { transform: translateX(0.025em); }
 }

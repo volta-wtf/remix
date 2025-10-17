@@ -20,16 +20,20 @@ function TextStyle({ id, bg, type, children }: TextStyleProps) {
     className = `bg-${bg}`;
   }
 
-  const dataAttr = type ? { 'data-text': children } : {};
+  // const dataAttr = type ? { 'data-text': children } : {};
+  const dataAttr = type ? { 'data-text': 'Aa' } : {};
 
   return (
     <div
       className={`bloc_ bg-origin-border! bg-cover! bg-primary/3 cursor-pointer aspect-8/4 _sm:aspect-8/4 lg:aspect-6/4 rounded-md border border-transparent hover:border-primary/20 transition-border duration-300 overflow-hidden flex items-center justify-center p-4 ${className}`}
       style={style}
     >
-      <h2 className="type-demo">
+      <h2 className="type-demo-medium">
         <span className={`text-${id}`} {...dataAttr}>
-          {children}
+          <span className="hidden">
+            {children}
+          </span>
+          Aa
         </span>
       </h2>
     </div>

@@ -17,7 +17,7 @@ export default function RootLayout({
 
         {/* Theme Editor - Solo en desarrollo */}
         {process.env.NODE_ENV === 'development' && (
-          <script src="http://localhost:4444/theme-editor.js" async />
+          <script src="http://localhost:4447/theme-editor.js" async />
         )}
       </body>
     </html>

@@ -6,6 +6,7 @@
     category: 'Shadows',
     tags: ['shadow', 'rainbow', 'colorful'],
     bestFor: ['body', 'heading', 'display'],
+    cssVariants: ['clear', 'inverse', 'multicolor'],
     cssFile: 'shadow-rainbow.css',
     previewText: 'Rainbow',
     background: '#e0e0e0',
@@ -14,29 +15,27 @@
 */
 
 .text-shadow-rainbow {
-    --text-color: inherit;
-    --text-shadow: var(--shadow-rainbow);
-    @apply text-shadow;
+    --style-text-color: inherit;
+    text-shadow: var(--shadow-rainbow);
     @apply text-fill;
 }
 
+.dark .text-shadow-rainbow {
+    --style-text-color: #fcedd8;
+}
+
 .text-shadow-rainbow.clear {
-    --text-color: transparent;
+    --style-text-color: transparent;
 }
 
 .text-shadow-rainbow.inverse {
-    --text-color: var(--inverse-color);
+    --style-text-color: var(--inverse-color);
 }
 
 /*
 // https://codepen.io/TajShireen/pen/abzmoRE
 */
 .text-shadow-rainbow.multicolor {
-    --text-color: #fcedd8;
-    --text-shadow: var(--shadow-multicolor);
-    @apply text-shadow;
-}
-
-.dark .text-shadow-rainbow {
-    --text-color: #fcedd8;
+    --style-text-color: #fcedd8;
+    text-shadow: var(--shadow-multicolor);
 }

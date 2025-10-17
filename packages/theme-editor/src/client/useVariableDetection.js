@@ -16,12 +16,12 @@ async function fetchVariablesFromServer() {
     const portNum = parseInt(currentPort);
 
     const portMapping = {
-      3001: 4444, // apps/shadcn
-      3002: 4444, // apps/stylewind
-      3003: 4444, // apps/tmp
-      3004: 4444, // apps/tmp-1
-      3005: 4444, // apps/tmp-2
-      3006: 4444, // apps/tmp-3
+      3001: 4445, // apps/styles
+      3002: 4446, // apps/stylewind
+      3003: 4447, // apps/shadcn
+      3004: 4448, // apps/tmp
+      3005: 4449, // apps/tmp-1
+      3006: 4450, // apps/tmp-2
     };
 
     const themeEditorPort = portMapping[portNum] || 4444;

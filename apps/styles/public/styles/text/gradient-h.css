@@ -14,7 +14,7 @@
 */
 
 .text-gradient-h {
-    --text-image: var(--gradient-to-right);
+    --style-fill-image: var(--gradient-to-right);
     @apply text-gradient;
     @apply text-clip;
     @apply text-fill;

@@ -17,7 +17,7 @@ export function ExampleIconUsage() {
         <div className="flex items-center gap-2">
           <Icon.Decrease />
           <Icon.Decrease primary lg />
-          <Icon name="decrease" size="lg" color="primary" />
+          <Icon name="decrease" color="primary" size="lg" />
         </div>
 
         {/* Colores diferentes */}

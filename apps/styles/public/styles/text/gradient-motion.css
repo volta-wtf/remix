@@ -14,8 +14,8 @@
 */
 
 .text-gradient-motion {
-    --text-image: var(--gradient-animated);
-    --image-size: 300% auto;
+    --style-fill-image: var(--gradient-animated);
+    --style-fill-size: 300% auto;
     @apply text-gradient;
     @apply text-clip;
     @apply text-fill;

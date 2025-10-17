@@ -10,7 +10,7 @@
  *
  * Propiedades detectadas:
  * - Obligatorias: id, name, description, category, tags, cssFile, previewText, background
- * - Opcionales: usesData (boolean), bestFor (array), reference (string o array)
+ * - Opcionales: usesData (boolean), bestFor (array), reference (string o array), cssVariants (array)
  *
  * Uso:
  * - Desde apps/shadcn: npm run generate:text-classes
@@ -124,21 +124,26 @@ function generateTextClassesFile(categories, textClasses) {
 
     // Agregar usesData si está presente
     if (tc.usesData) {
-      optionalProps += ',\n    usesData: true';
+      optionalProps += 'usesData: true,\n    ';
     }
 
     // Agregar bestFor si está presente
     if (tc.bestFor && Array.isArray(tc.bestFor)) {
-      optionalProps += `,\n    bestFor: [${tc.bestFor.map(item => `'${item}'`).join(', ')}]`;
+      optionalProps += `bestFor: [${tc.bestFor.map(item => `'${item}'`).join(', ')}],\n    `;
     }
 
     // Agregar reference si está presente
     if (tc.reference) {
       if (Array.isArray(tc.reference)) {
-        optionalProps += `,\n    reference: [${tc.reference.map(ref => `'${ref}'`).join(', ')}]`;
+        optionalProps += `reference: [${tc.reference.map(ref => `'${ref}'`).join(', ')}],\n    `;
       } else {
-        optionalProps += `,\n    reference: '${tc.reference}'`;
+        optionalProps += `reference: '${tc.reference}',\n    `;
       }
+    }
+
+    // Agregar cssVariants si está presente
+    if (tc.cssVariants && Array.isArray(tc.cssVariants)) {
+      optionalProps += `cssVariants: [${tc.cssVariants.map(variant => `'${variant}'`).join(', ')}],\n    `;
     }
 
     return `  {
@@ -148,8 +153,8 @@ function generateTextClassesFile(categories, textClasses) {
     category: '${tc.category}',
     tags: [${tc.tags.map(tag => `'${tag}'`).join(', ')}],
     cssFile: '${tc.cssFile}',
-    previewText: '${tc.previewText}'${optionalProps},
-    background: '${tc.background}'
+    previewText: '${tc.previewText}',
+    ${optionalProps}background: '${tc.background}'
   }`;
   }).join(',\n');
 
@@ -218,6 +223,7 @@ async function main() {
         if (metadata.usesData) optionalProps.push('usesData');
         if (metadata.bestFor) optionalProps.push('bestFor');
         if (metadata.reference) optionalProps.push('reference');
+        if (metadata.cssVariants) optionalProps.push('cssVariants');
 
         const optionalText = optionalProps.length > 0 ? ` [${optionalProps.join(', ')}]` : '';
         console.log(`✅ Procesado: ${metadata.name} (${cssFile})${optionalText}`);
@@ -280,6 +286,7 @@ async function main() {
         console.log(`         tags: ['tag1', 'tag2'],`);
         console.log(`         cssFile: 'mi-estilo.css',`);
         console.log(`         previewText: 'Preview',`);
+        console.log(`         cssVariants: ['variant1', 'variant2'], // opcional`);
         console.log(`         background: '#ffffff'`);
         console.log(`     }`);
         console.log(`     */`);

@@ -15,10 +15,6 @@
 
 .text-glass-reflex {
     & {
-        --color-background: #000000;
-    }
-
-    & {
         /* --text-color: transparent; */
         position: relative;
         z-index: 0;
@@ -41,7 +37,7 @@
 
     &,
     &:before {
-        --text-color: transparent;
+        --style-text-color: transparent;
         @apply text-fill;
     }
 }

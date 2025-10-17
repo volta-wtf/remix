@@ -13,7 +13,8 @@
 */
 
 .text-fill-blend {
-    --text-color: red;
+    --style-text-color: red;
+    --style-layer-blend: difference;
     @apply text-fill;
-    mix-blend-mode: difference;
+    mix-blend-mode: var(--style-layer-blend);
 }

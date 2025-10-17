@@ -1,0 +1,14 @@
+@utility rounded {
+    border-radius: var(--ui-radius, initial);
+}
+
+@utility surface {
+    background-color: var(--ui-surface, initial);
+}
+
+/*
+@utility ui-card {
+    --surface: var(--color-card, initial);
+    --radius: var(--radius-card, initial);
+}
+*/

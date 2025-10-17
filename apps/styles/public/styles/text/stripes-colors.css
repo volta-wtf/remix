@@ -14,7 +14,7 @@
 */
 
 .text-stripes-colors {
-    --text-image: var(--gradient-multistripes);
+    --style-fill-image: var(--gradient-multistripes);
     @apply text-gradient;
     @apply text-clip;
     @apply text-fill;

@@ -13,6 +13,12 @@
 */
 
 .text-element-ice {
-    color: #87ceeb;
-    text-shadow: 0 0 5px #87ceeb, 0 0 10px #87ceeb, 0 0 15px #4682b4;
+    --style-tint-color: #87ceeb;
+    --style-text-color: #87ceeb;
+    --style-shadow-color: #4682b4;
+    color: var(--style-text-color);
+    text-shadow:
+        0 0 0.05em var(--style-tint-color),
+        0 0 0.10em var(--style-tint-color),
+        0 0 0.15em var(--style-shadow-color);
 }

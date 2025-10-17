@@ -7,7 +7,7 @@
     tags: ['lighting', 'dramatic', 'bright'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'lighting.css',
-    previewText: 'Shine',
+    previewText: 'Fluid',
     usesData: true,
     background: '#000000',
     reference: ['https://codepen.io/comehope/pen/GBwvxw']
@@ -16,38 +16,44 @@
 
 .text-lighting {
 
-  &, &:before, &:after {
-    /* @apply text-stroke-base; */
-    /* --color-background: #000000; */
-  }
-
+    & {
+        --style-fill-color: white;
+        --style-tint-color: white;
+    }
 
     & {
         position: relative;
         z-index: 0;
         background: black;
         filter: brightness(150%) contrast(1.7);
-        mix-blend-mode: lighten;
+        mix-blend-mode: color-dodge;
     }
 
     &:after {
         content: attr(data-text);
         position: absolute;
-        z-index: 2;
-        background: radial-gradient(circle, white, transparent 25%) center / 25% 25%, radial-gradient(circle, white, black 25%) center / 12.5% 12.5%;
-        animation: light 10s linear infinite;
-        mix-blend-mode: color-dodge;
-        top: 0.075em;
+        z-index: 1;
         left: 0;
-        color: transparent;
+        color: var( --style-fill-color);
+        filter: blur(0.01em);
     }
 
     &:before {
         content: attr(data-text);
         position: absolute;
-        z-index: 1;
+        z-index: 2;
+        top: 0.075em;
         left: 0;
-        color: white;
-        filter: blur(0.01em);
+        color: red;
+        background:
+            radial-gradient(circle, rgb(255, 255, 255), rgba(0, 0, 0, 0) 25%) center center / 25% 75%,
+            radial-gradient(circle, rgb(255, 255, 255), rgb(0, 0, 0) 25%) center center / 50% 32.5%;
+        mix-blend-mode: color-dodge;
+        animation: light 10s linear infinite;
     }
+
+}
+
+.dark .text-lighting {
+    mix-blend-mode: lighten;
 }

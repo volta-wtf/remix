@@ -10,7 +10,8 @@ export const NETWORK = {
 
   // URLs completas por defecto
   get DEFAULT_SERVER_URL() {
-    return `${this.DEFAULT_PROTOCOL}://${this.DEFAULT_HOST}:${this.DEFAULT_PORT}`;
+    const port = process.env.THEME_EDITOR_PORT || this.DEFAULT_PORT;
+    return `${this.DEFAULT_PROTOCOL}://${this.DEFAULT_HOST}:${port}`;
   },
 
   get DEFAULT_SCRIPT_URL() {

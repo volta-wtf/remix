@@ -14,7 +14,7 @@
 */
 
 .text-gradient-v {
-    --text-image: var(--gradient-to-bottom);
+    --style-fill-image: var(--gradient-to-bottom);
     @apply text-gradient;
     @apply text-clip;
     @apply text-fill;

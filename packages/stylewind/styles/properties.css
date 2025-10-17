@@ -1,0 +1,59 @@
+@property --ui-surface {
+    syntax: "*";
+    inherits: false;
+    initial-value: #FFFFFF;
+}
+
+@property --ui-spacing {
+    syntax: "*";
+    inherits: false;
+    initial-value: 0;
+}
+
+@property --ui-gap {
+    syntax: "*";
+    inherits: false;
+    initial-value: 0;
+}
+
+@property --ui-radius {
+    syntax: "*";
+    inherits: false;
+    initial-value: 0;
+}
+
+@property --tw-outline-width {
+    syntax: "*";
+    inherits: false;
+    initial-value: 3;
+}
+@property --tw-outline-offset {
+    syntax: "*";
+    inherits: false;
+    initial-value: 0;
+}
+
+
+
+/*@property --tw-border-style {
+    syntax: "*";
+    inherits: false;
+    initial-value: solid;
+}*/
+
+/*@property --tw-shadow {
+    syntax: "*";
+    inherits: false;
+    initial-value: 0 0 #0000;
+}*/
+
+/*@property --tw-outline-style {
+    syntax: "*";
+    inherits: false;
+    initial-value: solid;
+}*/
+
+/*@property --tw-blur {
+    syntax: "*";
+    inherits: false;
+}*/

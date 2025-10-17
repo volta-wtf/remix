@@ -37,23 +37,23 @@
         background: radial-gradient(circle, white, transparent 25%) center / 25% 25%, radial-gradient(circle, white, black 25%) center / 12.5% 12.5%;
         animation: light 10s linear infinite;
         mix-blend-mode: color-dodge;
-        top: 0.075em;
+        top: 0;
         left: 0;
         color: transparent;
     }
 
     &:before {
-        --color-background: #000;
-        --stroke-width: .03em;
+        --style-fill-color: #000;
+        --style-stroke-width: .03em;
         content: attr(data-text);
         position: absolute;
         z-index: 1;
-        top: 0.075em;
+        top: 0;
         left: 0;
         color: black;
         filter: blur(0.01em);
 
-        padding: calc(var(--stroke-width) / 2);
+        padding: calc(var(--style-stroke-width) / 2);
         background: linear-gradient(45deg, red, gold, lightgreen, gold, red);
         /* filter: brightness(150%); */
         /* filter: blur(0.01em) brightness(150%) contrast(1.7); */
@@ -64,6 +64,6 @@
     &:before,
     &:after {
         @apply text-stroke-base;
-        --color-background: #000000;
+        --style-fill-color: #000000;
     }
 }

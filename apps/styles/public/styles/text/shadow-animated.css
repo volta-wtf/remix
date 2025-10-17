@@ -15,15 +15,15 @@
 */
 
 .text-shadow-animated {
-    --shadow-color: var(--background);
-    --text-color: var(--foreground);
-    --stripe-color: var(--text-color);
+    --style-shadow-color: var(--background);
+    --style-text-color: var(--foreground);
+    --style-stroke-color: var(--text-color);
 
     & {
         position: relative;
         display: inline-block;
-        color: var(--text-color);
-        text-shadow: .03em .03em 0 var(--shadow-color);
+        color: var(--style-text-color);
+        text-shadow: .03em .03em 0 var(--style-shadow-color);
         z-index: 0;
     }
 
@@ -35,7 +35,15 @@
         z-index: -1;
         text-shadow: none;
         background-image:
-        linear-gradient(45deg, var(--stripe-color) 5%, transparent 5%, transparent 40%, var(--stripe-color) 40%, var(--stripe-color) 55%, transparent 55%, transparent 90%, red 90%);
+            linear-gradient(45deg,
+            var(--style-stroke-color) 5%,
+            transparent 5%,
+            transparent 40%,
+            var(--style-stroke-color) 40%,
+            var(--style-stroke-color) 55%,
+            transparent 55%,
+            transparent 90%,
+            var(--style-stroke-color) 90%);
         background-size: 0.1em 0.1em;
         background-clip: text;
         -webkit-text-fill-color: transparent;

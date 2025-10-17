@@ -7,16 +7,16 @@
     tags: ['gradient', 'stroke', 'colorful'],
     bestFor: ['body', 'heading', 'display'],
     cssFile: 'stroke-gradient.css',
-    previewText: 'Stroke',
+    previewText: 'Border',
     background: '#222222'
 },
 */
 
 .text-stroke-gradient {
-    --text-image: var(--gradient-multicolor);
-    --text-color: inherit;
-    --stroke-color: transparent;
-    --stroke-width: .06em;
+    --style-stroke-width: .06em;
+    --style-stroke-color: transparent;
+    --style-text-color: inherit;
+    --style-fill-image: var(--gradient-multicolor);
     padding: calc(var(--stroke-width) / 2);
     @apply stroke-gradient;
     @apply text-fill;

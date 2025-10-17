@@ -47,20 +47,45 @@ function generateColorPreview(value, varName) {
   // Forma: cuadrado para valores directos, redondo para referencias
   const borderRadius = isVariableReference ? '50%' : '4px';
 
+    // Procesamiento especial para variables que comienzan con "tint-"
+  let backgroundColor = value;
+  if (varName) {
+    // Limpiar el nombre de la variable (remover -- si existe)
+    const cleanVarName = varName.replace(/^--/, '');
+
+    if (cleanVarName.startsWith('tint-')) {
+      // Verificar si el valor parece un valor HSL directo (números y porcentajes)
+      const hslValuePattern = /^\d+(\.\d+)?\s+\d+%\s+\d+%/;
+      if (hslValuePattern.test(value.trim())) {
+        // Si el valor parece HSL directo, usar hsl(valor)
+        backgroundColor = `hsl(${value.trim()})`;
+      } else if (value.includes('var(')) {
+        // Si ya es una referencia var(), usar tal como está
+        backgroundColor = value;
+      } else {
+        // Para otros casos, usar hsl(var(--tint-VALOR))
+        const tintValue = cleanVarName.substring(5); // Remover "tint-" del inicio
+        backgroundColor = `hsl(var(--tint-${tintValue}))`;
+      }
+    }
+  }
+
   return {
     element: 'div',
     style: {
       width: '20px',
       height: '20px',
       borderRadius: borderRadius,
-      backgroundColor: value,
+      backgroundColor: backgroundColor,
       border: '1px solid rgba(0, 0, 0, 0.1)',
       flexShrink: 0
     },
     content: null,
-    tooltip: isVariableReference
-      ? `Referencia de color: ${value}`
-      : `Color: ${value}`
+    tooltip: backgroundColor !== value
+      ? `Color procesado: ${backgroundColor} (original: ${value})`
+      : isVariableReference
+        ? `Referencia de color: ${backgroundColor}`
+        : `Color: ${backgroundColor}`
   };
 }
 

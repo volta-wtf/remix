@@ -14,9 +14,9 @@
 */
 
 .text-stroke-only {
-    --text-color: transparent;
-    --stroke-color: var(--foreground);
-    --stroke-width: .03em;
+    --style-stroke-width: .03em;
+    --style-stroke-color: var(--foreground);
+    --style-text-color: transparent;
     @apply text-fill;
     @apply text-stroke;
 }
